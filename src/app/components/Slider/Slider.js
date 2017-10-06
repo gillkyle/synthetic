@@ -278,6 +278,7 @@ class Slider extends Component {
   );
 
   render () {
+    const dontShowToolTip = false // change to true to re-enable tooltip
     const {
       value,
       orientation,
@@ -360,7 +361,7 @@ class Slider extends Component {
           style={handleStyle}
           tabIndex={0}
         >
-          {showTooltip
+          {showTooltip && dontShowToolTip
             ? <div
               ref={st => {
                 this.tooltip = st

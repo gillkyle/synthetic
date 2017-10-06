@@ -1,6 +1,17 @@
 body {
-  background: linear-gradient(to left, #27b7ff, #70D5FF);
+  /* background: linear-gradient(to left, #27b7ff, #70D5FF); */
+  background: #191414;
+  /* background: #191414; */
   font-family: 'Montserrat', sans-serif;
+}
+h2 {
+  letter-spacing: 12px;
+  font-weight: 900;
+  font-size: 42px;
+}
+h4 {
+  letter-spacing: 4px;
+  color: #5e5a5a
 }
 
 .App {
@@ -8,8 +19,12 @@ body {
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  animation: App-logo-spin infinite 30s linear;
+  height: 40px;
+}
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .App-header {
@@ -25,35 +40,21 @@ body {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.background-gradient {
-  background: linear-gradient(to left, #27b7ff, #70D5FF);
-  height: 100vh;
-  width: 100vw;
-}
 
 .calculateButton {
   border-radius: 38px !important;
-  background: linear-gradient(to left, #dadada, #fdfdfd) !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.13), 0 6px 6px rgba(0,0,0,0.20) !important;
   height: 75px;
   width: 250px;
   font-size: 24px !important;
-  color: #777 !important;
+  color: #eee !important;
+  background-color: #1db954 !important;
 }
 .calculateButton:hover {
-  background: linear-gradient(to left, #ddd, #fff) !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 5px 5px rgba(0,0,0,0.15) !important;
-  color: #999 !important;
+  color: #ddd !important;
+  background-color: #37CA6A !important;
 }
 .calculateButton:active {
-  background: linear-gradient(to left, #ddd, #fff) !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 3px 3px rgba(0,0,0,0.10) !important;
-  color: #aaa !important;
+  color: #fff !important;
 }
 
 .slider-grid { 
@@ -77,11 +78,14 @@ body {
   height: 40px !important;
   box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 1.5px 1.5px rgba(0,0,0,0.12) !important;
 }
+.rangeslider__handle:focus {
+  outline: none;
+}
 .rangeslider__handle::after {
   display: none;
 }
 .rangeslider__fill {
-  background-color: #ffef68 !important;
+  background-color: #1db954 !important;
   border-radius: 20px !important;
 }
 .rangeslider-horizontal {

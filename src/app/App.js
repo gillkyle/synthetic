@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './../logo.svg';
 import { Button } from 'semantic-ui-react';
-import Slider from './app/components/Slider/Slider'
-import './App.css';
+import Slider from './components/Slider/Slider'
+import './styles/App.css';
 import glamorous from 'glamorous'
 
 const SliderRow = glamorous.div({
@@ -52,8 +52,23 @@ class App extends Component {
       <div className="App">
         <div className="background-gradient">
           <div className="App-header">
-            <h2>BASIS</h2>
+            <h2>MUSIC VAULT</h2>
+            <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
           </div>
+          <SliderRow>
+            <div className='slider-grid'>
+              <div className='slider-label'>ENERGY</div>
+              <Slider
+                min={0}
+                max={100}
+                value={value}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+              <div className='value'>{value}</div>
+            </div>
+          </SliderRow>
           <SliderRow>
             <div className='slider-grid'>
               <div className='slider-label'>VALENCE</div>
@@ -71,20 +86,6 @@ class App extends Component {
           <SliderRow>
             <div className='slider-grid'>
               <div className='slider-label'>DEPTH</div>
-              <Slider
-                min={0}
-                max={100}
-                value={value}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-              <div className='value'>{value}</div>
-            </div>
-          </SliderRow>
-          <SliderRow>
-            <div className='slider-grid'>
-              <div className='slider-label'>COOL</div>
               <Slider
                 min={0}
                 max={100}
