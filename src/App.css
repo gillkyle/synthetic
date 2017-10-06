@@ -1,0 +1,82 @@
+body {
+  background: linear-gradient(to left, #27b7ff, #70D5FF);
+}
+
+.App {
+  text-align: center;  
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  height: 200px;
+  padding: 20px;
+  color: white;
+}
+.App-footer {
+  margin-top: 75px;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.background-gradient {
+  background: linear-gradient(to left, #27b7ff, #70D5FF);
+  height: 100vh;
+  width: 100vw;
+}
+
+.GO {
+  border-radius: 50% !important;
+  background: linear-gradient(to left, #dadada, #fdfdfd) !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.13), 0 6px 6px rgba(0,0,0,0.20) !important;
+  height: 250px;
+  width: 250px;
+  font-size: 24px !important;
+  color: #777 !important;
+}
+.GO:hover {
+  border-radius: 50% !important;
+  background: linear-gradient(to left, #ddd, #fff) !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 5px 5px rgba(0,0,0,0.15) !important;
+  height: 250px;
+  width: 250px;
+  font-size: 24px !important;
+  color: #999 !important;
+}
+.GO:active {
+  border-radius: 50% !important;
+  background: linear-gradient(to left, #ddd, #fff) !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 3px 3px rgba(0,0,0,0.10) !important;
+  height: 250px;
+  width: 250px;
+  font-size: 24px !important;
+  color: #aaa !important;
+}
+
+.slider {
+  padding: 40px;
+}
+.rangeslider__handle {
+  width: 50px !important;
+}
+.rangeslider__handle::after {
+  display: none;
+}
+.rangeslider__fill {
+  background-color: #ffef68 !important;
+}
+.rangeslider-horizontal {
+  max-width: 750px;
+  height: 15px;
+  margin: 0 auto;
+}
