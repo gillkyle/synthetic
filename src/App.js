@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import { Button } from 'semantic-ui-react';
-import Slider from 'react-rangeslider'
+import Slider from './app/components/Slider/Slider'
 import './App.css';
 import glamorous from 'glamorous'
 
-const Glamory = glamorous.div({
-  height: 50,
-  width: 80,
-  backgroundColor: "red",
-  color: "yellow"
+const SliderRow = glamorous.div({
+  maxWidth: 750,
+  margin: "0 auto",
+  paddingTop: 20,
+  paddingBottom: 20
 });
 
 class App extends Component {
@@ -55,25 +55,26 @@ class App extends Component {
           <div className="App-header">
             <h2>BASIS</h2>
           </div>
-          <Glamory>Test</Glamory>
+          <SliderRow>
+            <div>
+              <Slider
+                min={0}
+                max={100}
+                value={value}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+              <div className='value'>{value}</div>
+            </div>
+          </SliderRow>
           <div>
             <Button
-              className='GO'
-              content='GO'
+              className='calculateButton'
+              content='Calculate'
               onClick={this.handleClick}
               onKeyPress={this.handleKeyPress}
             />
-          </div>
-          <div className='slider'>
-            <Slider
-              min={0}
-              max={100}
-              value={value}
-              onChangeStart={this.handleChangeStart}
-              onChange={this.handleChange}
-              onChangeComplete={this.handleChangeComplete}
-            />
-            <div className='value'>{value}</div>
           </div>
           <div className="App-footer">
             <img src={logo} className="App-logo" alt="logo" />
