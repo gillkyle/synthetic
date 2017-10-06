@@ -3,6 +3,14 @@ import logo from './logo.svg';
 import { Button } from 'semantic-ui-react';
 import Slider from 'react-rangeslider'
 import './App.css';
+import glamorous from 'glamorous'
+
+const Glamory = glamorous.div({
+  height: 50,
+  width: 80,
+  backgroundColor: "red",
+  color: "yellow"
+});
 
 class App extends Component {
   constructor(props, context) {
@@ -47,7 +55,7 @@ class App extends Component {
           <div className="App-header">
             <h2>BASIS</h2>
           </div>
-
+          <Glamory>Test</Glamory>
           <div>
             <Button
               className='GO'
