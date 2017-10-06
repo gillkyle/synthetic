@@ -6,10 +6,9 @@ import './App.css';
 import glamorous from 'glamorous'
 
 const SliderRow = glamorous.div({
-  maxWidth: 750,
+  maxWidth: 820,
   margin: "0 auto",
-  paddingTop: 20,
-  paddingBottom: 20
+  paddingBottom: 35
 });
 
 class App extends Component {
@@ -56,7 +55,36 @@ class App extends Component {
             <h2>BASIS</h2>
           </div>
           <SliderRow>
-            <div>
+            <div className='slider-grid'>
+              <div className='slider-label'>VALENCE</div>
+              <Slider
+                min={0}
+                max={100}
+                value={value}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+              <div className='value'>{value}</div>
+            </div>
+          </SliderRow>
+          <SliderRow>
+            <div className='slider-grid'>
+              <div className='slider-label'>DEPTH</div>
+              <Slider
+                min={0}
+                max={100}
+                value={value}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+              <div className='value'>{value}</div>
+            </div>
+          </SliderRow>
+          <SliderRow>
+            <div className='slider-grid'>
+              <div className='slider-label'>COOL</div>
               <Slider
                 min={0}
                 max={100}
