@@ -1,113 +1,114 @@
 import React, { Component } from 'react';
-import logo from './../logo.svg';
+import glamorous from 'glamorous';
 import { Button } from 'semantic-ui-react';
 import Slider from './components/Slider/Slider'
+import logo from './../logo.svg';
 import './styles/App.css';
-import glamorous from 'glamorous'
+import './styles/details.css';
+import songData from './SongMetrics.json';
+
 
 const SliderRow = glamorous.div({
   maxWidth: 820,
   margin: "0 auto",
-  paddingBottom: 35
+  paddingBottom: 35,
+  lineHeight: 1.25,
+  '@media only screen and (max-width: 768px)': {
+    paddingBottom: 10,
+  }
 });
 
 class App extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      log: [],
-      value: 10
+      energyValue: 25,
+      valenceValue: 50,
+      depthValue: 75,
+      songTitle: songData[0].Title
     }
   }
 
-  handleChangeStart = () => {
-    console.log('Change event started')
-  };
-
-  handleChange = value => {
+  handleEnergyChange = value => {
     this.setState({
-      value: value
+      energyValue: value
+    })
+  };
+  handleValenceChange = value => {
+    this.setState({
+      valenceValue: value
+    })
+  };
+  handleDepthChange = value => {
+    this.setState({
+      depthValue: value
     })
   };
 
-  handleChangeComplete = () => {
-    console.log('Change event completed')
+  handleClick = () => {
+    console.log('calculating...');
+
+    
+
+    console.log('finished');
   };
 
-  handleClick = () => this.updateLog('Button received click with mouse')
-
-  handleKeyPress = (e) => {
-    if (e.charCode === 32 || e.charCode === 13) {
-      // Prevent the default action to stop scrolling when space is pressed
-      e.preventDefault()
-      this.updateLog('Button received click with keyboard')
-    }
-  }
-
-  updateLog = message => this.setState({ log: [message, ...this.state.log] })
-
   render() {
-    const { value } = this.state
+    const { energyValue, valenceValue, depthValue } = this.state
     return (
       <div className="App">
-        <div className="background-gradient">
-          <div className="App-header">
-            <h2>MUSIC VAULT</h2>
-            <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
-          </div>
-          <SliderRow>
-            <div className='slider-grid'>
-              <div className='slider-label'>ENERGY</div>
-              <Slider
-                min={0}
-                max={100}
-                value={value}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-              <div className='value'>{value}</div>
-            </div>
-          </SliderRow>
-          <SliderRow>
-            <div className='slider-grid'>
-              <div className='slider-label'>VALENCE</div>
-              <Slider
-                min={0}
-                max={100}
-                value={value}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-              <div className='value'>{value}</div>
-            </div>
-          </SliderRow>
-          <SliderRow>
-            <div className='slider-grid'>
-              <div className='slider-label'>DEPTH</div>
-              <Slider
-                min={0}
-                max={100}
-                value={value}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-              <div className='value'>{value}</div>
-            </div>
-          </SliderRow>
-          <div>
-            <Button
-              className='calculateButton'
-              content='Calculate'
-              onClick={this.handleClick}
-              onKeyPress={this.handleKeyPress}
+        <div className="App-header">
+          <h2>MUSIC VAULT</h2>
+          <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
+        </div>
+        <SliderRow>
+          <div className='slider-grid'>
+            <div className='slider-label'>ENERGY</div>
+            <Slider
+              min={0}
+              max={100}
+              value={energyValue}
+              onChange={this.handleEnergyChange}
             />
+            <div className='value'>{energyValue}</div>
           </div>
-          <div className="App-footer">
-            <img src={logo} className="App-logo" alt="logo" />
+        </SliderRow>
+        <SliderRow>
+          <div className='slider-grid'>
+            <div className='slider-label'>VALENCE</div>
+            <Slider
+              min={0}
+              max={100}
+              value={valenceValue}
+              onChange={this.handleValenceChange}
+            />
+            <div className='value'>{valenceValue}</div>
           </div>
+        </SliderRow>
+        <SliderRow>
+          <div className='slider-grid'>
+            <div className='slider-label'>DEPTH</div>
+            <Slider
+              min={0}
+              max={100}
+              value={depthValue}
+              onChange={this.handleDepthChange}
+            />
+            <div className='value'>{depthValue}</div>
+          </div>
+        </SliderRow>
+        <div className="calculateButton-section">
+          <Button
+            className='calculateButton'
+            content='Calculate'
+            onClick={this.handleClick}
+          />
+        </div>
+        <div className="song-info">
+          {this.state.songTitle}
+        </div>
+        <div className="App-footer">
+          <img src={logo} className="App-logo" alt="logo" />
         </div>
       </div>
     );

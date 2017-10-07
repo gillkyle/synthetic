@@ -3,6 +3,7 @@ body {
   background: #191414;
   /* background: #191414; */
   font-family: 'Montserrat', sans-serif;
+  color: #5e5a5a;
 }
 h2 {
   letter-spacing: 12px;
@@ -28,8 +29,7 @@ h4 {
 }
 
 .App-header {
-  height: 200px;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   color: white;
 }
 .App-footer {
@@ -40,7 +40,9 @@ h4 {
   font-size: large;
 }
 
-
+.calculateButton-section {
+  margin-bottom: 30px;
+}
 .calculateButton {
   border-radius: 38px !important;
   height: 75px;
@@ -49,18 +51,18 @@ h4 {
   color: #eee !important;
   background-color: #1db954 !important;
   transform: scale(1.0);
-  transition: all .15s ease;
+  transition: transform .15s ease;
 }
 .calculateButton:hover {
   color: #ddd !important;
   background-color: #37CA6A !important;
   transform: scale(1.035);
-  transition: all .2s ease;
+  transition: transform .2s ease;
 }
 .calculateButton:active {
   color: #ccc !important;
   transform: scale(.95);
-  transition: all .1s ease;
+  transition: transform .1s ease;
 }
 
 .slider-grid { 
@@ -68,7 +70,6 @@ h4 {
   flex-direction: row;
   align-items: center;
 }
-
 .slider-label {
   width: 20% !important;
   font-size: 36px;
@@ -76,6 +77,45 @@ h4 {
   color: #eee;
   text-align: right;
 }
+.value {
+  width: 20% !important;
+  font-size: 36px;
+  color: #eee;
+  text-align: left;
+}
+
+.rangeslider-horizontal {
+  width: 50%;
+  margin: 0 auto;
+  height: 40px;
+  border-radius: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .slider-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slider-label {
+    width: 50% !important;
+    font-size: 30px;
+    color: #eee;
+    text-align: center;
+  }
+  .value {
+    width: 50% !important;
+    font-size: 30px;
+    color: #eee;
+    text-align: center;
+  }
+  .rangeslider-horizontal {
+    width: 75%;
+    margin: 0 auto;
+    height: 40px;
+    border-radius: 20px;
+  }
+}
+
 .slider {
   padding: 40px;
 }
@@ -94,15 +134,4 @@ h4 {
   border-radius: 20px !important;
   min-width: 50px;
 }
-.rangeslider-horizontal {
-  width: 50%;
-  margin: 0 auto;
-  height: 40px;
-  border-radius: 20px;
-}
-.value {
-  width: 20% !important;
-  font-size: 36px;
-  color: #eee;
-  text-align: left;
-}
+
