@@ -6,6 +6,7 @@ import logo from './../logo.svg';
 import './styles/App.css';
 import './styles/details.css';
 import songData from './SongMetrics.json';
+import { getHashParams, generateRandomString, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
 const SliderRow = glamorous.div({
@@ -25,25 +26,37 @@ class App extends Component {
       energyValue: 25,
       valenceValue: 50,
       depthValue: 75,
-      songRecommendation: songData[0]
+      songRecommendation: songData[0],
+      params: {}
     }
   }
 
-  handleEnergyChange = value => {
-    this.setState({
-      energyValue: value
-    })
-  };
-  handleValenceChange = value => {
-    this.setState({
-      valenceValue: value
-    })
-  };
-  handleDepthChange = value => {
-    this.setState({
-      depthValue: value
-    })
-  };
+  componentDidMount() {
+    this.setState({ params: getHashParams()});
+    document.getElementById('login-button').addEventListener('click', function() {
+      const stateKey = 'spotify_auth_state';
+      const client_id = 'c3ac28c1b26941b5a09beaa1d33240bd'; // Your client id
+      let redirect_uri = 'http://localhost:3000'; // Your redirect uri
+
+      let state = generateRandomString();
+
+      localStorage.setItem(stateKey, state);
+      let scope = 'user-read-private user-read-email user-library-modify';
+
+      let url = 'https://accounts.spotify.com/authorize';
+      url += '?response_type=token';
+      url += '&client_id=' + encodeURIComponent(client_id);
+      url += '&scope=' + encodeURIComponent(scope);
+      url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
+      url += '&state=' + encodeURIComponent(state);
+
+      window.location = url;
+    }, false);
+  }
+
+  handleEnergyChange = value => { this.setState({ energyValue: value }) };
+  handleValenceChange = value => { this.setState({ valenceValue: value }) };
+  handleDepthChange = value => { this.setState({ depthValue: value }) };
 
   handleClick = () => {
     console.log('calculating...');
@@ -80,6 +93,12 @@ class App extends Component {
           <h2>MUSIC VAULT</h2>
           <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
         </div>
+        <Button
+          id="login-button"
+          className='calculateButton'
+          content='Login'
+          onClick={() => spotifyImplicitAuth()}
+        />
         <SliderRow>
           <div className='slider-grid'>
             <div className='slider-label'>ENERGY</div>
@@ -128,6 +147,9 @@ class App extends Component {
           Energy: {this.state.songRecommendation.Energy} <br/>
           Valence: {this.state.songRecommendation.Valence} <br/>
           Depth: {this.state.songRecommendation.Depth}
+        </div>
+        <div className="login-info">
+          {this.state.params ? this.state.params.access_token : ''}
         </div>
         <div className="App-footer">
           <img src={logo} className="App-logo" alt="logo" />
