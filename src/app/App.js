@@ -48,8 +48,22 @@ class App extends Component {
   handleClick = () => {
     console.log('calculating...');
 
-    
+    let data = songData;
+    data.sort(function(a, b){return b.Energy - a.Energy})
+    console.log(data);
 
+    for (var i = 0; i < songData.length; i++){
+      var obj = songData[i];
+      for (var key in obj){
+          var attrName = key;
+          console.log(attrName);
+          var attrValue = obj[key];
+          console.log(attrValue);
+      }
+    }
+
+    this.setState({ songTitle: data[0].Title })
+    // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
     console.log('finished');
   };
 
