@@ -25,7 +25,7 @@ class App extends Component {
       energyValue: 25,
       valenceValue: 50,
       depthValue: 75,
-      songTitle: songData[0].Title
+      songRecommendation: songData[0]
     }
   }
 
@@ -49,20 +49,25 @@ class App extends Component {
     console.log('calculating...');
 
     let data = songData;
-    data.sort(function(a, b){return b.Energy - a.Energy})
-    console.log(data);
+    let calculatedData = [];
 
-    for (var i = 0; i < songData.length; i++){
-      var obj = songData[i];
-      for (var key in obj){
-          var attrName = key;
-          console.log(attrName);
-          var attrValue = obj[key];
-          console.log(attrValue);
-      }
+    // enter entire dataset loop for each song
+    for (let i = 0; i < songData.length; i++){
+      let songObj = songData[i];
+
+      let differenceEnergy = Math.abs(songObj['Energy'] - this.state.energyValue);
+      let differenceValence = Math.abs(songObj['Valence'] - this.state.valenceValue);
+      let differenceDepth = Math.abs(songObj['Depth'] - this.state.depthValue);
+      let totalDifference = differenceEnergy + differenceValence + differenceDepth;
+      songObj['ResultDifference'] = totalDifference;
+      calculatedData.push(songObj);
     }
+    
+    console.log(calculatedData);
+    calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
+    console.log(calculatedData);
 
-    this.setState({ songTitle: data[0].Title })
+    this.setState({ songRecommendation: calculatedData[0] })
     // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
     console.log('finished');
   };
@@ -119,7 +124,10 @@ class App extends Component {
           />
         </div>
         <div className="song-info">
-          {this.state.songTitle}
+          {this.state.songRecommendation.Title} <br/>
+          Energy: {this.state.songRecommendation.Energy} <br/>
+          Valence: {this.state.songRecommendation.Valence} <br/>
+          Depth: {this.state.songRecommendation.Depth}
         </div>
         <div className="App-footer">
           <img src={logo} className="App-logo" alt="logo" />

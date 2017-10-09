@@ -8,7 +8,8 @@
     "Loud": -8,
     "Valence": 4,
     "Acoustic": 21,
-    "Popularity": 56
+    "Popularity": 56,
+    "Depth": 50
   },
   {
     "Title": "Out Of The Blue",
@@ -19,7 +20,8 @@
     "Loud": -6,
     "Valence": 59,
     "Acoustic": 0,
-    "Popularity": 0
+    "Popularity": 0,
+    "Depth": 50
   },
   {
     "Title": "The Veldt - 8 Minute Edit",
@@ -30,7 +32,8 @@
     "Loud": -8,
     "Valence": 35,
     "Acoustic": 13,
-    "Popularity": 43
+    "Popularity": 43,
+    "Depth": 50
   },
   {
     "Title": "Darling (feat. Missio)",
@@ -41,7 +44,8 @@
     "Loud": -5,
     "Valence": 30,
     "Acoustic": 32,
-    "Popularity": 51
+    "Popularity": 51,
+    "Depth": 50
   },
   {
     "Title": "Mechanical",
@@ -52,7 +56,8 @@
     "Loud": -6,
     "Valence": 59,
     "Acoustic": 0,
-    "Popularity": 24
+    "Popularity": 24,
+    "Depth": 50
   },
   {
     "Title": "Sweet Harmony",
@@ -63,7 +68,8 @@
     "Loud": -5,
     "Valence": 20,
     "Acoustic": 0,
-    "Popularity": 23
+    "Popularity": 23,
+    "Depth": 50
   },
   {
     "Title": "Gonna Die",
@@ -74,7 +80,8 @@
     "Loud": -6,
     "Valence": 35,
     "Acoustic": 7,
-    "Popularity": 0
+    "Popularity": 0,
+    "Depth": 50
   },
   {
     "Title": "Syndrome - Original Mix",
@@ -85,7 +92,8 @@
     "Loud": -5,
     "Valence": 24,
     "Acoustic": 1,
-    "Popularity": 12
+    "Popularity": 12,
+    "Depth": 50
   },
   {
     "Title": "Fineshrine",
@@ -96,7 +104,8 @@
     "Loud": -4,
     "Valence": 41,
     "Acoustic": 2,
-    "Popularity": 64
+    "Popularity": 64,
+    "Depth": 50
   },
   {
     "Title": "Lost Track of Time",
@@ -107,7 +116,8 @@
     "Loud": -9,
     "Valence": 7,
     "Acoustic": 13,
-    "Popularity": 45
+    "Popularity": 45,
+    "Depth": 50
   },
   {
     "Title": "Halogen Moon",
@@ -118,7 +128,8 @@
     "Loud": -10,
     "Valence": 19,
     "Acoustic": 3,
-    "Popularity": 16
+    "Popularity": 16,
+    "Depth": 50
   },
   {
     "Title": "Electric Fist",
@@ -129,7 +140,8 @@
     "Loud": -7,
     "Valence": 46,
     "Acoustic": 0,
-    "Popularity": 0
+    "Popularity": 0,
+    "Depth": 50
   },
   {
     "Title": "Easy",
@@ -140,7 +152,8 @@
     "Loud": -10,
     "Valence": 17,
     "Acoustic": 35,
-    "Popularity": 63
+    "Popularity": 63,
+    "Depth": 50
   },
   {
     "Title": "Oracle",
@@ -151,7 +164,8 @@
     "Loud": -7,
     "Valence": 27,
     "Acoustic": 42,
-    "Popularity": 28
+    "Popularity": 28,
+    "Depth": 50
   },
   {
     "Title": "Someday, I'll Be with You (feat. Jnna)",
@@ -162,7 +176,8 @@
     "Loud": -5,
     "Valence": 40,
     "Acoustic": 18,
-    "Popularity": 47
+    "Popularity": 47,
+    "Depth": 50
   },
   {
     "Title": "Wild Heart",
@@ -173,6 +188,7 @@
     "Loud": -8,
     "Valence": 56,
     "Acoustic": 32,
-    "Popularity": 53
+    "Popularity": 53,
+    "Depth": 50
   }
  ]
