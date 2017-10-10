@@ -40,31 +40,6 @@ h4 {
   font-size: large;
 }
 
-.calculateButton-section {
-  margin-bottom: 30px;
-}
-.calculateButton {
-  border-radius: 38px !important;
-  height: 75px;
-  width: 250px;
-  font-size: 24px !important;
-  color: #eee !important;
-  background-color: #1db954 !important;
-  transform: scale(1.0);
-  transition: transform .15s ease;
-}
-.calculateButton:hover {
-  color: #ddd !important;
-  background-color: #37CA6A !important;
-  transform: scale(1.035);
-  transition: transform .2s ease;
-}
-.calculateButton:active {
-  color: #ccc !important;
-  transform: scale(.95);
-  transition: transform .1s ease;
-}
-
 .slider-grid { 
   display: flex;
   flex-direction: row;

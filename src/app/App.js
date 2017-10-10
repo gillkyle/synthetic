@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import glamorous from 'glamorous';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { Button } from 'semantic-ui-react';
+import SpotifyButton from './components/Button';
 import Slider from './components/Slider/Slider'
+import Spinner from 'react-spinkit'
 import logo from './../logo.svg';
 import './styles/App.css';
 import './styles/details.css';
-import songData from './SongMetrics.json';
+import './styles/buttons.css';
+// import songData from './SongMetrics.json';
+import songApiData from './songApiData.json';
 import { getHashParams, generateRandomString, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
@@ -26,8 +32,9 @@ class App extends Component {
       energyValue: 25,
       valenceValue: 50,
       depthValue: 75,
-      songRecommendation: songData[0],
-      params: {}
+      songRecommendation: songApiData.items[0].track,
+      params: {},
+      loading: false
     }
   }
 
@@ -41,7 +48,7 @@ class App extends Component {
       let state = generateRandomString();
 
       localStorage.setItem(stateKey, state);
-      let scope = 'user-read-private user-read-email user-library-modify';
+      let scope = `user-read-private user-read-email user-library-read user-library-modify playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private`;
 
       let url = 'https://accounts.spotify.com/authorize';
       url += '?response_type=token';
@@ -60,29 +67,55 @@ class App extends Component {
 
   handleClick = () => {
     console.log('calculating...');
+    this.setState({loading: true})
 
-    let data = songData;
+    let data = songApiData.items;
     let calculatedData = [];
+    let promises = [];
 
     // enter entire dataset loop for each song
-    for (let i = 0; i < songData.length; i++){
-      let songObj = songData[i];
+    for (let i = 0; i < data.length; i++){
+      let songObj = data[i].track;
 
-      let differenceEnergy = Math.abs(songObj['Energy'] - this.state.energyValue);
-      let differenceValence = Math.abs(songObj['Valence'] - this.state.valenceValue);
-      let differenceDepth = Math.abs(songObj['Depth'] - this.state.depthValue);
-      let totalDifference = differenceEnergy + differenceValence + differenceDepth;
-      songObj['ResultDifference'] = totalDifference;
-      calculatedData.push(songObj);
+      console.log(songObj.name);
+      let trackId = songObj.id;
+      // make request for track details like energy, valence for comparison, using track id
+      let trackFeatures = axios.get(`https://api.spotify.com/v1/audio-features/${trackId}`, {
+        headers: { 'Authorization': 'Bearer ' + this.state.params.access_token }
+        })
+        .then(response => {
+          console.log(response.data);
+          let trackDetails = response.data;
+          console.log(trackDetails.acousticness);
+
+          let trackEnergy = Math.round(trackDetails.energy*100) || 0;
+          let trackValence = Math.round(trackDetails.valence*100) || 0;
+          let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
+
+          let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
+          let differenceValence = Math.abs(trackValence - this.state.valenceValue);
+          let differenceAcousticness = Math.abs(trackAcousticness - this.state.depthValue);
+          let totalDifference = differenceEnergy + differenceValence + differenceAcousticness;
+          songObj['ResultDifference'] = totalDifference;
+          calculatedData.push(songObj);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+      promises.push(trackFeatures);
     }
-    
-    console.log(calculatedData);
-    calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
-    console.log(calculatedData);
 
-    this.setState({ songRecommendation: calculatedData[0] })
-    // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
-    console.log('finished');
+    axios.all(promises).then(()=> { 
+
+      console.log(calculatedData);
+      calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
+      console.log(calculatedData);
+
+      this.setState({ songRecommendation: calculatedData[0], loading: false })
+      // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
+      console.log('finished');
+    });
+    
   };
 
   render() {
@@ -136,19 +169,29 @@ class App extends Component {
           </div>
         </SliderRow>
         <div className="calculateButton-section">
-          <Button
+          <SpotifyButton
+            type='button'
             className='calculateButton'
-            content='Calculate'
+            value='Calculate'
             onClick={this.handleClick}
           />
         </div>
         <div className="song-info">
-          {this.state.songRecommendation.Title} <br/>
-          Energy: {this.state.songRecommendation.Energy} <br/>
-          Valence: {this.state.songRecommendation.Valence} <br/>
-          Depth: {this.state.songRecommendation.Depth}
+          <CSSTransitionGroup
+            transitionName="example"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            {this.state.loading ? 
+              <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
+              : 
+              <div>
+                {this.state.songRecommendation.name}
+              </div>
+            }
+          </CSSTransitionGroup>
         </div>
-        <div className="login-info">
+        <div>
           {this.state.params ? this.state.params.access_token : ''}
         </div>
         <div className="App-footer">
