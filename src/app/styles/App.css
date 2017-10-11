@@ -110,3 +110,11 @@ h4 {
   min-width: 50px;
 }
 
+.login-section {
+  position: absolute;
+  width: 150px;
+  height: 75px;
+  top: 30px;
+  right: 15px;
+}
+

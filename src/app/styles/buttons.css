@@ -8,21 +8,37 @@
   font-size: 24px !important;
   color: #eee !important;
   background-color: #1db954 !important;
-  transform: scale(1.0);
-  transition: transform .15s ease;
+  transform: scale(1.0) !important;
+  transition: transform .15s ease !important;
 }
 .calculateButton:hover {
-  color: #ddd !important;
   background-color: #37CA6A !important;
-  transform: scale(1.035);
-  transition: transform .2s ease;
+  transform: scale(1.035) !important;
+  transition: transform .2s ease !important;
 }
 .calculateButton:active {
   color: #ccc !important;
-  transform: scale(.95);
-  transition: transform .1s ease;
+  transform: scale(.95) !important;
+  transition: transform .1s ease !important;
 }
 
 .loginButton {
-  
+  border-radius: 38px !important;
+  height: 40px;
+  width: 125px;
+  font-size: 14px !important;
+  color: #eee !important;
+  background-color: #1db954 !important;
+  transform: scale(1.0) !important;
+  transition: transform .15s ease !important;
+}
+.loginButton:hover {
+  background-color: #37CA6A !important;
+  transform: scale(1.035) !important;
+  transition: transform .2s ease !important;
+}
+.loginButton:active {
+  color: #ccc !important;
+  transform: scale(.95) !important;
+  transition: transform .1s ease !important;
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import glamorous from 'glamorous';
-import { CSSTransitionGroup } from 'react-transition-group';
+// import { CSSTransitionGroup } from 'react-transition-group';
 import { Button } from 'semantic-ui-react';
 import SpotifyButton from './components/Button';
+import SongInfoWidget from './components/SongInfoWidget';
 import Slider from './components/Slider/Slider'
 import Spinner from 'react-spinkit'
 import logo from './../logo.svg';
@@ -119,19 +120,27 @@ class App extends Component {
   };
 
   render() {
-    const { energyValue, valenceValue, depthValue } = this.state
+    const { energyValue, valenceValue, depthValue, songRecommendation } = this.state
     return (
       <div className="App">
         <div className="App-header">
-          <h2>MUSIC VAULT</h2>
+          <div>
+            <h2>MUSIC VAULT</h2>
+            <div className="login-section">
+              {this.state.params.access_token ? 
+              "Logged In"
+               :
+               <Button
+                id="login-button"
+                className='loginButton'
+                content='Login'
+                onClick={() => spotifyImplicitAuth()}
+              />
+              } 
+            </div>
+          </div>
           <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
         </div>
-        <Button
-          id="login-button"
-          className='calculateButton'
-          content='Login'
-          onClick={() => spotifyImplicitAuth()}
-        />
         <SliderRow>
           <div className='slider-grid'>
             <div className='slider-label'>ENERGY</div>
@@ -174,22 +183,25 @@ class App extends Component {
             className='calculateButton'
             value='Calculate'
             onClick={this.handleClick}
+            disabled={this.state.loading}
           />
         </div>
         <div className="song-info">
-          <CSSTransitionGroup
-            transitionName="example"
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={300}
-          >
-            {this.state.loading ? 
-              <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
-              : 
-              <div>
-                {this.state.songRecommendation.name}
-              </div>
-            }
-          </CSSTransitionGroup>
+          {this.state.loading ? 
+            <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
+            : 
+            <div>
+              <SongInfoWidget
+                songName={songRecommendation.name}
+                artist={songRecommendation.artists[0].name}
+                album={songRecommendation.album.name}
+                albumArt={songRecommendation.album.images[0].url}
+                artSize="240"
+                songPreview={songRecommendation.preview_url}
+                trackId={songRecommendation.id}
+              />
+            </div>
+          }
         </div>
         <div>
           {this.state.params ? this.state.params.access_token : ''}
