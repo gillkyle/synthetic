@@ -11,6 +11,7 @@ import './styles/main.css';
 import './styles/details.css';
 import './styles/buttons.css';
 import './styles/compiled-player.css';
+import './styles/slider.css';
 import songApiData from './songApiData.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
@@ -18,10 +19,10 @@ import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../jav
 const SliderRow = glamorous.div({
   maxWidth: 820,
   margin: "0 auto",
-  paddingBottom: 35,
+  paddingBottom: 20,
   lineHeight: 1.25,
   '@media only screen and (max-width: 768px)': {
-    paddingBottom: 10,
+    paddingBottom: 5,
   }
 });
 
@@ -45,10 +46,6 @@ class App extends Component {
     setLoginEventListener();
   }
 
-  stopScrubber = () => {
-    this.child.togglePlay();
-  }
-
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
   handleAcousticChange = value => { this.setState({ acousticValue: value }) };
@@ -57,7 +54,8 @@ class App extends Component {
 
   handleClick = () => {
     console.log('starting...');
-    this.setState({loading: true})
+    this.setState({loading: true});
+    this.child.method();
 
     let data = songApiData.items;
     let calculatedData = [];
@@ -123,10 +121,11 @@ class App extends Component {
               {this.state.params.access_token ? 
               "Logged In"
                :
-               <Button
+               <SpotifyButton
+                type="button"
                 id="login-button"
                 className='loginButton'
-                content='Login'
+                value='Login'
                 onClick={() => spotifyImplicitAuth()}
               />
               } 
@@ -218,7 +217,7 @@ class App extends Component {
                     duration: 30,
                     source: songRecommendation.preview_url
                   }}
-                  stopScrubber={ref => (this.child = ref)}
+                  ref={ref => (this.child = ref)}
                 />
               </div>
             </div>

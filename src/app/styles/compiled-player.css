@@ -12,7 +12,6 @@
   height: 475px;
   position: relative;
   width: 300px;
-  border-radius: 3px;
 }
 .Player .Background {
   width: 150%;
@@ -47,7 +46,6 @@
 }
 .Player .TrackInformation .Artist {
   font-size: 16px;
-  margin-bottom: 5px;
   font-weight: 500;
 }
 .Player .TrackInformation .Album {
@@ -93,7 +91,7 @@
 }
 .Player .Controls {
   position: absolute;
-  bottom: 17px;
+  bottom: 10px;
   pointer-events: none;
   margin: auto;
   left: 0;
@@ -113,12 +111,12 @@
   pointer-events: all;
   cursor: pointer;
 }
+.Player .Controls .Button:hover {
+  transform: scale(1.05);
+}
 .Player .Controls .Button:active {
   transform: scale(0.98);
   border: 2px solid #1db954;
-}
-.Player .Controls .Button:hover {
-  transform: scale(1.025);
 }
 .Player .Controls .Button:active .fa {
   color: #1db954;

@@ -6,8 +6,9 @@ const buttonStyles = {
   outline: 'none'
 };
 
-const Button = ({ className, children, disabled, onClick, value, style = {} }) => (
+const Button = ({ className, disabled, id, onClick, value, style = {} }) => (
   <button
+    id={id}
     className={className}
     style={{ ...buttonStyles, ...style }}
     onClick={onClick}

@@ -18,13 +18,16 @@ class Player extends Component{
 		}
 	};
 
+	
 	componentDiDMount() {
-		this.props.stopScrubber(this);
+		this.props.ref(this);
 	}
 	componentWillUnmount() {
-		this.props.stopScrubber(undefined);
 		this.loadInterval && clearInterval(this.loadInterval);
 		this.loadInterval = false;
+	}
+	method = () => {
+		console.log('stuff');
 	}
 
 	updateTime = (timestamp) => {
