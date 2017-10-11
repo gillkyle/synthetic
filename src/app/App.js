@@ -3,12 +3,11 @@ import axios from 'axios';
 import glamorous from 'glamorous';
 import { Button } from 'semantic-ui-react';
 import SpotifyButton from './components/Button';
-import SongInfoWidget from './components/SongInfoWidget';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
 import Spinner from 'react-spinkit'
 import logo from './../logo.svg';
-import './styles/app.css';
+import './styles/main.css';
 import './styles/details.css';
 import './styles/buttons.css';
 import './styles/compiled-player.css';
