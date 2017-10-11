@@ -4,7 +4,7 @@ class Controls extends Component{
 	render() {
 		
 		let classNames;
-		if (this.props.isPlaying == 'pause') {
+		if (this.props.isPlaying === 'pause') {
 			classNames = 'fa fa-fw fa-pause';
 		} else {
 			classNames = 'fa fa-fw fa-play';

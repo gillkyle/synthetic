@@ -13,7 +13,7 @@ import './styles/details.css';
 import './styles/buttons.css';
 import './styles/compiled-player.css';
 import songApiData from './songApiData.json';
-import { getHashParams, generateRandomString, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
+import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
 const SliderRow = glamorous.div({
@@ -30,9 +30,11 @@ class App extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      energyValue: 25,
+      energyValue: 50,
       valenceValue: 50,
-      depthValue: 75,
+      acousticValue: 50,
+      danceValue: 50,
+      hipsterValue: 50,
       songRecommendation: songApiData.items[0].track,
       params: {},
       loading: false
@@ -44,12 +46,18 @@ class App extends Component {
     setLoginEventListener();
   }
 
+  stopScrubber = () => {
+    this.child.togglePlay();
+  }
+
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
-  handleDepthChange = value => { this.setState({ depthValue: value }) };
+  handleAcousticChange = value => { this.setState({ acousticValue: value }) };
+  handleDanceChange = value => { this.setState({ danceValue: value }) };
+  handleHipsterChange = value => { this.setState({ hipsterValue: value }) };
 
   handleClick = () => {
-    console.log('calculating...');
+    console.log('starting...');
     this.setState({loading: true})
 
     let data = songApiData.items;
@@ -69,16 +77,19 @@ class App extends Component {
         .then(response => {
           console.log(response.data);
           let trackDetails = response.data;
-          console.log(trackDetails.acousticness);
 
           let trackEnergy = Math.round(trackDetails.energy*100) || 0;
           let trackValence = Math.round(trackDetails.valence*100) || 0;
           let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
+          let trackDance = Math.round(trackDetails.danceability*100) || 0;
+          let trackHipster = Math.abs(Math.round(songObj.popularity-100));
 
           let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
           let differenceValence = Math.abs(trackValence - this.state.valenceValue);
-          let differenceAcousticness = Math.abs(trackAcousticness - this.state.depthValue);
-          let totalDifference = differenceEnergy + differenceValence + differenceAcousticness;
+          let differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue);
+          let differenceDance = Math.abs(trackDance - this.state.danceValue);
+          let differenceHipster = Math.abs(trackHipster - this.state.hipsterValue);
+          let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differenceHipster;
           songObj['ResultDifference'] = totalDifference;
           calculatedData.push(songObj);
         })
@@ -103,7 +114,7 @@ class App extends Component {
   };
 
   render() {
-    const { energyValue, valenceValue, depthValue, songRecommendation } = this.state
+    const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
     return (
       <div className="App">
         <div className="App-header">
@@ -150,14 +161,38 @@ class App extends Component {
         </SliderRow>
         <SliderRow>
           <div className='slider-grid'>
-            <div className='slider-label'>DEPTH</div>
+            <div className='slider-label'>ACOUSTIC</div>
             <Slider
               min={0}
               max={100}
-              value={depthValue}
-              onChange={this.handleDepthChange}
+              value={acousticValue}
+              onChange={this.handleAcousticChange}
             />
-            <div className='value'>{depthValue}</div>
+            <div className='value'>{acousticValue}</div>
+          </div>
+        </SliderRow>
+        <SliderRow>
+          <div className='slider-grid'>
+            <div className='slider-label'>DANCE</div>
+            <Slider
+              min={0}
+              max={100}
+              value={danceValue}
+              onChange={this.handleDanceChange}
+            />
+            <div className='value'>{danceValue}</div>
+          </div>
+        </SliderRow>
+        <SliderRow>
+          <div className='slider-grid'>
+            <div className='slider-label'>HIPSTER</div>
+            <Slider
+              min={0}
+              max={100}
+              value={hipsterValue}
+              onChange={this.handleHipsterChange}
+            />
+            <div className='value'>{hipsterValue}</div>
           </div>
         </SliderRow>
         <div className="calculateButton-section">
@@ -174,26 +209,17 @@ class App extends Component {
             <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
             : 
             <div>
-              <SongInfoWidget
-                songName={songRecommendation.name}
-                artist={songRecommendation.artists[0].name}
-                album={songRecommendation.album.name}
-                albumArt={songRecommendation.album.images[0].url}
-                artSize="240"
-                songPreview={songRecommendation.preview_url}
-                trackId={songRecommendation.id}
-              />
               <div className="player-section">
                 <Player 
                   track={{
                     name: songRecommendation.name,
                     artist: songRecommendation.artists[0].name,
                     album: songRecommendation.album.name,
-                    year: 2012,
                     artwork: songRecommendation.album.images[0].url,
                     duration: 30,
                     source: songRecommendation.preview_url
                   }}
+                  stopScrubber={ref => (this.child = ref)}
                 />
               </div>
             </div>

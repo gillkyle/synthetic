@@ -6,7 +6,7 @@ class TrackInformation extends Component{
 			<div className="TrackInformation">
 				<div className="Name">{this.props.track.name}</div>
 				<div className="Artist">{this.props.track.artist}</div>
-				<div className="Album">{this.props.track.album} ({this.props.track.year})</div>
+				<div className="Album">{this.props.track.album}</div>
 			</div>
 		)
 	}

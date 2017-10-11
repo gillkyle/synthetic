@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import glamorous from 'glamorous';
 import TrackInformation from './TrackInformation';
 import Scrubber from './Scrubber';
 import Controls from './Controls';
 import Timestamps from './Timestamps';
+
+const GreenPlayerDivider = glamorous.div({
+	borderBottom: '3px solid #1db954'
+});
 
 class Player extends Component{
 	constructor() {
@@ -13,6 +18,15 @@ class Player extends Component{
 		}
 	};
 
+	componentDiDMount() {
+		this.props.stopScrubber(this);
+	}
+	componentWillUnmount() {
+		this.props.stopScrubber(undefined);
+		this.loadInterval && clearInterval(this.loadInterval);
+		this.loadInterval = false;
+	}
+
 	updateTime = (timestamp) => {
 		timestamp = Math.floor(timestamp);
 		this.setState({ currentTime: timestamp });
@@ -21,7 +35,7 @@ class Player extends Component{
 	updateScrubber = (percent) => {
 		// Set scrubber width
 		let innerScrubber = document.querySelector('.Scrubber-Progress');
-		innerScrubber.style['width'] = percent;
+		if (innerScrubber){innerScrubber.style['width'] = percent;}
 	}
 
 	togglePlay = () => {
@@ -31,7 +45,7 @@ class Player extends Component{
 			status = 'pause';
 			audio.play();
 			let that = this;
-			setInterval(function() {
+			this.loadInterval = setInterval(function() {
 				let currentTime = audio.currentTime;
 				let duration = that.props.track.duration;
 				
@@ -51,8 +65,8 @@ class Player extends Component{
 		return (
 			<div className="Player">
 				<div className="Background" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
-				<div className="Header"><div className="Title">Now playing</div></div>
 				<div className="Artwork" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
+				<GreenPlayerDivider />
 				<TrackInformation track={this.props.track} />
 				<Scrubber />
 				<Controls isPlaying={this.state.playStatus} onClick={this.togglePlay} />
@@ -70,7 +84,6 @@ Player.defaultProps = {
         name: "We Were Young",
         artist: "Odesza",
         album: "Summer's Gone",
-        year: 2012,
         artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
         duration: 192,
         source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"

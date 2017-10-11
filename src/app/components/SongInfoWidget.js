@@ -1,5 +1,4 @@
 import React from 'react';
-import glamorous from 'glamorous';
 
 const SongInfoWidget = ({ songName, artist, album, albumArt, artSize, songPreview, trackId }) => (
   <div style={{marginBottom: 15}}>
@@ -8,3 +7,9 @@ const SongInfoWidget = ({ songName, artist, album, albumArt, artSize, songPrevie
 );
 
 export default SongInfoWidget;
+
+52
+12
+7
+39
+56
