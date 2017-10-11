@@ -38,9 +38,10 @@
   margin: 20px auto;
   text-align: center;
   position: relative;
+  padding: 0px 20px 0px 20px;
 }
 .Player .TrackInformation .Name {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 10px;
   font-weight: 300;
 }
@@ -80,7 +81,7 @@
   box-sizing: border-box;
   padding: 20px;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   pointer-events: none;
   z-index: 2;
@@ -91,15 +92,16 @@
 }
 .Player .Controls {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   pointer-events: none;
   margin: auto;
   left: 0;
   right: 0;
+  z-index: 5;
 }
 .Player .Controls .Button {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border: 2px solid rgba(255, 255, 255, .5);
   box-sizing: border-box;
   display: flex;
@@ -125,8 +127,12 @@
 .Player .Controls .Button .fa {
   color: #fff;
   opacity: 0.5;
-  font-size: 24px;
+  font-size: 16px;
 }
 .Player .Controls .Button .fa.fa-play {
   margin-left: 5px;
+}
+
+.EmptyHeader {
+  height: 60px;
 }

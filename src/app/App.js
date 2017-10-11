@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import glamorous from 'glamorous';
-import { Button } from 'semantic-ui-react';
 import SpotifyButton from './components/Button';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
@@ -222,9 +221,6 @@ class App extends Component {
               </div>
             </div>
           }
-        </div>
-        <div>
-          {this.state.params ? this.state.params.access_token : ''}
         </div>
         <div className="App-footer">
           <img src={logo} className="App-logo" alt="logo" />

@@ -67,13 +67,15 @@ class Player extends Component{
 	render() {
 		return (
 			<div className="Player">
+				<div className="EmptyHeader"></div>
+				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
+				<Controls isPlaying={this.state.playStatus} onClick={this.togglePlay} />
+				<GreenPlayerDivider />
 				<div className="Background" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<div className="Artwork" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<GreenPlayerDivider />
 				<TrackInformation track={this.props.track} />
 				<Scrubber />
-				<Controls isPlaying={this.state.playStatus} onClick={this.togglePlay} />
-				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
 				<audio id="audio">
 					<source src={this.props.track.source} />
 				</audio>
