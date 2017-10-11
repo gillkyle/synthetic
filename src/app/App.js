@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import glamorous from 'glamorous';
-// import { CSSTransitionGroup } from 'react-transition-group';
 import { Button } from 'semantic-ui-react';
 import SpotifyButton from './components/Button';
 import SongInfoWidget from './components/SongInfoWidget';
-import Slider from './components/Slider/Slider'
+import Slider from './components/Slider/Slider';
+import Player from './components/Player/Player';
 import Spinner from 'react-spinkit'
 import logo from './../logo.svg';
-import './styles/App.css';
+import './styles/app.css';
 import './styles/details.css';
 import './styles/buttons.css';
-// import songData from './SongMetrics.json';
+import './styles/compiled-player.css';
 import songApiData from './songApiData.json';
-import { getHashParams, generateRandomString, spotifyImplicitAuth} from '../javascripts/helpers';
+import { getHashParams, generateRandomString, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
 const SliderRow = glamorous.div({
@@ -41,25 +41,7 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({ params: getHashParams()});
-    document.getElementById('login-button').addEventListener('click', function() {
-      const stateKey = 'spotify_auth_state';
-      const client_id = 'c3ac28c1b26941b5a09beaa1d33240bd'; // Your client id
-      let redirect_uri = 'http://localhost:3000'; // Your redirect uri
-
-      let state = generateRandomString();
-
-      localStorage.setItem(stateKey, state);
-      let scope = `user-read-private user-read-email user-library-read user-library-modify playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private`;
-
-      let url = 'https://accounts.spotify.com/authorize';
-      url += '?response_type=token';
-      url += '&client_id=' + encodeURIComponent(client_id);
-      url += '&scope=' + encodeURIComponent(scope);
-      url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
-      url += '&state=' + encodeURIComponent(state);
-
-      window.location = url;
-    }, false);
+    setLoginEventListener();
   }
 
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
@@ -106,6 +88,7 @@ class App extends Component {
       promises.push(trackFeatures);
     }
 
+    // gather up all the axios promises and wait until they've finished before sorting the array
     axios.all(promises).then(()=> { 
 
       console.log(calculatedData);
@@ -200,6 +183,19 @@ class App extends Component {
                 songPreview={songRecommendation.preview_url}
                 trackId={songRecommendation.id}
               />
+              <div className="player-section">
+                <Player 
+                  track={{
+                    name: songRecommendation.name,
+                    artist: songRecommendation.artists[0].name,
+                    album: songRecommendation.album.name,
+                    year: 2012,
+                    artwork: songRecommendation.album.images[0].url,
+                    duration: 30,
+                    source: songRecommendation.preview_url
+                  }}
+                />
+              </div>
             </div>
           }
         </div>

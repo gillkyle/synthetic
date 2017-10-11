@@ -22,6 +22,28 @@ const getHashParams = () => {
   return hashParams;
 }
 
+const setLoginEventListener = () => {
+  document.getElementById('login-button').addEventListener('click', function() {
+    const stateKey = 'spotify_auth_state';
+    const client_id = 'c3ac28c1b26941b5a09beaa1d33240bd'; // Your client id
+    let redirect_uri = 'http://localhost:3000'; // Your redirect uri
+
+    let state = generateRandomString();
+
+    localStorage.setItem(stateKey, state);
+    let scope = `user-read-private user-read-email user-library-read user-library-modify playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private`;
+
+    let url = 'https://accounts.spotify.com/authorize';
+    url += '?response_type=token';
+    url += '&client_id=' + encodeURIComponent(client_id);
+    url += '&scope=' + encodeURIComponent(scope);
+    url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
+    url += '&state=' + encodeURIComponent(state);
+
+    window.location = url;
+  }, false);
+}
+
 const spotifyImplicitAuth = () => {
   var stateKey = 'spotify_auth_state';
 
@@ -56,4 +78,4 @@ const spotifyImplicitAuth = () => {
   }
 };
 
-export { generateRandomString, getHashParams, spotifyImplicitAuth };
+export { generateRandomString, getHashParams, setLoginEventListener, spotifyImplicitAuth };
