@@ -98,17 +98,16 @@
   left: 0;
   right: 0;
   z-index: 5;
+  display: flex;
+  width: 135px;
 }
 .Player .Controls .Button {
   height: 40px;
   width: 40px;
-  border: 2px solid rgba(255, 255, 255, .5);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 75px;
-  box-shadow: 0 5px 10px 0px rgba(18, 18, 18, .125);
   margin: auto;
   pointer-events: all;
   cursor: pointer;
@@ -118,7 +117,6 @@
 }
 .Player .Controls .Button:active {
   transform: scale(0.98);
-  border: 2px solid #1db954;
 }
 .Player .Controls .Button:active .fa {
   color: #1db954;
@@ -131,6 +129,13 @@
 }
 .Player .Controls .Button .fa.fa-play {
   margin-left: 5px;
+}
+.PlayButton {
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 75px;
+}
+.PlayButton:active {
+  border: 2px solid #1db954;
 }
 
 .EmptyHeader {

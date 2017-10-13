@@ -208,6 +208,8 @@ class App extends Component {
             <div>
               <div className="player-section">
                 <Player 
+                  access_token={this.state.params.access_token}
+                  trackId={songRecommendation.id}
                   track={{
                     name: songRecommendation.name,
                     artist: songRecommendation.artists[0].name,

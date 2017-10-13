@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import glamorous from 'glamorous';
 import TrackInformation from './TrackInformation';
 import Scrubber from './Scrubber';
 import Controls from './Controls';
 import Timestamps from './Timestamps';
+import { getHashParams } from '../../../javascripts/helpers';
 
 const GreenPlayerDivider = glamorous.div({
 	borderBottom: '3px solid #1db954'
@@ -14,7 +16,8 @@ class Player extends Component{
 		super();
 		this.state = {
 			playStatus: 'play',
-			currentTime: 0
+			currentTime: 0,
+			songInLibrary: false
 		}
 	};
 
@@ -26,6 +29,10 @@ class Player extends Component{
 		this.loadInterval && clearInterval(this.loadInterval);
 		this.loadInterval = false;
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		return (nextProps.track.name === this.props.track) || (this.state.songInLibrary !== nextState.songInLibrary);
+	}
+
 	method = () => {
 		console.log('stuff');
 	}
@@ -40,6 +47,15 @@ class Player extends Component{
 		let innerScrubber = document.querySelector('.Scrubber-Progress');
 		if (innerScrubber){innerScrubber.style['width'] = percent;}
 	}
+
+	addSong = () => {
+		console.log('add song to library');
+		axios.post(`https://api.spotify.com/v1/me/tracks?ids=${this.props.trackId}`, {}, 
+			{headers: { 'Accept':'application/json', 'Authorization': 'Bearer ' + this.props.access_token }}
+		).catch(error => {
+			console.log(error);
+		});
+	};
 
 	togglePlay = () => {
 		let status = this.state.playStatus;
@@ -64,12 +80,32 @@ class Player extends Component{
 		this.setState({ playStatus: status });	
 	};
 
+	loadNext = () => {
+		console.log('play next song');
+	};
+
 	render() {
+		let params = getHashParams();
+		const { access_token, trackId } = this.props;
+		console.log(`access_token: ${access_token}`);
+		if (params) {
+			console.log('try and find song in library...');
+			axios.get(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackId}`, {
+				headers: { 'Authorization': 'Bearer ' + params.access_token }
+			})
+			.then(response => {
+				console.log(response.data[0]);
+				this.setState({ songInLibrary: response.data[0] });
+			}).catch(error => {
+				console.log(error);
+			});
+		}
+	
 		return (
 			<div className="Player">
 				<div className="EmptyHeader"></div>
 				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
-				<Controls isPlaying={this.state.playStatus} onClick={this.togglePlay} />
+				<Controls songInLibrary={this.state.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.addSong} onPlay={this.togglePlay} onNext={this.loadNext} />
 				<GreenPlayerDivider />
 				<div className="Background" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<div className="Artwork" style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
