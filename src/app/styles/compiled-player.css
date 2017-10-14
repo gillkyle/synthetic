@@ -6,7 +6,7 @@
   justify-content: center;
 }
 .Player {
-  background: #182530;
+  background: #383838;
   overflow: hidden;
   box-shadow: 0 5px 10px -5px rgba(18, 18, 18, 1);
   height: 475px;
@@ -21,8 +21,8 @@
   left: -25%;
   background-size: cover;
   background-position: center center;
-  opacity: 0.2;
-  filter: blur(10px);
+  opacity: 0.4;
+  filter: blur(8px);
 }
 .Player .Artwork {
   width: 300px;
