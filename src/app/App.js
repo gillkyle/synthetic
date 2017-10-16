@@ -5,13 +5,12 @@ import SpotifyButton from './components/Button';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
 import Spinner from 'react-spinkit'
-import logo from './../logo.svg';
 import './styles/main.css';
 import './styles/details.css';
 import './styles/buttons.css';
 import './styles/compiled-player.css';
 import './styles/slider.css';
-import songApiData from './songApiData.json';
+import songApiData from './songData.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
@@ -98,12 +97,12 @@ class App extends Component {
     // gather up all the axios promises and wait until they've finished before sorting the array
     axios.all(promises).then(()=> { 
 
+      // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
       console.log(calculatedData);
       calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
       console.log(calculatedData);
 
       this.setState({ songRecommendation: calculatedData[0], loading: false })
-      // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
       console.log('finished');
     });
     
@@ -224,8 +223,8 @@ class App extends Component {
             </div>
           }
         </div>
-        <div className="App-footer">
-          <img src={logo} className="App-logo" alt="logo" />
+        <div className='App-footer'>
+          <a  href="https://github.com/gillkyle/musicvault" target="_blank"><i className="fa fa-github" /></a>
         </div>
       </div>
     );
