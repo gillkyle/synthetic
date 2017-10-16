@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spotify from 'spotify-web-api-js';
 import axios from 'axios';
 import glamorous from 'glamorous';
 import SpotifyButton from './components/Button';
@@ -11,12 +12,13 @@ import './styles/buttons.css';
 import './styles/compiled-player.css';
 import './styles/slider.css';
 import songApiData from './songData.json';
+import songDetailData from './songDetails.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
 const SliderRow = glamorous.div({
   maxWidth: 820,
-  margin: "0 auto",
+  margin: '0 auto',
   paddingBottom: 20,
   lineHeight: 1.25,
   '@media only screen and (max-width: 768px)': {
@@ -33,9 +35,10 @@ class App extends Component {
       acousticValue: 50,
       danceValue: 50,
       hipsterValue: 50,
-      songRecommendation: songApiData.items[0].track,
+      songRecommendation: songApiData.items[5].track,
       params: {},
-      loading: false
+      loading: false,
+      songInLibrary: false
     }
   }
 
@@ -56,72 +59,76 @@ class App extends Component {
     this.child.method();
 
     let data = songApiData.items;
+    let dataDetails = songDetailData;
     let calculatedData = [];
     let promises = [];
+    let trackIds = [];
+    const s = new Spotify();
+		s.setAccessToken(this.state.params.access_token);
 
     // enter entire dataset loop for each song
     for (let i = 0; i < data.length; i++){
       let songObj = data[i].track;
+      let songDetails = dataDetails[i];
 
       console.log(songObj.name);
       let trackId = songObj.id;
-      // make request for track details like energy, valence for comparison, using track id
-      let trackFeatures = axios.get(`https://api.spotify.com/v1/audio-features/${trackId}`, {
-        headers: { 'Authorization': 'Bearer ' + this.state.params.access_token }
-        })
-        .then(response => {
-          console.log(response.data);
-          let trackDetails = response.data;
+      trackIds.push(trackId);
 
-          let trackEnergy = Math.round(trackDetails.energy*100) || 0;
-          let trackValence = Math.round(trackDetails.valence*100) || 0;
-          let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
-          let trackDance = Math.round(trackDetails.danceability*100) || 0;
-          let trackHipster = Math.abs(Math.round(songObj.popularity-100));
+      let trackDetails = songDetails;
 
-          let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
-          let differenceValence = Math.abs(trackValence - this.state.valenceValue);
-          let differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue);
-          let differenceDance = Math.abs(trackDance - this.state.danceValue);
-          let differenceHipster = Math.abs(trackHipster - this.state.hipsterValue);
-          let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differenceHipster;
-          songObj['ResultDifference'] = totalDifference;
-          calculatedData.push(songObj);
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });
-      promises.push(trackFeatures);
+      let trackEnergy = Math.round(trackDetails.energy*100) || 0;
+      let trackValence = Math.round(trackDetails.valence*100) || 0;
+      let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
+      let trackDance = Math.round(trackDetails.danceability*100) || 0;
+      let trackHipster = Math.abs(Math.round(songObj.popularity-100));
+
+      let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
+      let differenceValence = Math.abs(trackValence - this.state.valenceValue);
+      let differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue);
+      let differenceDance = Math.abs(trackDance - this.state.danceValue);
+      let differenceHipster = Math.abs(trackHipster - this.state.hipsterValue);
+      let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differenceHipster;
+      songObj['ResultDifference'] = totalDifference;
+      calculatedData.push(songObj);
+
     }
 
-    // gather up all the axios promises and wait until they've finished before sorting the array
-    axios.all(promises).then(()=> { 
+    console.log(trackIds);
+    // s.getAudioFeaturesForTracks(trackIds, (error, response) => {
+		// 	console.log(response); 
+		// });
 
-      // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
-      console.log(calculatedData);
-      calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
-      console.log(calculatedData);
+    // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
+    console.log(calculatedData);
+    calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
+    console.log(calculatedData);
 
-      this.setState({ songRecommendation: calculatedData[0], loading: false })
-      console.log('finished');
-    });
+    s.containsMySavedTracks([calculatedData[0].id], (error, response) => {
+			if (response === true) {
+        this.setState({songInLibrary: true});
+      };
+		});
+
+    this.setState({ songRecommendation: calculatedData[0], loading: false })
+    console.log('finished');
     
   };
 
   render() {
     const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
     return (
-      <div className="App">
-        <div className="App-header">
+      <div className='App'>
+        <div className='App-header'>
           <div>
             <h2>MUSIC VAULT</h2>
-            <div className="login-section">
+            <div className='login-section'>
               {this.state.params.access_token ? 
-              "Logged In"
+              'Logged In'
                :
                <SpotifyButton
-                type="button"
-                id="login-button"
+                type='button'
+                id='login-button'
                 className='loginButton'
                 value='Login'
                 onClick={() => spotifyImplicitAuth()}
@@ -191,7 +198,7 @@ class App extends Component {
             <div className='value'>{hipsterValue}</div>
           </div>
         </SliderRow>
-        <div className="calculateButton-section">
+        <div className='calculateButton-section'>
           <SpotifyButton
             type='button'
             className='calculateButton'
@@ -200,12 +207,12 @@ class App extends Component {
             disabled={this.state.loading}
           />
         </div>
-        <div className="song-info">
+        <div className='song-info'>
           {this.state.loading ? 
             <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
             : 
             <div>
-              <div className="player-section">
+              <div className='player-section'>
                 <Player 
                   access_token={this.state.params.access_token}
                   trackId={songRecommendation.id}
@@ -218,13 +225,14 @@ class App extends Component {
                     source: songRecommendation.preview_url
                   }}
                   ref={ref => (this.child = ref)}
+                  songInLibrary={this.state.songInLibrary}
                 />
               </div>
             </div>
           }
         </div>
         <div className='App-footer'>
-          <a  href="https://github.com/gillkyle/musicvault" target="_blank"><i className="fa fa-github" /></a>
+          <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
         </div>
       </div>
     );
