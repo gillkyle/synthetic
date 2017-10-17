@@ -1140,26 +1140,6 @@
     "time_signature": 4
   },
   {
-    "danceability": 0.696,
-    "energy": 0.441,
-    "key": 2,
-    "loudness": -6.403,
-    "mode": 1,
-    "speechiness": 0.104,
-    "acousticness": 0.475,
-    "instrumentalness": 0.000018,
-    "liveness": 0.106,
-    "valence": 0.431,
-    "tempo": 134.903,
-    "type": "audio_features",
-    "id": "4edCb2ONTusFsKNQiLYgAW",
-    "uri": "spotify:track:4edCb2ONTusFsKNQiLYgAW",
-    "track_href": "https://api.spotify.com/v1/tracks/4edCb2ONTusFsKNQiLYgAW",
-    "analysis_url": "https://api.spotify.com/v1/audio-analysis/4edCb2ONTusFsKNQiLYgAW",
-    "duration_ms": 272525,
-    "time_signature": 4
-  },
-  {
     "danceability": 0.685,
     "energy": 0.716,
     "key": 0,

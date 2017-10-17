@@ -14,29 +14,42 @@ const GreenPlayerDivider = glamorous.div({
 });
 
 class Player extends Component{
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			playStatus: 'play',
 			currentTime: 0,
-			songInLibrary: false
+			songInLibrary: props.songInLibrary
 		}
 	};
 
-	
 	componentDiDMount() {
+		console.log('rerender player');
 		this.props.ref(this);
+		this.setState({
+			currentTime: 0,
+			playStatus: 'play',
+			songInLibrary: this.props.songInLibrary
+		});
 	}
 	componentWillUnmount() {
 		this.loadInterval && clearInterval(this.loadInterval);
 		this.loadInterval = false;
 	}
 	shouldComponentUpdate(nextProps, nextState) {
-		return (nextProps.track.name !== this.props.track.name) || (nextProps.track.source !== this.props.track.source) || (this.state.songInLibrary !== nextState.songInLibrary) || (this.state.playStatus !== nextState.playStatus);
+		return (nextProps.track.name !== this.props.track.name) ||
+		 (nextProps.track.source !== this.props.track.source) || 
+		 (this.props.songInLibrary !== nextProps.songInLibrary) || 
+		 (this.state.playStatus !== nextState.playStatus) ||
+		 (this.state.currentTime !== nextState.currentTime);
 	}
 
 	method = () => {
 		console.log('stuff');
+		let audio = document.getElementById('audio');
+		audio.pause();
+		this.setState({ playStatus: 'play' });	
+		audio.load();
 	}
 
 	updateTime = (timestamp) => {
@@ -58,11 +71,6 @@ class Player extends Component{
 			console.log(error); 
 			this.setState({songInLibrary: true});
 		});
-		// axios.post(`https://api.spotify.com/v1/me/tracks?ids=${this.props.trackId}`, {}, 
-		// 	{headers: { 'Accept':'application/json', 'Authorization': 'Bearer ' + this.props.access_token }}
-		// ).catch(error => {
-		// 	console.log(error);
-		// });
 	};
 
 	togglePlay = () => {
@@ -95,25 +103,12 @@ class Player extends Component{
 	render() {
 		let params = getHashParams();
 		const { access_token, trackId } = this.props;
-		console.log(`params: ${JSON.stringify(params)}`);
-		if (params.access_token !== undefined) {
-			console.log('try and find song in library...');
-			axios.get(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackId}`, {
-				headers: { 'Authorization': 'Bearer ' + params.access_token }
-			})
-			.then(response => {
-				console.log(response.data[0]);
-				this.setState({ songInLibrary: response.data[0] });
-			}).catch(error => {
-				console.log(error);
-			});
-		}
-	
+
 		return (
 			<div className='Player'>
 				<div className='EmptyHeader'></div>
 				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
-				<Controls songInLibrary={this.state.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.addSong} onPlay={this.togglePlay} onNext={this.loadNext} />
+				<Controls songInLibrary={this.props.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.addSong} onPlay={this.togglePlay} onNext={this.props.nextSong} />
 				<GreenPlayerDivider />
 				<div className='Background' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<div className='Artwork' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>

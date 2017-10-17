@@ -35,10 +35,12 @@ class App extends Component {
       acousticValue: 50,
       danceValue: 50,
       hipsterValue: 50,
-      songRecommendation: songApiData.items[5].track,
+      songRecommendation: songApiData.items[0].track,
       params: {},
       loading: false,
-      songInLibrary: false
+      songInLibrary: false,
+      queue: songApiData.items,
+      queuePosition: 0,
     }
   }
 
@@ -71,7 +73,6 @@ class App extends Component {
       let songObj = data[i].track;
       let songDetails = dataDetails[i];
 
-      console.log(songObj.name);
       let trackId = songObj.id;
       trackIds.push(trackId);
 
@@ -105,14 +106,32 @@ class App extends Component {
     console.log(calculatedData);
 
     s.containsMySavedTracks([calculatedData[0].id], (error, response) => {
-			if (response === true) {
+      console.log('the response');
+      console.log(response[0]);
+			if (response[0] === true) {
         this.setState({songInLibrary: true});
-      };
+        console.log('song true');
+      } else {
+        this.setState({songInLibrary: false})
+        console.log('song false');
+      }
 		});
 
     this.setState({ songRecommendation: calculatedData[0], loading: false })
-    console.log('finished');
-    
+    let audio = document.getElementById('audio');
+		audio.load();
+    console.log('audio loaded');
+  };
+  
+  nextSong = () => {
+    console.log('next song');
+    let newQueuePosition = this.state.queuePosition + 1
+    this.setState({
+      queuePosition: newQueuePosition,
+      songRecommendation: this.state.queue[newQueuePosition].track
+    })
+    let audio = document.getElementById('audio');
+    audio.load();
   };
 
   render() {
@@ -226,6 +245,7 @@ class App extends Component {
                   }}
                   ref={ref => (this.child = ref)}
                   songInLibrary={this.state.songInLibrary}
+                  nextSong={this.nextSong}
                 />
               </div>
             </div>
