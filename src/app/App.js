@@ -13,7 +13,6 @@ import './styles/slider.css';
 import songApiData from './songData.json';
 import songDetailData from './songDetails.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
-import { isInLibrary } from '../javascripts/spotify';
 
 
 const SliderRow = glamorous.div({

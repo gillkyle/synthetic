@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Spotify from 'spotify-web-api-js';
 import glamorous from 'glamorous';
 import TrackInformation from './TrackInformation';
 import Scrubber from './Scrubber';
