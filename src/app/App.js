@@ -136,29 +136,46 @@ class App extends Component {
     let newQueuePosition = state.queuePosition + 1;
     const spotifyApi = new Spotify()
     spotifyApi.setAccessToken(state.params.access_token);
-    spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].track.id])
-    .then( (response) => {
-      console.log('in library');
-      console.log(response);
+
+    // check if user has access token before making request
+    if (this.state.params.access_token !== undefined) {
+      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].track.id])
+      .then( (response) => {
+        console.log('in library');
+        console.log(response);
+        this.setState({
+          queuePosition: newQueuePosition,
+          songRecommendation: state.queue[newQueuePosition].track,
+          songInLibrary: response[0]
+        })
+        let audio = document.getElementById('audio');
+        audio.load();
+        this.child.stopPlayback();
+      });
+    } else {
       this.setState({
         queuePosition: newQueuePosition,
-        songRecommendation: state.queue[newQueuePosition].track,
-        songInLibrary: response[0]
+        songRecommendation: state.queue[newQueuePosition].track
       })
       let audio = document.getElementById('audio');
       audio.load();
       this.child.stopPlayback();
-    });
+    }
+
   };
 
   addSong = () => {
 		console.log('add song to library');
 		const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
-    s.addToMySavedTracks([this.state.songRecommendation.id], {})
-    .then(() => {
-      this.setState({songInLibrary: true});
-    });
+    if (this.state.params.access_token !== undefined) {
+      s.addToMySavedTracks([this.state.songRecommendation.id], {})
+      .then(() => {
+        this.setState({songInLibrary: true});
+      });
+    } else {
+      window.alert('login to add songs to library');
+    }
 	};
 
   render() {
