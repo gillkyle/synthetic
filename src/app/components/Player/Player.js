@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
-import axios from 'axios';
 import glamorous from 'glamorous';
 import TrackInformation from './TrackInformation';
 import Scrubber from './Scrubber';
 import Controls from './Controls';
 import Timestamps from './Timestamps';
-import { getHashParams } from '../../../javascripts/helpers';
 
 
 const GreenPlayerDivider = glamorous.div({
@@ -18,18 +16,15 @@ class Player extends Component{
 		super(props);
 		this.state = {
 			playStatus: 'play',
-			currentTime: 0,
-			songInLibrary: props.songInLibrary
+			currentTime: 0
 		}
 	};
 
 	componentDiDMount() {
-		console.log('rerender player');
 		this.props.ref(this);
 		this.setState({
 			currentTime: 0,
-			playStatus: 'play',
-			songInLibrary: this.props.songInLibrary
+			playStatus: 'play'
 		});
 	}
 	componentWillUnmount() {
@@ -37,15 +32,18 @@ class Player extends Component{
 		this.loadInterval = false;
 	}
 	shouldComponentUpdate(nextProps, nextState) {
+		// set of conditions that check to make sure the Player should actually update UI 
+		// rather than get stuck infintie looping
 		return (nextProps.track.name !== this.props.track.name) ||
 		 (nextProps.track.source !== this.props.track.source) || 
 		 (this.props.songInLibrary !== nextProps.songInLibrary) || 
 		 (this.state.playStatus !== nextState.playStatus) ||
+		 (this.props.playStatus !== nextProps.playStatus) ||
 		 (this.state.currentTime !== nextState.currentTime);
 	}
 
-	method = () => {
-		console.log('stuff');
+	stopPlayback = () => {
+		// activated from App.js by higher level functions to stop the player playback
 		let audio = document.getElementById('audio');
 		audio.pause();
 		this.setState({ playStatus: 'play' });	
@@ -62,16 +60,6 @@ class Player extends Component{
 		let innerScrubber = document.querySelector('.Scrubber-Progress');
 		if (innerScrubber){innerScrubber.style['width'] = percent;}
 	}
-
-	addSong = () => {
-		console.log('add song to library');
-		const s = new Spotify();
-		s.setAccessToken(this.props.access_token);
-		s.addToMySavedTracks([this.props.trackId], {}, (error, response) => {
-			console.log(error); 
-			this.setState({songInLibrary: true});
-		});
-	};
 
 	togglePlay = () => {
 		let status = this.state.playStatus;
@@ -101,14 +89,11 @@ class Player extends Component{
 	};
 
 	render() {
-		let params = getHashParams();
-		const { access_token, trackId } = this.props;
-
 		return (
 			<div className='Player'>
 				<div className='EmptyHeader'></div>
 				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
-				<Controls songInLibrary={this.props.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.addSong} onPlay={this.togglePlay} onNext={this.props.nextSong} />
+				<Controls songInLibrary={this.props.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.props.addSong} onPlay={this.togglePlay} onNext={this.props.nextSong} />
 				<GreenPlayerDivider />
 				<div className='Background' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<div className='Artwork' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
-import axios from 'axios';
 import glamorous from 'glamorous';
 import SpotifyButton from './components/Button';
 import Slider from './components/Slider/Slider';
@@ -14,6 +13,7 @@ import './styles/slider.css';
 import songApiData from './songData.json';
 import songDetailData from './songDetails.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
+import { isInLibrary } from '../javascripts/spotify';
 
 
 const SliderRow = glamorous.div({
@@ -40,13 +40,24 @@ class App extends Component {
       loading: false,
       songInLibrary: false,
       queue: songApiData.items,
-      queuePosition: 0,
+      queuePosition: 0
     }
+    this.nextSong = this.nextSong.bind(this);
+    this.addSong = this.addSong.bind(this);
   }
 
   componentDidMount() {
     this.setState({ params: getHashParams()});
     setLoginEventListener();
+    const spotifyApi = new Spotify()
+    spotifyApi.setAccessToken(this.state.params.access_token);
+    spotifyApi.containsMySavedTracks([this.state.songRecommendation.id])
+    .then( (response) => {
+      console.log(response);
+      this.setState({
+        songInLibrary: response[0]
+      })
+    });
   }
 
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
@@ -58,12 +69,11 @@ class App extends Component {
   handleClick = () => {
     console.log('starting...');
     this.setState({loading: true});
-    this.child.method();
+    this.child.stopPlayback();
 
     let data = songApiData.items;
     let dataDetails = songDetailData;
     let calculatedData = [];
-    let promises = [];
     let trackIds = [];
     const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
@@ -105,17 +115,15 @@ class App extends Component {
     calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
     console.log(calculatedData);
 
-    s.containsMySavedTracks([calculatedData[0].id], (error, response) => {
-      console.log('the response');
-      console.log(response[0]);
-			if (response[0] === true) {
-        this.setState({songInLibrary: true});
-        console.log('song true');
-      } else {
-        this.setState({songInLibrary: false})
-        console.log('song false');
-      }
-		});
+    if (this.state.params.access_token){
+      s.containsMySavedTracks([calculatedData[0].id])
+      .then((response) => {
+        console.log('in songs');
+        console.log(response);
+        this.setState({ songInLibrary: response[0] })
+      });
+    }
+    
 
     this.setState({ songRecommendation: calculatedData[0], loading: false })
     let audio = document.getElementById('audio');
@@ -125,14 +133,34 @@ class App extends Component {
   
   nextSong = () => {
     console.log('next song');
-    let newQueuePosition = this.state.queuePosition + 1
-    this.setState({
-      queuePosition: newQueuePosition,
-      songRecommendation: this.state.queue[newQueuePosition].track
-    })
-    let audio = document.getElementById('audio');
-    audio.load();
+    let state = this.state;
+    let newQueuePosition = state.queuePosition + 1;
+    const spotifyApi = new Spotify()
+    spotifyApi.setAccessToken(state.params.access_token);
+    spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].track.id])
+    .then( (response) => {
+      console.log('in library');
+      console.log(response);
+      this.setState({
+        queuePosition: newQueuePosition,
+        songRecommendation: state.queue[newQueuePosition].track,
+        songInLibrary: response[0]
+      })
+      let audio = document.getElementById('audio');
+      audio.load();
+      this.child.stopPlayback();
+    });
   };
+
+  addSong = () => {
+		console.log('add song to library');
+		const s = new Spotify();
+		s.setAccessToken(this.state.params.access_token);
+    s.addToMySavedTracks([this.state.songRecommendation.id], {})
+    .then(() => {
+      this.setState({songInLibrary: true});
+    });
+	};
 
   render() {
     const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
@@ -246,6 +274,7 @@ class App extends Component {
                   ref={ref => (this.child = ref)}
                   songInLibrary={this.state.songInLibrary}
                   nextSong={this.nextSong}
+                  addSong={this.addSong}
                 />
               </div>
             </div>
