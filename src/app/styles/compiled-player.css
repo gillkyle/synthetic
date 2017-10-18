@@ -5,6 +5,11 @@
   color: white;
   justify-content: center;
 }
+@media only screen and (max-width: 768px) {
+  .player-section {
+    flex-direction: column;
+  }
+}
 .Player {
   background: #383838;
   overflow: hidden;

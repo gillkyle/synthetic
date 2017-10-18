@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
 import glamorous from 'glamorous';
+import Spinner from 'react-spinkit'
+
+// component imports
 import SpotifyButton from './components/Button';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
-import Spinner from 'react-spinkit'
-import './styles/main.css';
-import './styles/details.css';
+import SongStatistics from './components/SongStats/SongStatistics';
+
+// css imports
 import './styles/buttons.css';
 import './styles/compiled-player.css';
+import './styles/details.css';
+import './styles/main.css';
 import './styles/slider.css';
+import './styles/song-statistics.css';
+
+// data imports
 import songApiData from './songData.json';
 import songDetailData from './songDetails.json';
+
+// helper function imports
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
@@ -24,6 +34,14 @@ const SliderRow = glamorous.div({
     paddingBottom: 5,
   }
 });
+const calcInitialQueue = () => {
+  let queue = [];
+  let data = songApiData.items;
+  for (let i = 0; i < data.length; i++){
+    queue.push(data[i].track);
+  }
+  return queue;
+}
 
 class App extends Component {
   constructor(props, context) {
@@ -38,7 +56,7 @@ class App extends Component {
       params: {},
       loading: false,
       songInLibrary: false,
-      queue: songApiData.items,
+      queue: calcInitialQueue(),
       queuePosition: 0
     }
     this.nextSong = this.nextSong.bind(this);
@@ -123,8 +141,13 @@ class App extends Component {
       });
     }
     
-
-    this.setState({ songRecommendation: calculatedData[0], loading: false })
+    // final assignment of top calculated track, remove loading, and load the queue
+    this.setState({ 
+      songRecommendation: calculatedData[0], 
+      loading: false,
+      queue: calculatedData,
+      queuePosition: 0
+    })
     let audio = document.getElementById('audio');
 		audio.load();
     console.log('audio loaded');
@@ -139,13 +162,13 @@ class App extends Component {
 
     // check if user has access token before making request
     if (this.state.params.access_token !== undefined) {
-      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].track.id])
+      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
       .then( (response) => {
         console.log('in library');
         console.log(response);
         this.setState({
           queuePosition: newQueuePosition,
-          songRecommendation: state.queue[newQueuePosition].track,
+          songRecommendation: state.queue[newQueuePosition],
           songInLibrary: response[0]
         })
         let audio = document.getElementById('audio');
@@ -155,7 +178,7 @@ class App extends Component {
     } else {
       this.setState({
         queuePosition: newQueuePosition,
-        songRecommendation: state.queue[newQueuePosition].track
+        songRecommendation: state.queue[newQueuePosition]
       })
       let audio = document.getElementById('audio');
       audio.load();
@@ -276,6 +299,7 @@ class App extends Component {
             : 
             <div>
               <div className='player-section'>
+                <div style={{width: 320, margin: 20}}>.</div>
                 <Player 
                   access_token={this.state.params.access_token}
                   trackId={songRecommendation.id}
@@ -291,6 +315,10 @@ class App extends Component {
                   songInLibrary={this.state.songInLibrary}
                   nextSong={this.nextSong}
                   addSong={this.addSong}
+                />
+                <SongStatistics
+                  track={songRecommendation}
+                  trackDetails={songDetailData[this.state.queuePosition]}
                 />
               </div>
             </div>

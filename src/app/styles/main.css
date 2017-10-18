@@ -1,7 +1,6 @@
 body {
   /* background: linear-gradient(to left, #27b7ff, #70D5FF); */
   background: #191414;
-  /* background: #191414; */
   font-family: 'Montserrat', sans-serif;
   color: #5e5a5a;
 }
@@ -17,15 +16,6 @@ h4 {
 
 .App {
   text-align: center;  
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 30s linear;
-  height: 40px;
-}
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .App-header {
