@@ -3,16 +3,16 @@
 }
 .calculateButton {
   border-radius: 38px !important;
-  height: 75px;
-  width: 250px;
-  font-size: 24px !important;
+  height: 60px;
+  width: 225px;
+  font-size: 20px !important;
   color: #eee !important;
-  background-color: #1db954 !important;
+  background: linear-gradient(to left, #27b7ff, #70D5FF) !important;
   transform: scale(1.0) !important;
   transition: transform .15s ease !important;
 }
 .calculateButton:hover {
-  background-color: #37CA6A !important;
+  background: linear-gradient(to left, #39BDFF, #80D9FF) !important;
   transform: scale(1.035) !important;
   transition: transform .2s ease !important;
 }
@@ -28,14 +28,15 @@
   width: 125px;
   font-size: 14px !important;
   color: #eee !important;
-  background-color: #1db954 !important;
+  border: 1.5px solid #aaa !important;
+  background-color: rgba(0,0,0,0) !important;
   transform: scale(1.0) !important;
   transition: transform .15s ease !important;
 }
 .loginButton:hover {
-  background-color: #37CA6A !important;
   transform: scale(1.035) !important;
   transition: transform .2s ease !important;
+  border: 2px solid #aaa !important;
 }
 .loginButton:active {
   color: #ccc !important;

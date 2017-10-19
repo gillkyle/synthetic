@@ -7,7 +7,7 @@ import Timestamps from './Timestamps';
 
 
 const GreenPlayerDivider = glamorous.div({
-	borderBottom: '3px solid #1db954'
+	borderBottom: '3px solid #34BAFD'
 });
 
 class Player extends Component{

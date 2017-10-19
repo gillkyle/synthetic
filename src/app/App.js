@@ -5,7 +5,7 @@ import Spinner from 'react-spinkit'
 
 // component imports
 import SpotifyButton from './components/Button';
-import Slider from './components/Slider/Slider';
+import SliderSelector from './components/Slider/SliderSelector';
 import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
 
@@ -25,15 +25,6 @@ import songDetailData from './songDetails.json';
 import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
 
 
-const SliderRow = glamorous.div({
-  maxWidth: 820,
-  margin: '0 auto',
-  paddingBottom: 20,
-  lineHeight: 1.25,
-  '@media only screen and (max-width: 768px)': {
-    paddingBottom: 5,
-  }
-});
 const calcInitialQueue = () => {
   let queue = [];
   let data = songApiData.items;
@@ -224,66 +215,31 @@ class App extends Component {
           </div>
           <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
         </div>
-        <SliderRow>
-          <div className='slider-grid'>
-            <div className='slider-label'>ENERGY</div>
-            <Slider
-              min={0}
-              max={100}
-              value={energyValue}
-              onChange={this.handleEnergyChange}
-            />
-            <div className='value'>{energyValue}</div>
-          </div>
-        </SliderRow>
-        <SliderRow>
-          <div className='slider-grid'>
-            <div className='slider-label'>VALENCE</div>
-            <Slider
-              min={0}
-              max={100}
-              value={valenceValue}
-              onChange={this.handleValenceChange}
-            />
-            <div className='value'>{valenceValue}</div>
-          </div>
-        </SliderRow>
-        <SliderRow>
-          <div className='slider-grid'>
-            <div className='slider-label'>ACOUSTIC</div>
-            <Slider
-              min={0}
-              max={100}
-              value={acousticValue}
-              onChange={this.handleAcousticChange}
-            />
-            <div className='value'>{acousticValue}</div>
-          </div>
-        </SliderRow>
-        <SliderRow>
-          <div className='slider-grid'>
-            <div className='slider-label'>DANCE</div>
-            <Slider
-              min={0}
-              max={100}
-              value={danceValue}
-              onChange={this.handleDanceChange}
-            />
-            <div className='value'>{danceValue}</div>
-          </div>
-        </SliderRow>
-        <SliderRow>
-          <div className='slider-grid'>
-            <div className='slider-label'>HIPSTER</div>
-            <Slider
-              min={0}
-              max={100}
-              value={hipsterValue}
-              onChange={this.handleHipsterChange}
-            />
-            <div className='value'>{hipsterValue}</div>
-          </div>
-        </SliderRow>
+        <SliderSelector
+          label="ENERGY"
+          value={energyValue}
+          onChange={this.handleEnergyChange}
+        />
+        <SliderSelector
+          label="VALENCE"
+          value={valenceValue}
+          onChange={this.handleValenceChange}
+        />
+        <SliderSelector
+          label="ACOUSTIC"
+          value={acousticValue}
+          onChange={this.handleAcousticChange}
+        />
+        <SliderSelector
+          label="DANCE"
+          value={danceValue}
+          onChange={this.handleDanceChange}
+        />
+        <SliderSelector
+          label="HIPSTER"
+          value={hipsterValue}
+          onChange={this.handleHipsterChange}
+        />
         <div className='calculateButton-section'>
           <SpotifyButton
             type='button'
@@ -295,11 +251,11 @@ class App extends Component {
         </div>
         <div className='song-info'>
           {this.state.loading ? 
-            <Spinner name='line-scale-pulse-out-rapid' color='#1db954' fadeIn='quarter' /> 
+            <Spinner name='line-scale-pulse-out-rapid' color='#34BAFD' fadeIn='quarter' /> 
             : 
             <div>
               <div className='player-section'>
-                <div style={{width: 320, margin: 20}}>.</div>
+                <div style={{width: 300, margin: 20}}>.</div>
                 <Player 
                   access_token={this.state.params.access_token}
                   trackId={songRecommendation.id}
@@ -323,6 +279,9 @@ class App extends Component {
               </div>
             </div>
           }
+        </div>
+        <div className="instructions">
+          <h2>HOW IT WORKS</h2>
         </div>
         <div className='App-footer'>
           <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>

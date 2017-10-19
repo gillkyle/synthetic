@@ -1,5 +1,5 @@
 .player-section {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   font-family: 'Montserrat', sans-serif;
   color: white;
@@ -68,13 +68,13 @@
   transition: opacity 0.25s ease;
 }
 .Player .Scrubber .Scrubber-Progress {
-  background: -moz-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #1db954 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 71, 0, 0)), color-stop(100%, #1db954));
-  background: -webkit-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #1db954 100%);
-  background: -o-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #1db954 100%);
-  background: -ms-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #1db954 100%);
-  background: linear-gradient(to bottom, rgba(255, 71, 0, 0) 0%, #1db954 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1db954', endColorstr='#1db954', GradientType=0);
+  background: -moz-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #34BAFD 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 71, 0, 0)), color-stop(100%, #34BAFD));
+  background: -webkit-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #34BAFD 100%);
+  background: -o-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #34BAFD 100%);
+  background: -ms-linear-gradient(top, rgba(255, 71, 0, 0) 0%, #34BAFD 100%);
+  background: linear-gradient(to bottom, rgba(255, 71, 0, 0) 0%, #34BAFD 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#34BAFD', endColorstr='#34BAFD', GradientType=0);
   height: 100%;
   width: 0%;
   transition: width 0.25s ease;
@@ -124,7 +124,7 @@
   transform: scale(0.98);
 }
 .Player .Controls .Button:active .fa {
-  color: #1db954;
+  color: #34BAFD;
   opacity: 1;
 }
 .Player .Controls .Button .fa {
@@ -140,7 +140,7 @@
   border-radius: 75px;
 }
 .PlayButton:active {
-  border: 2px solid #1db954;
+  border: 2px solid #34BAFD;
 }
 
 .EmptyHeader {

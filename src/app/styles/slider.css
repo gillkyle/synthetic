@@ -4,23 +4,23 @@
   align-items: center;
 }
 .slider-label {
-  width: 25% !important;
-  font-size: 24px;
+  width: 30% !important;
+  font-size: 20px;
   vertical-align: center;
   color: #eee;
   text-align: right;
 }
 .value {
-  width: 25% !important;
-  font-size: 24px;
+  width: 30% !important;
+  font-size: 20px;
   color: #eee;
   text-align: left;
 }
 
 .rangeslider-horizontal {
-  width: 40%;
+  width: 300px;
   margin: 0 auto;
-  height:25px;
+  height:20px;
   border-radius: 20px;
 }
 @media only screen and (max-width: 768px) {
@@ -31,20 +31,20 @@
   }
   .slider-label {
     width: 50% !important;
-    font-size: 30px;
+    font-size: 20px;
     color: #eee;
     text-align: center;
   }
   .value {
     width: 50% !important;
-    font-size: 30px;
+    font-size: 20px;
     color: #eee;
     text-align: center;
   }
   .rangeslider-horizontal {
     width: 75%;
     margin: 0 auto;
-    height: 25px;
+    height: 20px;
     border-radius: 20px;
   }
 }
@@ -54,7 +54,7 @@
 }
 .rangeslider__handle {
   width: 60px !important;
-  height: 30px !important;
+  height: 25px !important;
   box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 1.5px 1.5px rgba(0,0,0,0.12) !important;
 }
 .rangeslider__handle:focus {

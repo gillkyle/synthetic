@@ -1,37 +1,22 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
+import StatGraphRow from './StatGraphRow';
+import { StatRow, StatTitle, StatValue, StatGraphHolder, StatGraph, StatDoubleNumber } from './StatElements';
 
 const Title = glamorous.div({
   color: '#eee',
   fontSize: 26,
-  marginBottom: 10,
+  marginBottom: 25,
   textAlign: 'left'
 })
-const StatRow = glamorous.div({
-  '@supports (display: grid)': {
-    display: 'grid',
-    gridTemplateColumns: '2fr 0.5fr 2.5fr',
-    gridTemplateAreas: `
-      "title value graph"
-    `,
-    gridGap: '10px',
-  },
+const Subtitle = glamorous.div({
+  color: '#eee',
+  fontSize: 18,
+  marginTop: 10,
+  marginBottom: 20,
+  textAlign: 'left'
 })
-const StatTitle = glamorous.div({
-  color: '#bbb',
-  gridArea: 'title',
-  textAlign: 'right'
-})
-const StatValue = glamorous.div({
-  color: '#777',
-  gridArea: 'value',
-  textAlign: 'right'
-})
-const StatGraph = glamorous.div({
-  color: '#777',
-  gridArea: 'graph',
-  backgroundColor: 'green',
-})
+
 
 class SongStatistics extends Component{
 	constructor(props) {
@@ -46,31 +31,45 @@ class SongStatistics extends Component{
     return (
       <div className='SongStats'>
         <Title>Audio Analysis</Title>
-        <StatRow> 
-          <StatTitle>Energy</StatTitle>
-          <StatValue>{(trackDetails.energy * 100).toFixed(0)}</StatValue> 
-          <StatGraph style={{ width: trackDetails.energy * 100 }}> </StatGraph>
-        </StatRow>
-        <StatRow> 
-          <StatTitle>Valence</StatTitle>
-          <StatValue>{(trackDetails.valence * 100).toFixed(0)}</StatValue> 
-          <StatGraph style={{ width: trackDetails.valence * 100 }}> </StatGraph>
-        </StatRow>
-        <StatRow> 
-          <StatTitle>Acoustic</StatTitle>
-          <StatValue>{(trackDetails.acousticness * 100).toFixed(0)}</StatValue> 
-          <StatGraph style={{ width: trackDetails.acousticness * 100 }}> </StatGraph>
-        </StatRow>
-        <StatRow> 
-          <StatTitle>Dance</StatTitle>
-          <StatValue>{(trackDetails.danceability * 100).toFixed(0)}</StatValue> 
-          <StatGraph style={{ width: trackDetails.danceability * 100 }}> </StatGraph>
-        </StatRow>
+        <StatGraphRow
+          label="Energy"
+          detailName="energy"
+          track={track}
+          trackDetails={trackDetails}
+        />
+        <StatGraphRow
+          label="Valence"
+          detailName="valence"
+          track={track}
+          trackDetails={trackDetails}
+        />
+        <StatGraphRow
+          label="Acoustic"
+          detailName="acousticness"
+          track={track}
+          trackDetails={trackDetails}
+        />
+        <StatGraphRow
+          label="Dance"
+          detailName="danceability"
+          track={track}
+          trackDetails={trackDetails}
+        />
         <StatRow> 
           <StatTitle>Popularity</StatTitle>
           <StatValue>{(track.popularity).toFixed(0)}</StatValue> 
-          <StatGraph style={{ width: track.popularity }}> </StatGraph>
+          <StatGraphHolder>
+            <StatGraph style={{ width: `${track.popularity}%` }}> </StatGraph>
+          </StatGraphHolder>
         </StatRow>
+        <Subtitle>Composite Score <span style={{color: '#70D5FF'}}>{500 - track.ResultDifference}</span>
+          </Subtitle>
+        <StatDoubleNumber>
+          <StatTitle>BPM</StatTitle>
+          <StatValue>{(trackDetails.tempo).toFixed(0)}</StatValue> 
+          {/* <StatTitle style={{gridArea: 'title2'}}>BPM</StatTitle>
+          <StatValue style={{gridArea: 'value2'}}>{(trackDetails.tempo).toFixed(0)}</StatValue>  */}
+        </StatDoubleNumber>
       </div>
     )
   }

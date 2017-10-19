@@ -39,3 +39,8 @@ h4 {
   right: 15px;
 }
 
+.instructions {
+  background: #1E1B1B;
+  margin: 60px 0px 60px 0px;
+  padding: 75px
+}

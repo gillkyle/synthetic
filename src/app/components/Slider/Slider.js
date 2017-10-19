@@ -301,8 +301,8 @@ class Slider extends Component {
     const coords = this.coordinates(position)
     const fillStyle = { 
       [dimension]: `${coords.fill}px`,
-      backgroundColor: '#1db954',
-      filter: `contrast(${(value*.5)+50}%) hue-rotate(${(value*.125)+337}deg) opacity(${(value*.25)+75}%)`
+      background: 'linear-gradient(to left, #27b7ff, #70D5FF)',
+      filter: `brightness(${(value*.2)+80}%) opacity(${(value*.25)+75}%)`
     }
     const handleStyle = { [direction]: `${coords.handle}px` }
     let showTooltip = tooltip && active
