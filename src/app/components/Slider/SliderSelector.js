@@ -14,15 +14,8 @@ const SliderRow = glamorous.div({
 });
 
 class SliderSelector extends Component{
-	constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  };
-
   render() {
-    const { label, value, onChange } = this.props;
+    const { label, value } = this.props;
     return (
       <SliderRow>
         <div className='slider-grid'>

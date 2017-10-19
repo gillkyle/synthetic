@@ -19,13 +19,6 @@ const Subtitle = glamorous.div({
 
 
 class SongStatistics extends Component{
-	constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  };
-
   render() {
     const { track, trackDetails } = this.props;
     return (

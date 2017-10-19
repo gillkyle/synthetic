@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
-import glamorous from 'glamorous';
 import Spinner from 'react-spinkit'
 
 // component imports
@@ -57,15 +56,17 @@ class App extends Component {
   componentDidMount() {
     this.setState({ params: getHashParams()});
     setLoginEventListener();
-    const spotifyApi = new Spotify()
-    spotifyApi.setAccessToken(this.state.params.access_token);
-    spotifyApi.containsMySavedTracks([this.state.songRecommendation.id])
-    .then( (response) => {
-      console.log(response);
-      this.setState({
-        songInLibrary: response[0]
-      })
-    });
+    if (this.state.params.access_token) {
+      const spotifyApi = new Spotify()
+      spotifyApi.setAccessToken(this.state.params.access_token);
+      spotifyApi.containsMySavedTracks([this.state.songRecommendation.id])
+      .then( (response) => {
+        console.log(response);
+        this.setState({
+          songInLibrary: response[0]
+        })
+      });
+    }
   }
 
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
@@ -196,9 +197,8 @@ class App extends Component {
     const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
     return (
       <div className='App'>
-        <div className='App-header'>
-          <div>
-            <h2>MUSIC VAULT</h2>
+        <div className='app-header'>
+            <div className='app-header-title'>MUSIC VAULT</div>
             <div className='login-section'>
               {this.state.params.access_token ? 
               'Logged In'
@@ -212,9 +212,8 @@ class App extends Component {
               />
               } 
             </div>
-          </div>
-          <h4>Adjust the sliders and press calculate to receive an algorithmically generated recommendation.</h4>
         </div>
+        <div className='playlist-selector'>Standard Selection</div>
         <SliderSelector
           label="ENERGY"
           value={energyValue}
@@ -283,7 +282,7 @@ class App extends Component {
         <div className="instructions">
           <h2>HOW IT WORKS</h2>
         </div>
-        <div className='App-footer'>
+        <div className='app-footer'>
           <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
         </div>
       </div>
