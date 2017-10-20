@@ -22,7 +22,7 @@ class SongStatistics extends Component{
   render() {
     const { track, trackDetails } = this.props;
     return (
-      <div className='SongStats'>
+      <div className='stats-section'>
         <Title>Audio Analysis</Title>
         <StatGraphRow
           label="Energy"

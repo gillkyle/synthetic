@@ -8,6 +8,7 @@ import BigButton from './components/Button';
 import SliderSelector from './components/Slider/SliderSelector';
 import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
+import RadarSection from './components/Radar/RadarSection';
 import HowItWorks from './components/Instructions/HowItWorks';
 
 // css imports
@@ -16,7 +17,6 @@ import './styles/compiled-player.css';
 import './styles/details.css';
 import './styles/main.css';
 import './styles/slider.css';
-import './styles/song-statistics.css';
 
 // data imports
 import songApiData from './songData.json';
@@ -43,7 +43,7 @@ class App extends Component {
       valenceValue: 50,
       acousticValue: 50,
       danceValue: 50,
-      hipsterValue: 50,
+      popularityValue: 50,
       songRecommendation: songApiData.items[0].track,
       params: {},
       loading: false,
@@ -76,7 +76,7 @@ class App extends Component {
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
   handleAcousticChange = value => { this.setState({ acousticValue: value }) };
   handleDanceChange = value => { this.setState({ danceValue: value }) };
-  handleHipsterChange = value => { this.setState({ hipsterValue: value }) };
+  handlePopularityChange = value => { this.setState({ popularityValue: value }) };
 
   handleClick = () => {
     console.log('starting...');
@@ -104,14 +104,14 @@ class App extends Component {
       let trackValence = Math.round(trackDetails.valence*100) || 0;
       let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
       let trackDance = Math.round(trackDetails.danceability*100) || 0;
-      let trackHipster = Math.abs(Math.round(songObj.popularity-100));
+      let trackPopularity = Math.abs(Math.round(songObj.popularity));
 
       let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
       let differenceValence = Math.abs(trackValence - this.state.valenceValue);
       let differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue);
       let differenceDance = Math.abs(trackDance - this.state.danceValue);
-      let differenceHipster = Math.abs(trackHipster - this.state.hipsterValue);
-      let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differenceHipster;
+      let differencePopularity = Math.abs(trackPopularity - this.state.popularityValue);
+      let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differencePopularity;
       songObj['ResultDifference'] = totalDifference;
       calculatedData.push(songObj);
 
@@ -212,7 +212,7 @@ class App extends Component {
   }
 
   render() {
-    const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
+    const { energyValue, valenceValue, acousticValue, danceValue, popularityValue, songRecommendation } = this.state
     return (
       <div className='App'>
         <div className='app-header'>
@@ -253,9 +253,9 @@ class App extends Component {
           onChange={this.handleDanceChange}
         />
         <SliderSelector
-          label="HIPSTER"
-          value={hipsterValue}
-          onChange={this.handleHipsterChange}
+          label="POPULARITY"
+          value={popularityValue}
+          onChange={this.handlePopularityChange}
         />
         <div className='calculateButton-section'>
           <BigButton
@@ -272,7 +272,15 @@ class App extends Component {
             : 
             <div>
               <div className='player-section'>
-                <div style={{width: 300, margin: 20}}>.</div>
+                <RadarSection 
+                  energyValue={this.state.energyValue}
+                  valenceValue={this.state.valenceValue}
+                  acousticValue={this.state.acousticValue}
+                  danceValue={this.state.danceValue}
+                  popularityValue={this.state.popularityValue}
+                  track={songRecommendation}
+                  trackDetails={songDetailData[this.state.queuePosition]}
+                />
                 <Player 
                   access_token={this.state.params.access_token}
                   trackId={songRecommendation.id}

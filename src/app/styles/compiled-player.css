@@ -1,6 +1,9 @@
 .player-section {
+  display: grid;
+  grid-template-areas: "... radar player stats ...";
+  grid-template-columns: 0.75fr 1fr 300px 1fr 0.75fr;
+  grid-gap: 20px;
   align-items: flex-start;
-  display: flex;
   font-family: 'Montserrat', sans-serif;
   color: white;
   justify-content: center;
@@ -12,6 +15,7 @@
   }
 }
 .Player {
+  grid-area: player;
   background: #383838;
   overflow: hidden;
   box-shadow: 0 5px 10px -5px rgba(18, 18, 18, 1);
