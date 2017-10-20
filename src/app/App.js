@@ -7,6 +7,7 @@ import SpotifyButton from './components/Button';
 import SliderSelector from './components/Slider/SliderSelector';
 import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
+import HowItWorks from './components/Instructions/HowItWorks';
 
 // css imports
 import './styles/buttons.css';
@@ -279,9 +280,7 @@ class App extends Component {
             </div>
           }
         </div>
-        <div className="instructions">
-          <h2>HOW IT WORKS</h2>
-        </div>
+        <HowItWorks />
         <div className='app-footer'>
           <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
         </div>
