@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
 import StatGraphRow from './StatGraphRow';
-import { StatRow, StatTitle, StatValue, StatGraphHolder, StatGraph, StatDoubleNumber } from './StatElements';
+import { KeySignatures, StatRow, StatTitle, StatTag, StatLabel, StatValue, StatGraphHolder, StatGraph, StatText, TitleGraph } from './StatElements';
 
 const Title = glamorous.div({
   color: '#eee',
@@ -56,13 +56,27 @@ class SongStatistics extends Component{
           </StatGraphHolder>
         </StatRow>
         <Subtitle>Composite Score <span style={{color: '#70D5FF'}}>{500 - track.ResultDifference}</span>
-          </Subtitle>
-        <StatDoubleNumber>
+        </Subtitle>
+        <TitleGraph> 
+          <StatTitle>{trackDetails.instrumentalness >= 0.5 ? 'Instrumental' : 'Vocal'}</StatTitle>
+          <StatGraphHolder>
+            <StatGraph style={{ width: `${(Math.abs(trackDetails.instrumentalness-0.5)*2) * 100}%` }}> </StatGraph>
+          </StatGraphHolder>
+        </TitleGraph>
+        <StatText>
+          <StatTag>{track.explicit ? 'EXPLICIT' : 'CLEAN'}</StatTag>
+        </StatText>
+        <StatText>
           <StatTitle>BPM</StatTitle>
-          <StatValue>{(trackDetails.tempo).toFixed(0)}</StatValue> 
+          <StatLabel>{(trackDetails.tempo).toFixed(0)}</StatLabel> 
           {/* <StatTitle style={{gridArea: 'title2'}}>BPM</StatTitle>
           <StatValue style={{gridArea: 'value2'}}>{(trackDetails.tempo).toFixed(0)}</StatValue>  */}
-        </StatDoubleNumber>
+        </StatText>
+        <StatText>
+          <StatTitle>Key</StatTitle>
+          <StatLabel>{KeySignatures[trackDetails.key]}</StatLabel> 
+        </StatText>
+        <div style={{fontSize: 9, color: '#444', textAlign: 'left'}}>* all analyses and metrics are approximations and may not accurately reflect the true nature of track</div>
       </div>
     )
   }

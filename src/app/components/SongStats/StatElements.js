@@ -1,5 +1,20 @@
 import glamorous from 'glamorous';
 
+const KeySignatures = {
+  0: 'C',
+  1: 'C♯, D♭',
+  2: 'D',
+  3: 'D♯, E♭',
+  4: 'E',
+  5: 'F',
+  6: 'F♯, G♭',
+  7: 'G',
+  8: 'G♯, A♭',
+  9: 'A',
+  10: 'A♯, B♭',
+  11: 'B'
+}
+
 const StatRow = glamorous.div({
   '@supports (display: grid)': {
     display: 'grid',
@@ -12,12 +27,24 @@ const StatRow = glamorous.div({
   fontSize: 17,
   marginBottom: 15
 })
-const StatDoubleNumber = glamorous.div({
+const TitleGraph = glamorous.div({
   '@supports (display: grid)': {
     display: 'grid',
-    gridTemplateColumns: '1.5fr 0.5fr 0.5fr 1.5fr 0.5fr',
+    gridTemplateColumns: '2fr 3fr',
     gridTemplateAreas: `
-      "title value blank title2 value2"
+      "title graph"
+    `,
+    gridGap: '20px',
+  },
+  fontSize: 17,
+  marginBottom: 15
+})
+const StatText = glamorous.div({
+  '@supports (display: grid)': {
+    display: 'grid',
+    gridTemplateColumns: '1.5fr 3.5fr',
+    gridTemplateAreas: `
+      "title label"
     `,
     gridGap: '10px',
   },
@@ -29,10 +56,23 @@ const StatTitle = glamorous.div({
   gridArea: 'title',
   textAlign: 'left'
 })
+const StatTag = glamorous.div({
+  color: '#bbb',
+  gridArea: 'title',
+  textAlign: 'center',
+  border: 'solid 1px #ccc',
+  borderRadius: 2,
+  padding: 5
+})
 const StatValue = glamorous.div({
   color: '#777',
   gridArea: 'value',
   textAlign: 'right'
+})
+const StatLabel = glamorous.div({
+  color: '#777',
+  gridArea: 'label',
+  textAlign: 'left'
 })
 const StatGraphHolder = glamorous.div({
   gridArea: 'graph',
@@ -47,4 +87,4 @@ const StatGraph = glamorous.div({
   borderRadius: '3px'
 })
 
-export { StatRow, StatTitle, StatValue, StatGraphHolder, StatGraph, StatDoubleNumber }
+export { KeySignatures, StatRow, StatTitle, StatTag, StatLabel, StatValue, StatGraphHolder, StatGraph, StatText, TitleGraph }

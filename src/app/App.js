@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
-import Spinner from 'react-spinkit'
+import Spinner from 'react-spinkit';
+import AlertContainer from 'react-alert';
 
 // component imports
-import SpotifyButton from './components/Button';
+import BigButton from './components/Button';
 import SliderSelector from './components/Slider/SliderSelector';
 import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
@@ -22,7 +23,7 @@ import songApiData from './songData.json';
 import songDetailData from './songDetails.json';
 
 // helper function imports
-import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from '../javascripts/helpers';
+import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from './javascripts/helpers';
 
 
 const calcInitialQueue = () => {
@@ -57,6 +58,7 @@ class App extends Component {
   componentDidMount() {
     this.setState({ params: getHashParams()});
     setLoginEventListener();
+    setInterval(() => {this.setState({ params: undefined }); window.alert('been 1 hour');}, 1000 * 60 * 60);
     if (this.state.params.access_token) {
       const spotifyApi = new Spotify()
       spotifyApi.setAccessToken(this.state.params.access_token);
@@ -190,21 +192,36 @@ class App extends Component {
         this.setState({songInLibrary: true});
       });
     } else {
-      window.alert('login to add songs to library');
+      this.showAlert();
     }
-	};
+  };
+  
+  alertOptions = {
+    offset: 14,
+    position: 'bottom right',
+    theme: 'dark',
+    time: 5000,
+    transition: 'fade'
+  }
+  showAlert = () => {
+    this.msg.show('Login with Spotify to add songs to your library', {
+      time: 4000,
+      type: 'success',
+      icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
+    })
+  }
 
   render() {
     const { energyValue, valenceValue, acousticValue, danceValue, hipsterValue, songRecommendation } = this.state
     return (
       <div className='App'>
         <div className='app-header'>
-            <div className='app-header-title'>MUSIC VAULT</div>
+            <div className='app-header-title'>MUSIC+</div>
             <div className='login-section'>
               {this.state.params.access_token ? 
               'Logged In'
                :
-               <SpotifyButton
+               <BigButton
                 type='button'
                 id='login-button'
                 className='loginButton'
@@ -241,7 +258,7 @@ class App extends Component {
           onChange={this.handleHipsterChange}
         />
         <div className='calculateButton-section'>
-          <SpotifyButton
+          <BigButton
             type='button'
             className='calculateButton'
             value='Calculate'
@@ -284,6 +301,7 @@ class App extends Component {
         <div className='app-footer'>
           <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
         </div>
+        <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
       </div>
     );
   }
