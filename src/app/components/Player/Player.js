@@ -92,7 +92,14 @@ class Player extends Component{
 			<div className='Player'>
 				<div className='EmptyHeader'></div>
 				<Timestamps duration={this.props.track.duration} currentTime={this.state.currentTime} />
-				<Controls songInLibrary={this.props.songInLibrary} isPlaying={this.state.playStatus} onAdd={this.props.addSong} onPlay={this.togglePlay} onNext={this.props.nextSong} />
+				<Controls 
+					songInLibrary={this.props.songInLibrary} 
+					isPlaying={this.state.playStatus} 
+					onAdd={this.props.addSong} 
+					onPlay={this.togglePlay} 
+					onNext={this.props.nextSong} 
+					onPrev={this.props.prevSong} 
+				/>
 				<GreenPlayerDivider />
 				<div className='Background' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
 				<div className='Artwork' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>

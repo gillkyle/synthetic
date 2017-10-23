@@ -10,7 +10,10 @@
   color: #eee;
   text-align: right;
 }
-.value {
+.slider-value {
+  display: grid;
+  grid-template-areas: "number button";
+  grid-template-columns: 50px 1fr;
   width: 30% !important;
   font-size: 20px;
   color: #eee;
@@ -35,7 +38,7 @@
     color: #eee;
     text-align: center;
   }
-  .value {
+  .slider-value {
     width: 50% !important;
     font-size: 20px;
     color: #eee;
@@ -66,4 +69,12 @@
 .rangeslider__fill {
   border-radius: 20px !important;
   min-width: 50px;
+}
+.scale-emphasis {
+  transform: scale(1.0);
+  transition: transform .2s ease;
+}
+.scale-emphasis:hover {
+  transform: scale(1.25);
+  transition: transform .2s ease;
 }

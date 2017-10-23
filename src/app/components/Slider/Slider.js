@@ -301,7 +301,7 @@ class Slider extends Component {
     const coords = this.coordinates(position)
     const fillStyle = { 
       [dimension]: `${coords.fill}px`,
-      background: 'linear-gradient(to left, #27b7ff, #70D5FF)',
+      background: this.props.filterOn ? 'linear-gradient(to left, #27b7ff, #70D5FF)' : 'linear-gradient(to left, #777, #6a6a6a)',
       filter: `brightness(${(value*.2)+80}%) opacity(${(value*.25)+75}%)`
     }
     const handleStyle = { [direction]: `${coords.handle}px` }

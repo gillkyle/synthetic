@@ -13,9 +13,14 @@ const SliderRow = glamorous.div({
   }
 });
 
+
 class SliderSelector extends Component{
+  
   render() {
-    const { label, value } = this.props;
+    const { label, value, filterOn } = this.props;
+      const RadioSelect = glamorous.span({
+        color: filterOn ? "#27b7ff" : "#5e5a5a"
+      });
     return (
       <SliderRow>
         <div className='slider-grid'>
@@ -25,8 +30,14 @@ class SliderSelector extends Component{
             max={100}
             value={value}
             onChange={this.props.onChange}
+            filterOn={this.props.filterOn}
           />
-          <div className='value'>{value}</div>
+          <div className='slider-value'>
+            {value}
+            <RadioSelect className='radio-select'>
+              <i onClick={this.props.toggleFilter} className='fa fa-fw fa-circle-o scale-emphasis'></i>
+            </RadioSelect>
+          </div>
         </div>
       </SliderRow>
     )

@@ -23,7 +23,7 @@ import songApiData from './songData.json';
 import songDetailData from './songDetails.json';
 
 // helper function imports
-import { getHashParams, setLoginEventListener, spotifyImplicitAuth} from './javascripts/helpers';
+import { getHashParams, setLoginEventListener, spotifyImplicitAuth } from './javascripts/helpers';
 
 
 const calcInitialQueue = () => {
@@ -44,6 +44,13 @@ class App extends Component {
       acousticValue: 50,
       danceValue: 50,
       popularityValue: 50,
+      filterBy: {
+        energy: true,
+        valence: true,
+        acoustic: true,
+        dance: true,
+        popularity: true,
+      },
       songRecommendation: songApiData.items[0].track,
       params: {},
       loading: false,
@@ -52,13 +59,14 @@ class App extends Component {
       queuePosition: 0
     }
     this.nextSong = this.nextSong.bind(this);
+    this.prevSong = this.prevSong.bind(this);
     this.addSong = this.addSong.bind(this);
   }
 
   componentDidMount() {
     this.setState({ params: getHashParams()});
     setLoginEventListener();
-    setInterval(() => {this.setState({ params: undefined }); window.alert('been 1 hour');}, 1000 * 60 * 60);
+    setTimeout(() => {this.showSessionTimeout(); this.setState({ params: {} }); }, 1000 * 60 * 60);
     if (this.state.params.access_token) {
       const spotifyApi = new Spotify()
       spotifyApi.setAccessToken(this.state.params.access_token);
@@ -72,12 +80,35 @@ class App extends Component {
     }
   }
 
-  handleEnergyChange = value => { this.setState({ energyValue: value }) };
+  // adjust slider values
+  handleEnergyChange = value => { console.log(value); this.setState({ energyValue: value }) };
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
   handleAcousticChange = value => { this.setState({ acousticValue: value }) };
   handleDanceChange = value => { this.setState({ danceValue: value }) };
   handlePopularityChange = value => { this.setState({ popularityValue: value }) };
 
+  // handle radio buttons to select what to filter by
+  toggleEnergyFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, energy: !this.state.filterBy.energy } }) };
+  toggleValenceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, valence: !this.state.filterBy.valence } }) };
+  toggleAcousticFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, acoustic: !this.state.filterBy.acoustic } }) };
+  toggleDanceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, dance: !this.state.filterBy.dance } }) };
+  togglePopularityFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, popularity: !this.state.filterBy.popularity } }) };
+
+  // control button functions (add, play/pause, next)
+  addSong = () => {
+		console.log('add song to library');
+		const s = new Spotify();
+		s.setAccessToken(this.state.params.access_token);
+    if (this.state.params.access_token !== undefined) {
+      s.addToMySavedTracks([this.state.songRecommendation.id], {})
+      .then(() => {
+        this.setState({songInLibrary: true});
+      });
+      this.showAdded();
+    } else {
+      this.showAlert();
+    }
+  };
   handleClick = () => {
     console.log('starting...');
     this.setState({loading: true});
@@ -106,11 +137,12 @@ class App extends Component {
       let trackDance = Math.round(trackDetails.danceability*100) || 0;
       let trackPopularity = Math.abs(Math.round(songObj.popularity));
 
-      let differenceEnergy = Math.abs(trackEnergy - this.state.energyValue);
-      let differenceValence = Math.abs(trackValence - this.state.valenceValue);
-      let differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue);
-      let differenceDance = Math.abs(trackDance - this.state.danceValue);
-      let differencePopularity = Math.abs(trackPopularity - this.state.popularityValue);
+      let differenceEnergy = 0, differenceValence = 0, differenceAcousticness = 0, differenceDance = 0, differencePopularity = 0;
+      if (this.state.filterBy.energy) { differenceEnergy = Math.abs(trackEnergy - this.state.energyValue); }
+      if (this.state.filterBy.valence) { differenceValence = Math.abs(trackValence - this.state.valenceValue); }
+      if (this.state.filterBy.acoustic) { differenceAcousticness = Math.abs(trackAcousticness - this.state.acousticValue); }
+      if (this.state.filterBy.dance) { differenceDance = Math.abs(trackDance - this.state.danceValue); }
+      if (this.state.filterBy.popularity) { differencePopularity = Math.abs(trackPopularity - this.state.popularityValue); }
       let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differencePopularity;
       songObj['ResultDifference'] = totalDifference;
       calculatedData.push(songObj);
@@ -147,7 +179,6 @@ class App extends Component {
 		audio.load();
     console.log('audio loaded');
   };
-  
   nextSong = () => {
     console.log('next song');
     let state = this.state;
@@ -179,23 +210,42 @@ class App extends Component {
       audio.load();
       this.child.stopPlayback();
     }
-
   };
+  prevSong = () => {
+    console.log('prev song');
+    let state = this.state;
+    let newQueuePosition = state.queuePosition - 1;
+    if (newQueuePosition < 0 ) {newQueuePosition = 0;};
+    const spotifyApi = new Spotify()
+    spotifyApi.setAccessToken(state.params.access_token);
 
-  addSong = () => {
-		console.log('add song to library');
-		const s = new Spotify();
-		s.setAccessToken(this.state.params.access_token);
+    // check if user has access token before making request
     if (this.state.params.access_token !== undefined) {
-      s.addToMySavedTracks([this.state.songRecommendation.id], {})
-      .then(() => {
-        this.setState({songInLibrary: true});
+      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
+      .then( (response) => {
+        console.log('in library');
+        console.log(response);
+        this.setState({
+          queuePosition: newQueuePosition,
+          songRecommendation: state.queue[newQueuePosition],
+          songInLibrary: response[0]
+        })
+        let audio = document.getElementById('audio');
+        audio.load();
+        this.child.stopPlayback();
       });
     } else {
-      this.showAlert();
+      this.setState({
+        queuePosition: newQueuePosition,
+        songRecommendation: state.queue[newQueuePosition]
+      })
+      let audio = document.getElementById('audio');
+      audio.load();
+      this.child.stopPlayback();
     }
   };
   
+  // react alert messages and options
   alertOptions = {
     offset: 14,
     position: 'bottom right',
@@ -206,6 +256,19 @@ class App extends Component {
   showAlert = () => {
     this.msg.show('Login with Spotify to add songs to your library', {
       time: 4000,
+      type: 'success',
+      icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
+    })
+  }
+  showAdded = () => {
+    this.msg.show('Song added to your library', {
+      time: 4000,
+      type: 'success',
+    })
+  }
+  showSessionTimeout = () => {
+    this.msg.show('Your session has expired, login again to access user-specific functions', {
+      time: 0,
       type: 'success',
       icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
     })
@@ -236,26 +299,36 @@ class App extends Component {
           label="ENERGY"
           value={energyValue}
           onChange={this.handleEnergyChange}
+          toggleFilter={this.toggleEnergyFilter}
+          filterOn={this.state.filterBy.energy}
         />
         <SliderSelector
           label="VALENCE"
           value={valenceValue}
           onChange={this.handleValenceChange}
+          toggleFilter={this.toggleValenceFilter}
+          filterOn={this.state.filterBy.valence}
         />
         <SliderSelector
           label="ACOUSTIC"
           value={acousticValue}
           onChange={this.handleAcousticChange}
+          toggleFilter={this.toggleAcousticFilter}
+          filterOn={this.state.filterBy.acoustic}
         />
         <SliderSelector
           label="DANCE"
           value={danceValue}
           onChange={this.handleDanceChange}
+          toggleFilter={this.toggleDanceFilter}
+          filterOn={this.state.filterBy.dance}
         />
         <SliderSelector
           label="POPULARITY"
           value={popularityValue}
           onChange={this.handlePopularityChange}
+          toggleFilter={this.togglePopularityFilter}
+          filterOn={this.state.filterBy.popularity}
         />
         <div className='calculateButton-section'>
           <BigButton
@@ -279,7 +352,7 @@ class App extends Component {
                   danceValue={this.state.danceValue}
                   popularityValue={this.state.popularityValue}
                   track={songRecommendation}
-                  trackDetails={songDetailData[this.state.queuePosition]}
+                  trackDetails={songDetailData.filter(object => object.id === songRecommendation.id)[0]}
                 />
                 <Player 
                   access_token={this.state.params.access_token}
@@ -296,10 +369,11 @@ class App extends Component {
                   songInLibrary={this.state.songInLibrary}
                   nextSong={this.nextSong}
                   addSong={this.addSong}
+                  prevSong={this.prevSong}
                 />
                 <SongStatistics
                   track={songRecommendation}
-                  trackDetails={songDetailData[this.state.queuePosition]}
+                  trackDetails={songDetailData.filter(object => object.id === songRecommendation.id)[0]}
                 />
               </div>
             </div>

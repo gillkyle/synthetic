@@ -55,7 +55,7 @@ class SongStatistics extends Component{
             <StatGraph style={{ width: `${track.popularity}%` }}> </StatGraph>
           </StatGraphHolder>
         </StatRow>
-        <Subtitle>Composite Score <span style={{color: '#70D5FF'}}>{500 - track.ResultDifference}</span>
+        <Subtitle>Composite Score <span style={{color: '#70D5FF'}}>{500 - track.ResultDifference || 0}</span>
         </Subtitle>
         <TitleGraph> 
           <StatTitle>{trackDetails.instrumentalness >= 0.5 ? 'Instrumental' : 'Vocal'}</StatTitle>
