@@ -269,14 +269,20 @@ class App extends Component {
     if (this.state.params.access_token !== undefined) {
       if (!this.state.createdPlaylist) 
       {
+        // create blank playlist
         s.createPlaylist(this.state.me.id, {
           name: 'Music+ Recommendations',
           description: 'Playlist recommendations from online.'
         })
-        .then(() => {
+        .then((response) => {
           this.setState({createdPlaylist: true});
+          console.log(response);
+          
+          s.addTracksToPlaylist()
         });
       }
+
+      // show msg whether playlist was created or already generated
       this.showCreatedPlaylist(this.state.createdPlaylist);
     } else {
       this.showAlert();

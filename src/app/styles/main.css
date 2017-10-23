@@ -60,15 +60,31 @@ h4 {
   padding: 10px;
 }
 
+.player-section {
+  display: grid;
+  grid-template-areas: "... radar player stats ...";
+  grid-template-columns: 0.75fr 1fr 300px 1fr 0.75fr;
+  grid-gap: 20px;
+  align-items: flex-start;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+@media only screen and (max-width: 768px) {
+  .player-section {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.radar-section {
+  grid-area: radar;
+  margin-top: 20px;
+  max-width: 300px;
+  max-height: 300px;
+  justify-self: end;
+}
 .stats-section {
   grid-area: stats;
   width: 300px;
-  margin-top: 20px;
-}
-
-.radar-section {
-  grid-area: radar;
-  align-self: 'flex-start';
   margin-top: 20px;
 }
 
