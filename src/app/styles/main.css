@@ -19,7 +19,7 @@ h4 {
   color: white;
   display: grid;
   grid-template-areas: "... title title title title login";
-  grid-template-columns: 1fr repeat(4, 2fr) 1fr;
+  grid-template-columns: 1.5fr repeat(4, 2fr) 1.5fr;
   text-align: center;
 }
 .app-header-title {

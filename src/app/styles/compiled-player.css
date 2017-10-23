@@ -123,7 +123,7 @@
   cursor: pointer;
 }
 .Player .Controls .Button:hover {
-  transform: scale(1.05);
+  transform: scale(1.09);
 }
 .Player .Controls .Button:active {
   transform: scale(0.98);

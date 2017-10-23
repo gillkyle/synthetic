@@ -4,6 +4,7 @@ import Spinner from 'react-spinkit';
 import AlertContainer from 'react-alert';
 
 // component imports
+import Avatar from './components/Avatar/avatar';
 import BigButton from './components/Button';
 import SliderSelector from './components/Slider/SliderSelector';
 import Player from './components/Player/Player';
@@ -64,20 +65,33 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ params: getHashParams()});
+    this.setState({ 
+      params: getHashParams()},
+      () => {
+        console.log("component did mount");
+        console.log(this.state)
+        if (this.state.params.access_token) {
+          const spotifyApi = new Spotify()
+          spotifyApi.setAccessToken(this.state.params.access_token);
+          spotifyApi.containsMySavedTracks([this.state.songRecommendation.id])
+          .then( (response) => {
+            console.log(response);
+            this.setState({
+              songInLibrary: response[0]
+            })
+          });
+          spotifyApi.getMe().then( (response) => {
+            console.log('me response: ');
+            console.log(response);
+            this.setState({
+              me: response
+            })
+          });
+        }
+      }
+    );
     setLoginEventListener();
     setTimeout(() => {this.showSessionTimeout(); this.setState({ params: {} }); }, 1000 * 60 * 60);
-    if (this.state.params.access_token) {
-      const spotifyApi = new Spotify()
-      spotifyApi.setAccessToken(this.state.params.access_token);
-      spotifyApi.containsMySavedTracks([this.state.songRecommendation.id])
-      .then( (response) => {
-        console.log(response);
-        this.setState({
-          songInLibrary: response[0]
-        })
-      });
-    }
   }
 
   // adjust slider values
@@ -94,21 +108,7 @@ class App extends Component {
   toggleDanceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, dance: !this.state.filterBy.dance } }) };
   togglePopularityFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, popularity: !this.state.filterBy.popularity } }) };
 
-  // control button functions (add, play/pause, next)
-  addSong = () => {
-		console.log('add song to library');
-		const s = new Spotify();
-		s.setAccessToken(this.state.params.access_token);
-    if (this.state.params.access_token !== undefined) {
-      s.addToMySavedTracks([this.state.songRecommendation.id], {})
-      .then(() => {
-        this.setState({songInLibrary: true});
-      });
-      this.showAdded();
-    } else {
-      this.showAlert();
-    }
-  };
+  // main calculation button 
   handleClick = () => {
     console.log('starting...');
     this.setState({loading: true});
@@ -179,36 +179,20 @@ class App extends Component {
 		audio.load();
     console.log('audio loaded');
   };
-  nextSong = () => {
-    console.log('next song');
-    let state = this.state;
-    let newQueuePosition = state.queuePosition + 1;
-    const spotifyApi = new Spotify()
-    spotifyApi.setAccessToken(state.params.access_token);
 
-    // check if user has access token before making request
+  // control button functions (add, play/pause, next)
+  addSong = () => {
+		console.log('add song to library');
+		const s = new Spotify();
+		s.setAccessToken(this.state.params.access_token);
     if (this.state.params.access_token !== undefined) {
-      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
-      .then( (response) => {
-        console.log('in library');
-        console.log(response);
-        this.setState({
-          queuePosition: newQueuePosition,
-          songRecommendation: state.queue[newQueuePosition],
-          songInLibrary: response[0]
-        })
-        let audio = document.getElementById('audio');
-        audio.load();
-        this.child.stopPlayback();
+      s.addToMySavedTracks([this.state.songRecommendation.id], {})
+      .then(() => {
+        this.setState({songInLibrary: true});
       });
+      this.showAdded(this.state.songInLibrary);
     } else {
-      this.setState({
-        queuePosition: newQueuePosition,
-        songRecommendation: state.queue[newQueuePosition]
-      })
-      let audio = document.getElementById('audio');
-      audio.load();
-      this.child.stopPlayback();
+      this.showAlert();
     }
   };
   prevSong = () => {
@@ -244,6 +228,53 @@ class App extends Component {
       this.child.stopPlayback();
     }
   };
+  nextSong = () => {
+    console.log('next song');
+    let state = this.state;
+    let newQueuePosition = state.queuePosition + 1;
+    const spotifyApi = new Spotify()
+    spotifyApi.setAccessToken(state.params.access_token);
+
+    // check if user has access token before making request
+    if (this.state.params.access_token !== undefined) {
+      spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
+      .then( (response) => {
+        console.log('in library');
+        console.log(response);
+        this.setState({
+          queuePosition: newQueuePosition,
+          songRecommendation: state.queue[newQueuePosition],
+          songInLibrary: response[0]
+        })
+        let audio = document.getElementById('audio');
+        audio.load();
+        this.child.stopPlayback();
+      });
+    } else {
+      this.setState({
+        queuePosition: newQueuePosition,
+        songRecommendation: state.queue[newQueuePosition]
+      })
+      let audio = document.getElementById('audio');
+      audio.load();
+      this.child.stopPlayback();
+    }
+  };
+  addPlaylist = () => {
+    console.log('add playlist for user');
+		const s = new Spotify();
+		s.setAccessToken(this.state.params.access_token);
+    if (this.state.params.access_token !== undefined) {
+      s.createPlaylist([this.state.songRecommendation.id], {})
+      .then(() => {
+        this.setState({songInLibrary: true});
+      });
+      this.showCreatedPlaylist(this.state.songInLibrary);
+    } else {
+      this.showAlert();
+    }
+  };
+  
   
   // react alert messages and options
   alertOptions = {
@@ -254,17 +285,25 @@ class App extends Component {
     transition: 'fade'
   }
   showAlert = () => {
-    this.msg.show('Login with Spotify to add songs to your library', {
+    this.msg.show('Login with Spotify to add songs or playlists to your library', {
       time: 4000,
       type: 'success',
       icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
     })
   }
-  showAdded = () => {
-    this.msg.show('Song added to your library', {
-      time: 4000,
-      type: 'success',
-    })
+  showAdded = songInLibrary => {
+    if (songInLibrary) {
+      this.msg.show('Song has already been added to your library', {
+        time: 4000,
+        type: 'success',
+      })
+    } else {
+      this.msg.show('Song added to your library', {
+        time: 4000,
+        type: 'success',
+      })
+
+    }
   }
   showSessionTimeout = () => {
     this.msg.show('Your session has expired, login again to access user-specific functions', {
@@ -282,7 +321,9 @@ class App extends Component {
             <div className='app-header-title'>MUSIC+</div>
             <div className='login-section'>
               {this.state.params.access_token ? 
-              'Logged In'
+              <Avatar
+                me={this.state.me}
+              />
                :
                <BigButton
                 type='button'
