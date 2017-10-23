@@ -16,8 +16,8 @@ class Controls extends Component{
 				<div onClick={this.props.onNext} className='Button'>
 					<i className='fa fa-fw fa-chevron-right'></i>
 				</div>
-				<div onClick={this.props.onAdd} className='Button'>
-					<i id='button-outer-right' className='fa fa-fw fa-list-ul'></i>
+				<div onClick={this.props.onCreatePlaylist} className='Button'>
+					<i id='button-outer-right' className={this.props.createdPlaylist ? 'fa fa-fw fa-check' : 'fa fa-fw fa-list-ul'}></i>
 				</div>
 			</div>
 		)

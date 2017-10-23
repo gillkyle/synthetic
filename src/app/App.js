@@ -57,7 +57,8 @@ class App extends Component {
       loading: false,
       songInLibrary: false,
       queue: calcInitialQueue(),
-      queuePosition: 0
+      queuePosition: 0,
+      createdPlaylist: false
     }
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -173,7 +174,8 @@ class App extends Component {
       songRecommendation: calculatedData[0], 
       loading: false,
       queue: calculatedData,
-      queuePosition: 0
+      queuePosition: 0,
+      createdPlaylist: false
     })
     let audio = document.getElementById('audio');
 		audio.load();
@@ -265,11 +267,17 @@ class App extends Component {
 		const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
     if (this.state.params.access_token !== undefined) {
-      s.createPlaylist([this.state.songRecommendation.id], {})
-      .then(() => {
-        this.setState({songInLibrary: true});
-      });
-      this.showCreatedPlaylist(this.state.songInLibrary);
+      if (!this.state.createdPlaylist) 
+      {
+        s.createPlaylist(this.state.me.id, {
+          name: 'Music+ Recommendations',
+          description: 'Playlist recommendations from online.'
+        })
+        .then(() => {
+          this.setState({createdPlaylist: true});
+        });
+      }
+      this.showCreatedPlaylist(this.state.createdPlaylist);
     } else {
       this.showAlert();
     }
@@ -295,14 +303,26 @@ class App extends Component {
     if (songInLibrary) {
       this.msg.show('Song has already been added to your library', {
         time: 4000,
-        type: 'success',
+        type: 'warning',
       })
     } else {
       this.msg.show('Song added to your library', {
         time: 4000,
         type: 'success',
       })
-
+    }
+  }
+  showCreatedPlaylist = createdPlaylist => {
+    if (createdPlaylist) {
+      this.msg.show('Playlist has already been generated with this data', {
+        time: 4000,
+        type: 'warning',
+      })
+    } else {
+      this.msg.show('Playlist generated from these recommendations', {
+        time: 4000,
+        type: 'success',
+      })
     }
   }
   showSessionTimeout = () => {
@@ -411,6 +431,8 @@ class App extends Component {
                   nextSong={this.nextSong}
                   addSong={this.addSong}
                   prevSong={this.prevSong}
+                  addPlaylist={this.addPlaylist}
+                  createdPlaylist={this.state.createdPlaylist}
                 />
                 <SongStatistics
                   track={songRecommendation}

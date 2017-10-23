@@ -36,6 +36,7 @@ class Player extends Component{
 		return (nextProps.track.name !== this.props.track.name) ||
 		 (nextProps.track.source !== this.props.track.source) || 
 		 (this.props.songInLibrary !== nextProps.songInLibrary) || 
+		 (this.props.createdPlaylist !== nextProps.createdPlaylist) || 
 		 (this.state.playStatus !== nextState.playStatus) ||
 		 (this.props.playStatus !== nextProps.playStatus) ||
 		 (this.state.currentTime !== nextState.currentTime);
@@ -99,6 +100,8 @@ class Player extends Component{
 					onPlay={this.togglePlay} 
 					onNext={this.props.nextSong} 
 					onPrev={this.props.prevSong} 
+					onCreatePlaylist={this.props.addPlaylist}
+					createdPlaylist={this.props.createdPlaylist}
 				/>
 				<GreenPlayerDivider />
 				<div className='Background' style={{'backgroundImage': 'url(' + this.props.track.artwork + ')'}}></div>
