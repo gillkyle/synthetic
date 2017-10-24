@@ -93,3 +93,23 @@ h4 {
   margin: 60px 0px 60px 0px;
   padding: 75px
 }
+.genre-section {
+  display: grid;
+  grid-template-areas: "... label selector details ...";
+  grid-template-columns: 2fr 1fr 300px 1fr 2fr;
+  grid-gap: 15px;
+  margin-bottom: 20px; 
+  text-align: left;
+  color: #eee;
+}
+.selector-label {
+  grid-area: label;
+  text-align: right;
+  font-size: 20px;
+  align-self: center;
+}
+.selector-details-label {
+  grid-area: details;
+  font-size: 20px;
+  align-self: center;
+}

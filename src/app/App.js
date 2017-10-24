@@ -7,6 +7,7 @@ import AlertContainer from 'react-alert';
 import Avatar from './components/Avatar/avatar';
 import BigButton from './components/Button';
 import SliderSelector from './components/Slider/SliderSelector';
+import GenreSelector from './components/GenreSelector/GenreSelector';
 import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
 import RadarSection from './components/Radar/RadarSection';
@@ -51,6 +52,7 @@ class App extends Component {
         acoustic: true,
         dance: true,
         popularity: true,
+        genre: true,
       },
       songRecommendation: songApiData.items[0].track,
       params: {},
@@ -58,7 +60,8 @@ class App extends Component {
       songInLibrary: false,
       queue: calcInitialQueue(),
       queuePosition: 0,
-      createdPlaylist: false
+      createdPlaylist: false,
+      seed_genres: ''
     }
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -101,26 +104,47 @@ class App extends Component {
   handleAcousticChange = value => { this.setState({ acousticValue: value }) };
   handleDanceChange = value => { this.setState({ danceValue: value }) };
   handlePopularityChange = value => { this.setState({ popularityValue: value }) };
-
+  handleGenreChange = value => { this.setState({ seed_genres: value }); }
   // handle radio buttons to select what to filter by
   toggleEnergyFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, energy: !this.state.filterBy.energy } }) };
   toggleValenceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, valence: !this.state.filterBy.valence } }) };
   toggleAcousticFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, acoustic: !this.state.filterBy.acoustic } }) };
   toggleDanceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, dance: !this.state.filterBy.dance } }) };
   togglePopularityFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, popularity: !this.state.filterBy.popularity } }) };
+  toggleGenreFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, genre: !this.state.filterBy.genre } }) };
 
   // main calculation button 
   handleClick = () => {
     console.log('starting...');
     this.setState({loading: true});
     this.child.stopPlayback();
-
-    let data = songApiData.items;
-    let dataDetails = songDetailData;
-    let calculatedData = [];
-    let trackIds = [];
+    
     const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
+
+    // by default use the sample data
+    let data = songApiData.items;
+    let dataDetails = songDetailData;
+
+    // use more specific data with API requests
+    let options = {
+      target_energy: this.state.filterBy.energy ? this.state.energyValue : undefined,
+      target_valence: this.state.filterBy.valence ? this.state.valenceValue : undefined,
+      target_acousticness: this.state.filterBy.acoustic ? this.state.acousticValue : undefined,
+      target_danceability: this.state.filterBy.dance ? this.state.danceValue : undefined,
+      target_popularity: this.state.filterBy.popularity ? this.state.popularityValue : undefined,
+      seed_genres: this.state.filterBy.genre ? this.state.seed_genres : undefined
+    }
+    // s.getRecommendations(
+    //   {
+    //     limit: 50,
+
+    //   }
+    // )
+
+
+    let calculatedData = [];
+    let trackIds = [];
 
     // enter entire dataset loop for each song
     for (let i = 0; i < data.length; i++){
@@ -277,7 +301,7 @@ class App extends Component {
         .then((response) => {
           this.setState({createdPlaylist: true});
           console.log(response);
-          
+
           s.addTracksToPlaylist()
         });
       }
@@ -396,6 +420,12 @@ class App extends Component {
           onChange={this.handlePopularityChange}
           toggleFilter={this.togglePopularityFilter}
           filterOn={this.state.filterBy.popularity}
+        />
+        <GenreSelector
+          seed_genres={this.state.seed_genres}
+          onChange={this.handleGenreChange}
+          toggleFilter={this.toggleGenreFilter}
+          filterOn={this.state.filterBy.genre}
         />
         <div className='calculateButton-section'>
           <BigButton

@@ -1,0 +1,69 @@
+/* .Select {
+}
+.Select-control {
+  background-color: #191414 !important;
+  border: 1px solid #e6e6e6;
+  color: #eee;
+}
+.Select-placeholder {
+  color: #eee;
+}
+.Select-input > input {
+  color: #eee;
+}
+.Select-control>.Select-value { 
+  background-color: rgba(153, 153, 153, .0) !important;
+  border: 1px solid rgba(153, 153, 153, 0.24);
+  color: #999;
+}
+.Select-control>.Select-value>.Select-value-icon {
+  border-right: 1px solid rgba(153, 153, 153, 0.24);
+}
+.Select-control>.Select-value>.Select-value-label, .Select-value>a {
+  color: #999;
+}
+.Select-menu-outer {
+  background-color: #191414 !important;
+}
+.Select-option {
+  background-color: #191414 !important;
+  color: #eee;
+}
+.Select-option:hover {
+  background-color: #1E2028 !important;
+  color: #ccc;
+}
+.Select-option:focus {
+  background-color: #1E2028 !important;
+  color: #ccc;
+}
+.Select-option:active {
+  background-color: #1E2028 !important;
+  color: #ccc;
+}
+ */
+
+.Select-control {
+  background-color: rgb(230, 230, 230) !important;
+  border-radius: 18px;
+  color: #eee;
+  height: 25px !important;
+}
+.Select-value {
+  border-radius: 11px !important;
+  background-color: #eee !important;
+}
+.Select-value-label {
+  color: #999;
+  background-color: none;
+}
+
+.Select-menu-outer {
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+.Select-menu {
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
