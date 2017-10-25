@@ -78,4 +78,44 @@ const spotifyImplicitAuth = () => {
   }
 };
 
-export { generateRandomString, getHashParams, setLoginEventListener, spotifyImplicitAuth };
+const calcAndSort = (data, dataDetails, state) => {
+  /* big huge function start */
+  let calculatedData = [];
+  let trackIds = [];
+  
+  console.log(data);
+  console.log(dataDetails);
+  // enter entire dataset loop for each song
+  for (let i = 0; i < data.length; i++){
+    let songObj = data[i].track;
+    let songDetails = dataDetails[i];
+
+    let trackId = songObj.id;
+    trackIds.push(trackId);
+
+    let trackDetails = songDetails;
+
+    let trackEnergy = Math.round(trackDetails.energy*100) || 0;
+    let trackValence = Math.round(trackDetails.valence*100) || 0;
+    let trackAcousticness = Math.round(trackDetails.acousticness*100) || 0;
+    let trackDance = Math.round(trackDetails.danceability*100) || 0;
+    let trackPopularity = Math.abs(Math.round(songObj.popularity));
+
+    let differenceEnergy = 0, differenceValence = 0, differenceAcousticness = 0, differenceDance = 0, differencePopularity = 0;
+    if (state.filterBy.energy) { differenceEnergy = Math.abs(trackEnergy - state.energyValue); }
+    if (state.filterBy.valence) { differenceValence = Math.abs(trackValence - state.valenceValue); }
+    if (state.filterBy.acoustic) { differenceAcousticness = Math.abs(trackAcousticness - state.acousticValue); }
+    if (state.filterBy.dance) { differenceDance = Math.abs(trackDance - state.danceValue); }
+    if (state.filterBy.popularity) { differencePopularity = Math.abs(trackPopularity - state.popularityValue); }
+    let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differencePopularity;
+    songObj['ResultDifference'] = totalDifference;
+    calculatedData.push(songObj);
+
+  }
+
+  // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
+  calculatedData.sort(function(a, b){return a.ResultDifference - b.ResultDifference})
+  return calculatedData;
+}
+
+export { calcAndSort, generateRandomString, getHashParams, setLoginEventListener, spotifyImplicitAuth };

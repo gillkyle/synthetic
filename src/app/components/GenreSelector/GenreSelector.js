@@ -74,6 +74,8 @@ class GenreSelector extends Component{
     const RadioSelect = glamorous.span({
       color: filterOn ? "#27b7ff" : "#5e5a5a"
     });
+    let newOptions = (seed_genres != '' && seed_genres === 3) ? [] : options;
+    
     return (
       <div className='genre-section'>
         <div className='selector-label'>
@@ -85,10 +87,10 @@ class GenreSelector extends Component{
             value={seed_genres}
             multi
             simpleValue
-            options={options}
+            options={newOptions}
             onChange={onChange}
             closeOnSelect={!stayOpen}
-            placeholder="Genres to include"
+            placeholder="Genres to filter by"
           />
         </div>
         <div className='selector-details-label'>

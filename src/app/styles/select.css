@@ -57,6 +57,11 @@
   color: #999;
   background-color: none;
 }
+.Select-value-icon {
+  color: #999 !important;
+  border-top-left-radius: 11px !important;
+  border-bottom-left-radius: 11px !important;
+}
 
 .Select-menu-outer {
   border-bottom-left-radius: 18px;

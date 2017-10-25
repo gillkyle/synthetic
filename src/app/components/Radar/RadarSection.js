@@ -51,6 +51,7 @@ class RadarSection extends Component{
           width={300}
           height={300}
           options={{
+            response: false,
             maintainAspectRatio: true,
             legend: {
               labels: {
@@ -70,7 +71,9 @@ class RadarSection extends Component{
               },
               ticks: {
                 fontFamily: "'Montserrat', 'Helvetica', 'Arial', sans-serif",
-                display: false
+                display: false,
+                min: 0,
+                max: 100
               }
             }
           }}
