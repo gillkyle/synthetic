@@ -140,7 +140,7 @@ class App extends Component {
     if (this.state.filterBy.genre && this.state.seed_genres !== "") options['seed_genres'] = this.state.seed_genres;
     options['limit'] = 30;
 
-    if (isSeeds) {
+    if (isSeeds && this.state.params.access_token && this.state.filterBy.genre) {
       s.getRecommendations(options)
       .then((response) => {
         // override data with new recommendations
