@@ -215,6 +215,7 @@ class App extends Component {
       this.showError();
       console.log(err);
     }
+    // won't get stuck loading but worse UX
     this.setState({loading: false});
   };
 
@@ -271,6 +272,7 @@ class App extends Component {
     const spotifyApi = new Spotify()
     spotifyApi.setAccessToken(state.params.access_token);
 
+    let that = this;
     // check if user has access token before making request
     if (this.state.params.access_token !== undefined) {
       spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
@@ -286,7 +288,10 @@ class App extends Component {
       })
       .catch(function(error) {
         console.error(error);
-      });;
+        that.showError();
+        that.setState({ params: {} });
+        setLoginEventListener();
+      });
     } else {
       this.setState({
         queuePosition: newQueuePosition,
@@ -345,10 +350,10 @@ class App extends Component {
       icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
     })
   }
-  showAlert = () => {
-    this.msg.show('An error occured requesting info from Spotify, please try again', {
+  showError = () => {
+    this.msg.show('An error occured requesting info from Spotify, you may need to login', {
       time: 4000,
-      type: 'warning',
+      type: 'error',
       icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
     })
   }
@@ -356,7 +361,7 @@ class App extends Component {
     if (songInLibrary) {
       this.msg.show('Song has already been added to your library', {
         time: 4000,
-        type: 'warning',
+        type: 'error',
       })
     } else {
       this.msg.show('Song added to your library', {
@@ -369,7 +374,7 @@ class App extends Component {
     if (createdPlaylist) {
       this.msg.show('Playlist has already been generated with this data', {
         time: 4000,
-        type: 'warning',
+        type: 'error',
       })
     } else {
       this.msg.show('Playlist generated from these recommendations', {
@@ -403,7 +408,7 @@ class App extends Component {
                 id='login-button'
                 className='loginButton'
                 value='Login'
-                onClick={() => spotifyImplicitAuth()}
+                onClick={() => spotifyImplicitAuth(this.state.params)}
               />
               } 
             </div>

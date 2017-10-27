@@ -28,27 +28,32 @@
 }
 @media only screen and (max-width: 768px) {
   .slider-grid {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-areas:
+      '... slider slider slider ...'
+      '... label label value ...';
+    grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
   }
   .slider-label {
     width: 50% !important;
     font-size: 20px;
     color: #eee;
-    text-align: center;
+    text-align: left;
+    grid-area: label;
   }
   .slider-value {
     width: 50% !important;
     font-size: 20px;
     color: #eee;
     text-align: center;
+    grid-area: value;
   }
   .rangeslider-horizontal {
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
     height: 20px;
     border-radius: 20px;
+    grid-area: slider;
   }
 }
 

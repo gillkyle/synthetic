@@ -10,6 +10,7 @@ const SliderRow = glamorous.div({
   lineHeight: 1.25,
   '@media only screen and (max-width: 768px)': {
     paddingBottom: 5,
+    minWidth: 300
   }
 });
 
@@ -31,8 +32,9 @@ class SliderSelector extends Component{
             value={value}
             onChange={this.props.onChange}
             filterOn={this.props.filterOn}
+            style={{gridArea: 'slider'}}
           />
-          <div className='slider-value'>
+          <div className='slider-value' style={{gridArea: 'value'}}>
             {value}
             <RadioSelect className='radio-select'>
               <i onClick={this.props.toggleFilter} className='fa fa-fw fa-circle-o scale-emphasis'></i>

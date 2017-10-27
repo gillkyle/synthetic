@@ -24,6 +24,7 @@ const getHashParams = () => {
 
 const setLoginEventListener = () => {
   document.getElementById('login-button').addEventListener('click', function() {
+    console.log('authorizer');
     const stateKey = 'spotify_auth_state';
     const client_id = 'c3ac28c1b26941b5a09beaa1d33240bd'; // Your client id
     let redirect_uri = 'http://localhost:3000'; // Your redirect uri
@@ -44,7 +45,7 @@ const setLoginEventListener = () => {
   }, false);
 }
 
-const spotifyImplicitAuth = () => {
+const spotifyImplicitAuth = (stateParameters) => {
   var stateKey = 'spotify_auth_state';
 
   var params = getHashParams();
@@ -52,8 +53,8 @@ const spotifyImplicitAuth = () => {
   var access_token = params.access_token,
       state = params.state,
       storedState = localStorage.getItem(stateKey);
-
-  if (access_token && (state == null || state !== storedState)) {
+  console.log(stateParameters);
+  if (access_token && (state == null || state !== storedState) && (stateParameters.access_token)) {
     alert('There was an error during the authentication, you may already be authenticated');
   } else {
     localStorage.removeItem(stateKey);

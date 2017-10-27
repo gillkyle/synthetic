@@ -29,22 +29,6 @@ h4 {
   grid-area: title;
   align-self: center;
 }
-@media only screen and (max-width: 768px) {
-  .app-header {
-    grid-template-areas: 
-      "title"
-      "login";
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
-    line-height: 1;
-    padding: 20px 10px 10px 10px;
-  }
-  .app-header-title {
-    letter-spacing: 4px;
-    font-weight: 900;
-    font-size: 36px;
-  }
-}
 .playlist-selector {
   text-align: center;
   margin: 10px;
@@ -71,12 +55,6 @@ h4 {
   align-items: flex-start;
   font-family: 'Montserrat', sans-serif;
   color: white;
-}
-@media only screen and (max-width: 768px) {
-  .player-section {
-    flex-direction: column;
-    align-items: center;
-  }
 }
 .radar-section {
   grid-area: radar;
@@ -115,4 +93,50 @@ h4 {
   grid-area: details;
   font-size: 20px;
   align-self: center;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .app-header {
+    height: inherit;
+    grid-template-areas: 
+      "title"
+      "login";
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    line-height: 1;
+    padding: 20px 10px 10px 10px;
+  }
+  .app-header-title {
+    letter-spacing: 4px;
+    font-weight: 900;
+    font-size: 36px;
+  }
+  .genre-section {
+    grid-template-areas: 
+      "... selector selector selector ..."
+      "... label label details ...";
+    grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+    grid-gap: 5px;
+  }
+  .selector-label {
+    text-align: left;
+  }
+  .player-section {
+    grid-template-areas: 
+      "... player ..." 
+      "... stats ..."
+      "... radar ...";
+    grid-template-columns: 1fr 300px 1fr;
+    grid-gap: 10px;
+    align-items: center;
+  }
+  .radar-section {
+    margin-bottom: 30px;
+    justify-self: start;
+  }
+  .player-selector {
+    grid-template-columns: 1fr 8fr 1fr;
+    margin: 30px;
+  }
 }
