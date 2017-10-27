@@ -109,7 +109,9 @@ const calcAndSort = (data, dataDetails, state) => {
     if (state.filterBy.popularity) { differencePopularity = Math.abs(trackPopularity - state.popularityValue); }
     let totalDifference = differenceEnergy + differenceValence + differenceAcousticness + differenceDance + differencePopularity;
     songObj['ResultDifference'] = totalDifference;
-    calculatedData.push(songObj);
+    if (songObj.preview_url !== null) {
+      calculatedData.push(songObj);
+    };
 
   }
 

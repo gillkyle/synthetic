@@ -16,7 +16,9 @@
     "react-rangeslider": "^2.2.0",
     "react-scripts": "1.0.13",
     "react-select": "^1.0.0-rc.10",
+    "react-slick": "^0.15.4",
     "react-spinkit": "^3.0.0",
+    "slick-carousel": "^1.8.1",
     "spotify-web-api-js": "^0.22.1"
   },
   "scripts": {

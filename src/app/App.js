@@ -6,6 +6,7 @@ import AlertContainer from 'react-alert';
 // component imports
 import Avatar from './components/Avatar/avatar';
 import BigButton from './components/Button';
+import PlaylistSelector from './components/PlaylistSelector/PlaylistSelector';
 import SliderSelector from './components/Slider/SliderSelector';
 import GenreSelector from './components/GenreSelector/GenreSelector';
 import Player from './components/Player/Player';
@@ -62,7 +63,8 @@ class App extends Component {
       queueDetails: songDetailData,
       queuePosition: 0,
       createdPlaylist: false,
-      seed_genres: ''
+      seed_genres: '',
+      selectedPlaylist: 0
     }
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -81,11 +83,17 @@ class App extends Component {
             this.setState({
               songInLibrary: response[0]
             })
-          });
+          })
+          .catch(function(error) {
+            console.error(error);
+          });;
           spotifyApi.getMe().then( (response) => {
             this.setState({
               me: response
             })
+          })
+          .catch(function(error) {
+            console.error(error);
           });
         }
       }
@@ -93,20 +101,15 @@ class App extends Component {
     setLoginEventListener();
     setTimeout(() => {this.showSessionTimeout(); this.setState({ params: {} }); }, 1000 * 60 * 60);
   }
-
+  // handle playlist change
+  handlePlaylistChange = value => { console.log("changed playlist"); this.setState({ selectedPlaylist: value })};
   // adjust slider values
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
   handleAcousticChange = value => { this.setState({ acousticValue: value }) };
   handleDanceChange = value => { this.setState({ danceValue: value }) };
   handlePopularityChange = value => { this.setState({ popularityValue: value }) };
-  handleGenreChange = value => { 
-    if (this.state.seed_genres.split(',').length < 3) {
-      this.setState({ seed_genres: value }); 
-    } else {
-
-    }
-  }
+  handleGenreChange = value => { this.setState({ seed_genres: value }); }
   // handle radio buttons to select what to filter by
   toggleEnergyFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, energy: !this.state.filterBy.energy } }) };
   toggleValenceFilter = () => { this.setState({ filterBy: { ...this.state.filterBy, valence: !this.state.filterBy.valence } }) };
@@ -117,8 +120,8 @@ class App extends Component {
 
   // main calculation button 
   handleClick = () => {
-    this.setState({loading: true});
     this.child.stopPlayback();
+    this.setState({loading: true});
     
     const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
@@ -138,7 +141,7 @@ class App extends Component {
     if (this.state.filterBy.dance) options['target_danceability'] = this.state.danceValue/100;
     if (this.state.filterBy.popularity) options['target_popularity'] = this.state.popularityValue;
     if (this.state.filterBy.genre && this.state.seed_genres !== "") options['seed_genres'] = this.state.seed_genres;
-    options['limit'] = 30;
+    options['limit'] = 50;
 
     if (isSeeds && this.state.params.access_token && this.state.filterBy.genre) {
       s.getRecommendations(options)
@@ -160,6 +163,9 @@ class App extends Component {
           s.containsMySavedTracks([calculatedData[0].id])
           .then((response) => {
             this.setState({ songInLibrary: response[0] })
+          })
+          .catch(function(error) {
+            console.error(error);
           });
           // final assignment of top calculated track, remove loading, and load the queue
           this.setState({ 
@@ -175,6 +181,9 @@ class App extends Component {
         });
 
       })
+      .catch(function(error) {
+        console.error(error);
+      });
     } else {
     
       calculatedData = calcAndSort(data, dataDetails, this.state);
@@ -182,6 +191,9 @@ class App extends Component {
         s.containsMySavedTracks([calculatedData[0].id])
         .then((response) => {
           this.setState({ songInLibrary: response[0] })
+        })
+        .catch(function(error) {
+          console.error(error);
         });
       }
       // final assignment of top calculated track, remove loading, and load the queue
@@ -189,6 +201,7 @@ class App extends Component {
         songRecommendation: calculatedData[0], 
         loading: false,
         queue: calculatedData,
+        queueDetails: dataDetails,
         queuePosition: 0,
         createdPlaylist: false
       })
@@ -231,7 +244,10 @@ class App extends Component {
         let audio = document.getElementById('audio');
         audio.load();
         this.child.stopPlayback();
-      });
+      })
+      .catch(function(error) {
+        console.error(error);
+      });;
     } else {
       this.setState({
         queuePosition: newQueuePosition,
@@ -260,7 +276,10 @@ class App extends Component {
         let audio = document.getElementById('audio');
         audio.load();
         this.child.stopPlayback();
-      });
+      })
+      .catch(function(error) {
+        console.error(error);
+      });;
     } else {
       this.setState({
         queuePosition: newQueuePosition,
@@ -280,11 +299,19 @@ class App extends Component {
         // create blank playlist
         s.createPlaylist(this.state.me.id, {
           name: 'Music+ Recommendations',
-          description: 'Playlist recommendations from online.'
+          description: `Your generated playlist. Energy: ${this.state.energyValue}`
         })
         .then((response) => {
           this.setState({createdPlaylist: true});
-          s.addTracksToPlaylist()
+          console.log(response);
+          let trackURIs = [];
+          for (let i = 0; i <= 25 && i < this.state.queue.length; i++) {
+            trackURIs.push(this.state.queue[i].uri)
+          };
+          s.addTracksToPlaylist(this.state.me.id, response.id, trackURIs)
+        })
+        .catch(function(error) {
+          console.error(error);
         });
       }
 
@@ -367,13 +394,11 @@ class App extends Component {
               } 
             </div>
         </div>
-        <div className='playlist-selector'>Standard Selection</div>
-        <GenreSelector
-          seed_genres={this.state.seed_genres}
-          onChange={this.handleGenreChange}
-          toggleFilter={this.toggleGenreFilter}
-          filterOn={this.state.filterBy.genre}
-        />
+        <div className='playlist-selector'>
+          <PlaylistSelector 
+              onChange={this.handlePlaylistChange}
+          />
+        </div>
         <SliderSelector
           label="ENERGY"
           value={energyValue}
@@ -409,6 +434,17 @@ class App extends Component {
           toggleFilter={this.togglePopularityFilter}
           filterOn={this.state.filterBy.popularity}
         />
+        {this.state.params.access_token ? 
+        <div className>
+          Experimental Features
+          <GenreSelector
+            seed_genres={this.state.seed_genres}
+            onChange={this.handleGenreChange}
+            toggleFilter={this.toggleGenreFilter}
+            filterOn={this.state.filterBy.genre}
+          /> 
+        </div>
+        : null}
         <div className='calculateButton-section'>
           <BigButton
             type='button'

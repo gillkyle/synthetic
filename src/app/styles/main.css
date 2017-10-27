@@ -48,6 +48,9 @@ h4 {
 .playlist-selector {
   text-align: center;
   margin: 10px;
+  display: grid;
+  grid-template-areas: "... carousel ...";
+  grid-template-columns: 1fr 320px 1fr;
 }
 .app-footer {
   margin-top: 30px;

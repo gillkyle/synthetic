@@ -69,12 +69,18 @@ class GenreSelector extends Component{
   }
 
 	render() {
-    const { stayOpen } = this.state;
+    const { stayOpen, disabled } = this.state;
     const { filterOn, seed_genres, onChange } = this.props;
     const RadioSelect = glamorous.span({
       color: filterOn ? "#27b7ff" : "#5e5a5a"
     });
-    let newOptions = (seed_genres != '' && seed_genres === 3) ? [] : options;
+    // if (disabled) {
+    //   let genreInput = document.querySelector('.Select-control');
+    //   genreInput.setAttribute('style', 'background-color: #191414 !important;');
+    // } else {
+    //   let genreInput = document.querySelector('.Select-control');
+    //   genreInput.setAttribute('style', 'background-color: rgb(230,230,230) !important;');
+    // };
     
     return (
       <div className='genre-section'>
@@ -87,10 +93,11 @@ class GenreSelector extends Component{
             value={seed_genres}
             multi
             simpleValue
-            options={newOptions}
+            options={options}
             onChange={onChange}
             closeOnSelect={!stayOpen}
             placeholder="Genres to filter by"
+            disabled={disabled}
           />
         </div>
         <div className='selector-details-label'>

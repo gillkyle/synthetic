@@ -84,10 +84,6 @@ class Player extends Component{
 		this.setState({ playStatus: status });	
 	};
 
-	loadNext = () => {
-		console.log('play next song');
-	};
-
 	render() {
 		return (
 			<div className='Player'>
