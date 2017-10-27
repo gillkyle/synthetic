@@ -143,23 +143,53 @@ class App extends Component {
     if (this.state.filterBy.genre && this.state.seed_genres !== "") options['seed_genres'] = this.state.seed_genres;
     options['limit'] = 50;
 
-    if (isSeeds && this.state.params.access_token && this.state.filterBy.genre) {
-      s.getRecommendations(options)
-      .then((response) => {
-        // override data with new recommendations
-        data = response.tracks;
-        let reformattedData = [];
-        
-        // get song ids to request details
-        for (let j = 0; j < data.length; j++) { 
-          recommendationSongIds.push(data[j].id); 
-          reformattedData.push({track: data[j]});
-        };
-        s.getAudioFeaturesForTracks(recommendationSongIds, (error, response) => {
-          // override details with new recommendations
-          dataDetails = response.audio_features;
+    try {
+      if (isSeeds && this.state.params.access_token && this.state.filterBy.genre) 
+      {
+        s.getRecommendations(options)
+        .then((response) => {
+          // override data with new recommendations
+          data = response.tracks;
+          let reformattedData = [];
+          
+          // get song ids to request details
+          for (let j = 0; j < data.length; j++) { 
+            recommendationSongIds.push(data[j].id); 
+            reformattedData.push({track: data[j]});
+          };
+          s.getAudioFeaturesForTracks(recommendationSongIds, (error, response) => {
+            // override details with new recommendations
+            dataDetails = response.audio_features;
 
-          calculatedData = calcAndSort(reformattedData, dataDetails, this.state);
+            calculatedData = calcAndSort(reformattedData, dataDetails, this.state);
+            s.containsMySavedTracks([calculatedData[0].id])
+            .then((response) => {
+              this.setState({ songInLibrary: response[0] })
+            })
+            .catch(function(error) {
+              console.error(error);
+            });
+            // final assignment of top calculated track, remove loading, and load the queue
+            this.setState({ 
+              songRecommendation: calculatedData[0], 
+              loading: false,
+              queue: calculatedData,
+              queueDetails: dataDetails,
+              queuePosition: 0,
+              createdPlaylist: false
+            })
+            let audio = document.getElementById('audio');
+            audio.load();
+          });
+
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+      } else {
+      
+        calculatedData = calcAndSort(data, dataDetails, this.state);
+        if (this.state.params.access_token){
           s.containsMySavedTracks([calculatedData[0].id])
           .then((response) => {
             this.setState({ songInLibrary: response[0] })
@@ -167,48 +197,25 @@ class App extends Component {
           .catch(function(error) {
             console.error(error);
           });
-          // final assignment of top calculated track, remove loading, and load the queue
-          this.setState({ 
-            songRecommendation: calculatedData[0], 
-            loading: false,
-            queue: calculatedData,
-            queueDetails: dataDetails,
-            queuePosition: 0,
-            createdPlaylist: false
-          })
-          let audio = document.getElementById('audio');
-          audio.load();
-        });
-
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-    } else {
-    
-      calculatedData = calcAndSort(data, dataDetails, this.state);
-      if (this.state.params.access_token){
-        s.containsMySavedTracks([calculatedData[0].id])
-        .then((response) => {
-          this.setState({ songInLibrary: response[0] })
+        }
+        // final assignment of top calculated track, remove loading, and load the queue
+        this.setState({ 
+          songRecommendation: calculatedData[0], 
+          loading: false,
+          queue: calculatedData,
+          queueDetails: dataDetails,
+          queuePosition: 0,
+          createdPlaylist: false
         })
-        .catch(function(error) {
-          console.error(error);
-        });
-      }
-      // final assignment of top calculated track, remove loading, and load the queue
-      this.setState({ 
-        songRecommendation: calculatedData[0], 
-        loading: false,
-        queue: calculatedData,
-        queueDetails: dataDetails,
-        queuePosition: 0,
-        createdPlaylist: false
-      })
-      let audio = document.getElementById('audio');
-      audio.load();
-    
-    };
+        let audio = document.getElementById('audio');
+        audio.load();
+      
+      };
+    } catch (err) {
+      this.showError();
+      console.log(err);
+    }
+    this.setState({loading: false});
   };
 
   // control button functions (add, play/pause, next)
@@ -335,6 +342,13 @@ class App extends Component {
     this.msg.show('Login with Spotify to add songs or playlists to your library', {
       time: 4000,
       type: 'success',
+      icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
+    })
+  }
+  showAlert = () => {
+    this.msg.show('An error occured requesting info from Spotify, please try again', {
+      time: 4000,
+      type: 'warning',
       icon: <img style={{height: 32, width: 32}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Exclamation_mark_white_icon.svg/1200px-Exclamation_mark_white_icon.svg.png" />
     })
   }
