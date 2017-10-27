@@ -83,3 +83,13 @@
   transform: scale(1.25);
   transition: transform .2s ease;
 }
+
+
+
+.slick-slide {
+  color: transparent;
+  transition: color .3s linear;
+}
+.slick-active {
+  color: #ccc;
+}

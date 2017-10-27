@@ -21,17 +21,14 @@ import './styles/details.css';
 import './styles/main.css';
 import './styles/slider.css';
 
-// data imports
-import songApiData from './songData.json';
-import songDetailData from './songDetails.json';
+import playlists from './content/playlists/playlists'
 
 // helper function imports
 import { calcAndSort, getHashParams, setLoginEventListener, spotifyImplicitAuth } from './javascripts/helpers';
 
-
-const calcInitialQueue = () => {
+const calcQueue = (playlistNumber) => {
   let queue = [];
-  let data = songApiData.items;
+  let data = playlists[playlistNumber].data.items;
   for (let i = 0; i < data.length; i++){
     queue.push(data[i].track);
   }
@@ -55,16 +52,17 @@ class App extends Component {
         popularity: true,
         genre: true,
       },
-      songRecommendation: songApiData.items[0].track,
+      songRecommendation: playlists[0].data.items[0].track,
       params: {},
       loading: false,
       songInLibrary: false,
-      queue: calcInitialQueue(),
-      queueDetails: songDetailData,
+      queue: calcQueue(0),
+      queueDetails: playlists[0].details,
       queuePosition: 0,
       createdPlaylist: false,
       seed_genres: '',
-      selectedPlaylist: 0
+      selectedPlaylist: 0,
+      calculations: 'Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the Track Sampler selection. These filters were applied: Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50'
     }
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -95,14 +93,46 @@ class App extends Component {
           .catch(function(error) {
             console.error(error);
           });
-        }
+        };
+
+        // // get track details DEV only ----
+        // let dataDetails;
+        // const s = new Spotify();
+        // s.setAccessToken(this.state.params.access_token);
+        // //get static details 
+        // let data = playlists[4].data.items;
+        // let ddd = [];
+        // // get song ids to request details
+        // for (let j = 0; j < data.length; j++) { 
+        //   console.log(data[j].track.id);
+        //   ddd.push(data[j].track.id);
+        // };
+        // s.getAudioFeaturesForTracks(ddd, (error, response) => {
+        //   // override details with new recommendations
+        //   console.log(response);
+        //   dataDetails = response.audio_features;
+        // });
+        // console.log(dataDetails);
+        // // --------------------------------
+
       }
     );
     setLoginEventListener();
     setTimeout(() => {this.showSessionTimeout(); this.setState({ params: {} }); }, 1000 * 60 * 60);
   }
   // handle playlist change
-  handlePlaylistChange = value => { console.log("changed playlist"); this.setState({ selectedPlaylist: value })};
+  handlePlaylistChange = value => { 
+    this.setState({ 
+      selectedPlaylist: value,
+      queue: calcQueue(value),
+      queueDetails: playlists[value].details,
+      songRecommendation: playlists[value].data.items[0].track,
+      queuePosition: 0
+    });
+    this.child.stopPlayback();
+    let audio = document.getElementById('audio');
+    audio.load();
+  };
   // adjust slider values
   handleEnergyChange = value => { this.setState({ energyValue: value }) };
   handleValenceChange = value => { this.setState({ valenceValue: value }) };
@@ -127,8 +157,8 @@ class App extends Component {
 		s.setAccessToken(this.state.params.access_token);
 
     // by default use the sample data
-    let data = songApiData.items;
-    let dataDetails = songDetailData;
+    let data = playlists[this.state.selectedPlaylist].data.items;
+    let dataDetails = playlists[this.state.selectedPlaylist].details;
     let recommendationSongIds = [];
     let calculatedData = [];
 
@@ -142,6 +172,16 @@ class App extends Component {
     if (this.state.filterBy.popularity) options['target_popularity'] = this.state.popularityValue;
     if (this.state.filterBy.genre && this.state.seed_genres !== "") options['seed_genres'] = this.state.seed_genres;
     options['limit'] = 50;
+
+    let formattedCalculations = [];
+    if (this.state.filterBy.energy) formattedCalculations.push(`Energy: ${this.state.energyValue}`);
+    if (this.state.filterBy.valence) formattedCalculations.push(`Valence: ${this.state.valenceValue}`);
+    if (this.state.filterBy.acoustic) formattedCalculations.push(`Acoustic: ${this.state.acousticValue}`);
+    if (this.state.filterBy.dance) formattedCalculations.push(`Dance: ${this.state.danceValue}`);
+    if (this.state.filterBy.popularity) formattedCalculations.push(`Popularity: ${this.state.popularityValue}`);
+    if (this.state.filterBy.genre && this.state.seed_genres !== "") formattedCalculations.push(`Genres: ${this.state.seed_genres}`);
+    const calculationsString = formattedCalculations.join(', ');
+
 
     try {
       if (isSeeds && this.state.params.access_token && this.state.filterBy.genre) 
@@ -176,7 +216,8 @@ class App extends Component {
               queue: calculatedData,
               queueDetails: dataDetails,
               queuePosition: 0,
-              createdPlaylist: false
+              createdPlaylist: false,
+              calculations: calculationsString
             })
             let audio = document.getElementById('audio');
             audio.load();
@@ -205,7 +246,8 @@ class App extends Component {
           queue: calculatedData,
           queueDetails: dataDetails,
           queuePosition: 0,
-          createdPlaylist: false
+          createdPlaylist: false,
+          calculations: calculationsString
         })
         let audio = document.getElementById('audio');
         audio.load();
@@ -240,6 +282,7 @@ class App extends Component {
     const spotifyApi = new Spotify()
     spotifyApi.setAccessToken(state.params.access_token);
 
+    let that = this;
     // check if user has access token before making request
     if (this.state.params.access_token !== undefined) {
       spotifyApi.containsMySavedTracks([state.queue[newQueuePosition].id])
@@ -255,6 +298,9 @@ class App extends Component {
       })
       .catch(function(error) {
         console.error(error);
+        that.showError();
+        that.setState({ params: {} });
+        setLoginEventListener();
       });;
     } else {
       this.setState({
@@ -310,14 +356,14 @@ class App extends Component {
       {
         // create blank playlist
         s.createPlaylist(this.state.me.id, {
-          name: 'Music+ Recommendations',
-          description: `Your generated playlist. Energy: ${this.state.energyValue}`
+          name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
+          description: `Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the ${playlists[this.state.selectedPlaylist].name} selection. These filters were applied: ${ JSON.stringify(this.state.calculations)}`
         })
         .then((response) => {
           this.setState({createdPlaylist: true});
           console.log(response);
           let trackURIs = [];
-          for (let i = 0; i <= 25 && i < this.state.queue.length; i++) {
+          for (let i = 0; i < 25 && i < this.state.queue.length; i++) {
             trackURIs.push(this.state.queue[i].uri)
           };
           s.addTracksToPlaylist(this.state.me.id, response.id, trackURIs)
@@ -453,7 +499,7 @@ class App extends Component {
           toggleFilter={this.togglePopularityFilter}
           filterOn={this.state.filterBy.popularity}
         />
-        {this.state.params.access_token ? 
+        {this.state.params.access_token && this.state.selectedPlaylist === 5 ? 
         <div className>
           Experimental Features
           <GenreSelector

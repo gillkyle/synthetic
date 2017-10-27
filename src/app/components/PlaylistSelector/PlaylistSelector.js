@@ -21,7 +21,8 @@ class PlaylistSelector extends Component{
       slidesToScroll: 1,
       centerMode: true,
       swipeToSlide: true,
-      afterChange: this.props.onChange
+      afterChange: this.props.onChange,
+      variableWidth: false
     };
     return (
       <div style={{gridArea: 'carousel'}} >
@@ -30,7 +31,7 @@ class PlaylistSelector extends Component{
           <div><h3>Indietronic</h3></div>
           <div><h3>Hipster Synthpop</h3></div>
           <div><h3>Absolute Focus</h3></div>
-          <div><h3>Subwoofer Soundbombs</h3></div>
+          <div><h3>Tropical Vibes</h3></div>
           <div><h3>Spotify Library</h3></div>
         </Carousel>
       </div>

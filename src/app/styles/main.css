@@ -69,10 +69,10 @@ h4 {
   margin-top: 20px;
 }
 
-.instructions {
+.instructions-section {
   background: #1E1B1B;
   margin: 60px 0px 60px 0px;
-  padding: 75px
+  padding: 30px;
 }
 .genre-section {
   display: grid;

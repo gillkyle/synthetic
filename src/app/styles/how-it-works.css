@@ -1,0 +1,42 @@
+.title {
+  color: #eee;
+  font-size: 36px;
+  margin: 20px;
+}
+.subtitle {
+  color: #aaa;
+  font-size: 28px;
+  line-height: 28px;
+  margin: 0px 20px 10px 20px;
+  grid-area: subtitle;
+}
+.subtitle-icon {
+  grid-area: icon;
+  font-size: 36px;
+}
+.section-3-col {
+  display: grid;
+  grid-template-areas:
+    "section1 section2 section3";
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.section {
+  display: grid;
+  margin: 20px 0px 20px 0px;
+  grid-template-areas: 
+    "... icon ..."
+    "... subtitle ..."
+    "content content content";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  align-content: center;
+  text-align: center;
+}
+.content {
+  grid-area: content;
+  font-size: 20px;
+  line-height: 24px;
+}
+.content-step {
+  margin: 15px;
+}
