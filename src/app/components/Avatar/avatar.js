@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
-
+import { signOut } from '../../javascripts/helpers';
 
 
 class Avatar extends Component{
 	render() {
     const AvatarContainer = glamorous.div({
-      display: 'flex',
-      alignContent: 'center',
-      justifyContent: 'center'
+      display: 'grid',
+      gridTemplateAreas: `
+        "text image"
+      `,
+      gridTemplateColumns: '1fr 40px'
     })
     const AvatarImg = glamorous.div({
+      gridArea: 'image',
       width: 40,
       height: 40,
       borderRadius: 20,
@@ -19,13 +22,27 @@ class Avatar extends Component{
       marginRight: 10
     })
     const AvatarText = glamorous.div({
-      alignSelf: 'center'
+      textAlign: 'right',
+      gridArea: 'text',
+      padding: 5,
+      lineHeight: 1
+    })
+    const AvatarSubText = glamorous.span({
+      color: '#aaa',
+      fontSize: 10,
+      letterSpacing: 2,
+      cursor: 'pointer'
     })
 		return (
       <AvatarContainer>
         <AvatarImg />
         <AvatarText>
-          Hi! {this.props.me.display_name}
+          {this.props.me.display_name}
+          <div>
+            <AvatarSubText onClick={() => signOut()}>
+              Sign out
+            </AvatarSubText>
+          </div>
         </AvatarText>
       </AvatarContainer>
     )

@@ -4,7 +4,7 @@ import Spinner from 'react-spinkit';
 import AlertContainer from 'react-alert';
 
 // component imports
-import Avatar from './components/Avatar/avatar';
+import Header from './components/Header/Header';
 import BigButton from './components/Button';
 import PlaylistSelector from './components/PlaylistSelector/PlaylistSelector';
 import SliderSelector from './components/Slider/SliderSelector';
@@ -13,6 +13,7 @@ import Player from './components/Player/Player';
 import SongStatistics from './components/SongStats/SongStatistics';
 import RadarSection from './components/Radar/RadarSection';
 import HowItWorks from './components/Instructions/HowItWorks';
+import Promotion from './components/Instructions/Promotion';
 
 // css imports
 import './styles/buttons.css';
@@ -441,24 +442,10 @@ class App extends Component {
     const { energyValue, valenceValue, acousticValue, danceValue, popularityValue, songRecommendation } = this.state
     return (
       <div className='App'>
-        <div className='app-header'>
-            <div className='app-header-title'>MUSIC+</div>
-            <div className='login-section'>
-              {this.state.params.access_token ? 
-              <Avatar
-                me={this.state.me}
-              />
-               :
-               <BigButton
-                type='button'
-                id='login-button'
-                className='loginButton'
-                value='Login'
-                onClick={() => spotifyImplicitAuth(this.state.params)}
-              />
-              } 
-            </div>
-        </div>
+        <Header
+          params={this.state.params}
+          me={this.state.me}
+        />
         <div className='playlist-selector'>
           <PlaylistSelector 
               onChange={this.handlePlaylistChange}
@@ -561,9 +548,10 @@ class App extends Component {
             </div>
           }
         </div>
+        <Promotion />
         <HowItWorks />
         <div className='app-footer'>
-          <a  href='https://github.com/gillkyle/musicvault' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
+          <a  href='https://github.com/gillkyle' target='_blank' rel='noopener noreferrer'><i className='fa fa-github' /></a>
         </div>
         <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
       </div>

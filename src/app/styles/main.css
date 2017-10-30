@@ -43,7 +43,7 @@ h4 {
 
 .login-section {
   grid-area: login;
-  align-self: center;
+  align-self: right;
   padding: 10px;
 }
 
@@ -68,11 +68,13 @@ h4 {
   width: 300px;
   margin-top: 20px;
 }
-
-.instructions-section {
+.promotion-section {
   background: #1E1B1B;
-  margin: 60px 0px 60px 0px;
-  padding: 30px;
+  margin: 60px 0px 0px 0px;
+  padding: 60px;
+}
+.instructions-section {
+  padding: 60px ;
 }
 .genre-section {
   display: grid;
@@ -100,17 +102,22 @@ h4 {
   .app-header {
     height: inherit;
     grid-template-areas: 
-      "title"
-      "login";
-    grid-template-columns: 1fr;
+      "title login";
+    grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     line-height: 1;
-    padding: 20px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
   }
   .app-header-title {
     letter-spacing: 4px;
     font-weight: 900;
     font-size: 36px;
+  }
+  .promotion-section {
+    padding: 20px;
+  }
+  .instructions-section {
+    padding: 20px;
   }
   .genre-section {
     grid-template-areas: 
@@ -135,8 +142,8 @@ h4 {
     margin-bottom: 30px;
     justify-self: start;
   }
-  .player-selector {
-    grid-template-columns: 1fr 8fr 1fr;
+  .playlist-selector {
+    grid-template-columns: 1fr 200px 1fr;
     margin: 30px;
   }
 }
