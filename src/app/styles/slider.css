@@ -78,6 +78,7 @@
 .scale-emphasis {
   transform: scale(1.0);
   transition: transform .2s ease;
+  cursor: pointer;
 }
 .scale-emphasis:hover {
   transform: scale(1.25);

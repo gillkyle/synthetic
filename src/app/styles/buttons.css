@@ -10,6 +10,7 @@
   background: linear-gradient(to left, #27b7ff, #70D5FF) !important;
   transform: scale(1.0) !important;
   transition: transform .15s ease !important;
+  cursor: pointer;
 }
 .calculateButton:hover {
   background: linear-gradient(to left, #39BDFF, #80D9FF) !important;
@@ -32,6 +33,7 @@
   background-color: rgba(0,0,0,0) !important;
   transform: scale(1.0) !important;
   transition: transform .15s ease !important;
+  cursor: pointer;
 }
 .loginButton:hover {
   transform: scale(1.035) !important;
@@ -42,4 +44,11 @@
   color: #ccc !important;
   transform: scale(.95) !important;
   transition: transform .1s ease !important;
+}
+@media only screen and (max-width: 768px) {
+  .loginButton {
+    border-radius: 38px !important;
+    height: 35px;
+    width: 100px;
+  }
 }
