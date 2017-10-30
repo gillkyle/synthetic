@@ -22,6 +22,10 @@ const getHashParams = () => {
   return hashParams;
 }
 
+const signOut = () => {
+  window.location = '/';
+}
+
 const setLoginEventListener = () => {
   document.getElementById('login-button').addEventListener('click', function() {
     const stateKey = 'spotify_auth_state';
@@ -119,4 +123,4 @@ const calcAndSort = (data, dataDetails, state) => {
   return calculatedData;
 }
 
-export { calcAndSort, generateRandomString, getHashParams, setLoginEventListener, spotifyImplicitAuth };
+export { calcAndSort, generateRandomString, getHashParams, signOut, setLoginEventListener, spotifyImplicitAuth };
