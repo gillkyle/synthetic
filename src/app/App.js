@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
 import Spinner from 'react-spinkit';
 import AlertContainer from 'react-alert';
+import ReactGA from 'react-ga';
 
 // component imports
 import Header from './components/Header/Header';
@@ -26,6 +27,9 @@ import playlists from './content/playlists/playlists'
 
 // helper function imports
 import { calcAndSort, getHashParams, setLoginEventListener, spotifyImplicitAuth } from './javascripts/helpers';
+
+// GA tracking
+ReactGA.initialize('UA-108999356-1');
 
 const calcQueue = (playlistNumber) => {
   let queue = [];
@@ -153,6 +157,10 @@ class App extends Component {
   handleClick = () => {
     this.child.stopPlayback();
     this.setState({loading: true});
+    ReactGA.event({
+      category: 'Button',
+      action: 'Click'
+    });
     
     const s = new Spotify();
 		s.setAccessToken(this.state.params.access_token);
