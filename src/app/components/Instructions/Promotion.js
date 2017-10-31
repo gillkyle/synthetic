@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import glamorous from 'glamorous';
 import '../../styles/how-it-works.css';
 import * as Fa from 'react-icons/lib/fa'
 

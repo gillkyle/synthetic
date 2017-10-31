@@ -74,6 +74,9 @@ h4 {
   padding: 60px;
 }
 .instructions-section {
+  display: grid;
+  grid-template-areas: "image text";
+  grid-template-columns: 1fr 2fr;
   padding: 60px ;
 }
 .genre-section {
@@ -117,7 +120,12 @@ h4 {
     padding: 20px;
   }
   .instructions-section {
-    padding: 20px;
+    display: grid;
+    grid-template-areas: 
+      "text"
+      "image";
+    grid-template-columns: 1fr;
+    padding: 20px ;
   }
   .genre-section {
     grid-template-areas: 

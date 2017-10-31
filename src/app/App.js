@@ -26,10 +26,8 @@ import './styles/slider.css';
 import playlists from './content/playlists/playlists'
 
 // helper function imports
-import { calcAndSort, getHashParams, setLoginEventListener, spotifyImplicitAuth } from './javascripts/helpers';
+import { calcAndSort, getHashParams, setLoginEventListener } from './javascripts/helpers';
 
-// GA tracking
-ReactGA.initialize('UA-108999356-1');
 
 const calcQueue = (playlistNumber) => {
   let queue = [];
@@ -67,7 +65,7 @@ class App extends Component {
       createdPlaylist: false,
       seed_genres: '',
       selectedPlaylist: 0,
-      calculations: 'Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the Track Sampler selection. These filters were applied: Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50'
+      calculations: 'Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50'
     }
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -75,6 +73,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // GA tracking
+    ReactGA.initialize('UA-108999356-1');
+    ReactGA.set({ page: window.location.pathname});
+    ReactGA.pageview(window.location.pathname);
+
     this.setState({ 
       params: getHashParams()},
       () => {
@@ -366,7 +369,7 @@ class App extends Component {
         // create blank playlist
         s.createPlaylist(this.state.me.id, {
           name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
-          description: `Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the ${playlists[this.state.selectedPlaylist].name} selection. These filters were applied: ${ JSON.stringify(this.state.calculations)}`
+          description: `Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the ${playlists[this.state.selectedPlaylist].name} selection. Filters - ${ JSON.stringify(this.state.calculations)}`
         })
         .then((response) => {
           this.setState({createdPlaylist: true});

@@ -1,11 +1,17 @@
+.hiw-text {
+  grid-area: text;
+}
+
 .title {
   color: #eee;
   font-size: 36px;
-  margin: 20px;
+  margin: 20px 10%;
+  text-align: left;
 }
 .title-subtext {
   margin: 20px 10%;
   font-size: 16px;
+  text-align: left;
 }
 .subtitle {
   color: #aaa;
@@ -54,4 +60,25 @@
       "section3";
     grid-template-columns: 1fr;
   }
+}
+
+.hiw-image {
+  grid-area: image;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hiw-image-icon {
+  font-size: 200px;
+  color: #fff;
+  background: linear-gradient(to top left, #27b7ff, #70D5FF);
+  border-radius: 150px;
+  height: 300px;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.hiw-image-icon>svg {
+  margin: 0px 0px 8px 8px;
 }
