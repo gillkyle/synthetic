@@ -461,6 +461,7 @@ class App extends Component {
         <div className='playlist-selector'>
           <PlaylistSelector 
               onChange={this.handlePlaylistChange}
+              playlists={playlists}
           />
         </div>
         <SliderSelector

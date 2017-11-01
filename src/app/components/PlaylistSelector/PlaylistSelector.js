@@ -26,11 +26,11 @@ class PlaylistSelector extends Component{
     return (
       <div style={{gridArea: 'carousel'}} >
         <Carousel {...settings}>
-          <div><h3>Standard Sampler</h3></div>
-          <div><h3>Indietronic</h3></div>
-          <div><h3>Hipster Synthpop</h3></div>
-          <div><h3>Absolute Focus</h3></div>
-          <div><h3>Tropical Vibes</h3></div>
+          <div><h3>{this.props.playlists[0].name}</h3></div>
+          <div><h3>{this.props.playlists[1].name}</h3></div>
+          <div><h3>{this.props.playlists[2].name}</h3></div>
+          <div><h3>{this.props.playlists[3].name}</h3></div>
+          <div><h3>{this.props.playlists[4].name}</h3></div>
           <div><h3>Spotify Library</h3></div>
         </Carousel>
       </div>

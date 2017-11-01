@@ -30,7 +30,7 @@ const setLoginEventListener = () => {
   document.getElementById('login-button').addEventListener('click', function() {
     const stateKey = 'spotify_auth_state';
     const client_id = 'c3ac28c1b26941b5a09beaa1d33240bd'; // Your client id
-    let redirect_uri = 'http://localhost:3000'; // Your redirect uri
+    let redirect_uri = 'https://synthetic-app.herokuapp.com'; // Your redirect uri
 
     let state = generateRandomString();
 
