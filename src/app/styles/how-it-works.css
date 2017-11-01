@@ -69,12 +69,12 @@
   justify-content: center;
 }
 .hiw-image-icon {
-  font-size: 200px;
+  font-size: 160px;
   color: #fff;
   background: linear-gradient(to top left, #27b7ff, #70D5FF);
-  border-radius: 150px;
-  height: 300px;
-  width: 300px;
+  border-radius: 125px;
+  height: 250px;
+  width: 250px;
   justify-content: center;
   align-items: center;
   display: flex;

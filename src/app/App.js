@@ -135,7 +135,8 @@ class App extends Component {
       queue: calcQueue(value),
       queueDetails: playlists[value].details,
       songRecommendation: playlists[value].data.items[0].track,
-      queuePosition: 0
+      queuePosition: 0,
+      seed_genres: ''
     });
     this.child.stopPlayback();
     let audio = document.getElementById('audio');
