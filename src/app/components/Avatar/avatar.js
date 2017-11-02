@@ -17,7 +17,7 @@ class Avatar extends Component{
       width: 40,
       height: 40,
       borderRadius: 20,
-      background: `url(${this.props.me.images[0].url})`,
+      background: `url(${this.props.me.images[0].url || "https://cdn.vox-cdn.com/images/verge/default-avatar.v989902574302a6378709709f7baab789b242ebbb.gif"})`,
       backgroundSize: 'contain',
       marginRight: 10
     })

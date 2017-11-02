@@ -92,7 +92,7 @@ class App extends Component {
           })
           .catch(function(error) {
             console.error(error);
-          });;
+          });
           spotifyApi.getMe().then( (response) => {
             this.setState({
               me: response
