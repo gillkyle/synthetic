@@ -12,7 +12,7 @@ class Avatar extends Component{
       `,
       gridTemplateColumns: '1fr 40px'
     })
-    let bgImage = this.props.me.images[0].url ? this.props.me.images[0].url : "https://cdn.vox-cdn.com/images/verge/default-avatar.v989902574302a6378709709f7baab789b242ebbb.gif";
+    let bgImage = this.props.me.images[0] ? this.props.me.images[0].url : "https://cdn.vox-cdn.com/images/verge/default-avatar.v989902574302a6378709709f7baab789b242ebbb.gif";
     const AvatarImg = glamorous.div({
       gridArea: 'image',
       width: 40,
@@ -38,7 +38,7 @@ class Avatar extends Component{
       <AvatarContainer>
         <AvatarImg />
         <AvatarText>
-          {this.props.me.display_name}
+          {this.props.me.display_name ? this.props.me.display_name : this.props.me.id}
           <div>
             <AvatarSubText onClick={() => signOut()}>
               Sign out
