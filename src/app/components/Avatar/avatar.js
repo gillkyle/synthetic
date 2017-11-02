@@ -12,12 +12,13 @@ class Avatar extends Component{
       `,
       gridTemplateColumns: '1fr 40px'
     })
+    let bgImage = this.props.me.images[0].url || "https://cdn.vox-cdn.com/images/verge/default-avatar.v989902574302a6378709709f7baab789b242ebbb.gif";
     const AvatarImg = glamorous.div({
       gridArea: 'image',
       width: 40,
       height: 40,
       borderRadius: 20,
-      background: `url(${this.props.me.images[0].url || "https://cdn.vox-cdn.com/images/verge/default-avatar.v989902574302a6378709709f7baab789b242ebbb.gif"})`,
+      background: `url( ${bgImage} )`,
       backgroundSize: 'contain',
       marginRight: 10
     })
