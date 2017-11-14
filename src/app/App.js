@@ -523,20 +523,17 @@ class App extends Component {
     );
   };
   showError = () => {
-    this.msg.show(
-      "An error occured requesting info from Spotify, you may need to login",
-      {
-        time: 4000,
-        type: "error",
-        icon: (
-          <img
-            alt="icon alert"
-            style={{ height: 32, width: 32 }}
-            src={exclamation}
-          />
-        )
-      }
-    );
+    this.msg.show("An error occured, you may need to sign out and/or log in", {
+      time: 4000,
+      type: "error",
+      icon: (
+        <img
+          alt="icon alert"
+          style={{ height: 32, width: 32 }}
+          src={exclamation}
+        />
+      )
+    });
   };
   showAdded = songInLibrary => {
     if (songInLibrary) {
@@ -604,7 +601,7 @@ class App extends Component {
     this.msg.show(
       "First song in results reached, move through songs with the right arrow",
       {
-        time: 0,
+        time: 4000,
         type: "error",
         icon: (
           <img
@@ -618,7 +615,7 @@ class App extends Component {
   };
   showLastSong = () => {
     this.msg.show("Last song in results set reached", {
-      time: 0,
+      time: 4000,
       type: "error",
       icon: (
         <img
@@ -631,7 +628,7 @@ class App extends Component {
   };
   showLoginNotification = () => {
     this.msg.show("Login with Spotify to search Spotify's entire library", {
-      time: 0,
+      time: 4000,
       type: "error",
       icon: (
         <img

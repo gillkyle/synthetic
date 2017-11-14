@@ -102,7 +102,9 @@ const calcAndSort = (data, dataDetails, state) => {
   // enter entire dataset loop for each song
   for (let i = 0; i < data.length; i++) {
     let songObj = data[i].track;
-    let songDetails = dataDetails[i];
+    let songDetails = dataDetails.find(songDetailSet => {
+      return songDetailSet.id === songObj.id;
+    });
 
     let trackId = songObj.id;
     trackIds.push(trackId);
@@ -115,11 +117,11 @@ const calcAndSort = (data, dataDetails, state) => {
     let trackDance = Math.round(trackDetails.danceability * 100) || 0;
     let trackPopularity = Math.abs(Math.round(songObj.popularity));
 
-    let differenceEnergy = 0,
-      differenceValence = 0,
-      differenceAcousticness = 0,
-      differenceDance = 0,
-      differencePopularity = 0;
+    let differenceEnergy = 0;
+    let differenceValence = 0;
+    let differenceAcousticness = 0;
+    let differenceDance = 0;
+    let differencePopularity = 0;
     if (state.filterBy.energy) {
       differenceEnergy = Math.abs(trackEnergy - state.energyValue);
     }
