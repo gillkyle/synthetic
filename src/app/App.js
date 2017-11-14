@@ -71,7 +71,7 @@ class App extends Component {
       seed_genres: "",
       selectedPlaylist: 0,
       calculations:
-        "Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
+        "Create your own at synthetic.kylegill.com | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
     };
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -136,8 +136,9 @@ class App extends Component {
     );
     setLoginEventListener();
     setTimeout(() => {
-      this.showSessionTimeout();
       this.setState({ params: {} });
+      window.location = "/";
+      this.showSessionTimeout();
     }, 1000 * 60 * 60);
   }
   // handle playlist change
@@ -150,6 +151,9 @@ class App extends Component {
       queuePosition: 0,
       seed_genres: ""
     });
+    if (!this.state.params.access_token && value == 10) {
+      this.showLoginNotification();
+    }
     this.child.stopPlayback();
     let audio = document.getElementById("audio");
     audio.load();
@@ -355,6 +359,10 @@ class App extends Component {
 
   // control button functions (add, play/pause, next)
   addSong = () => {
+    ReactGA.event({
+      category: "Button",
+      action: "Add_Song"
+    });
     const s = new Spotify();
     s.setAccessToken(this.state.params.access_token);
     if (this.state.params.access_token !== undefined) {
@@ -372,6 +380,7 @@ class App extends Component {
     let newQueuePosition = state.queuePosition - 1;
     if (newQueuePosition < 0) {
       newQueuePosition = 0;
+      this.showFirstSong();
     }
     const spotifyApi = new Spotify();
     spotifyApi.setAccessToken(state.params.access_token);
@@ -413,6 +422,10 @@ class App extends Component {
     this.setState({ loading: true });
     let state = this.state;
     let newQueuePosition = state.queuePosition + 1;
+    if (newQueuePosition >= state.queue.length) {
+      newQueuePosition = state.queuePosition;
+      this.showLastSong();
+    }
     const spotifyApi = new Spotify();
     spotifyApi.setAccessToken(state.params.access_token);
 
@@ -450,6 +463,10 @@ class App extends Component {
     }
   };
   addPlaylist = () => {
+    ReactGA.event({
+      category: "Button",
+      action: "Add_Playlist"
+    });
     const s = new Spotify();
     s.setAccessToken(this.state.params.access_token);
     if (this.state.params.access_token !== undefined) {
@@ -458,7 +475,7 @@ class App extends Component {
         s
           .createPlaylist(this.state.me.id, {
             name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
-            description: `Create your own at synthetic-app.herokuapp.com | Your generated playlist with music from the ${playlists[
+            description: `Create your own at synthetic.kylegill.com | Your generated playlist with music from the ${playlists[
               this.state.selectedPlaylist
             ].name} selection. Filters - ${JSON.stringify(
               this.state.calculations
@@ -582,6 +599,48 @@ class App extends Component {
         )
       }
     );
+  };
+  showFirstSong = () => {
+    this.msg.show(
+      "First song in results reached, move through songs with the right arrow",
+      {
+        time: 0,
+        type: "error",
+        icon: (
+          <img
+            alt="icon alert"
+            style={{ height: 32, width: 32 }}
+            src={exclamation}
+          />
+        )
+      }
+    );
+  };
+  showLastSong = () => {
+    this.msg.show("Last song in results set reached", {
+      time: 0,
+      type: "error",
+      icon: (
+        <img
+          alt="icon alert"
+          style={{ height: 32, width: 32 }}
+          src={exclamation}
+        />
+      )
+    });
+  };
+  showLoginNotification = () => {
+    this.msg.show("Login with Spotify to search Spotify's entire library", {
+      time: 0,
+      type: "error",
+      icon: (
+        <img
+          alt="icon alert"
+          style={{ height: 32, width: 32 }}
+          src={exclamation}
+        />
+      )
+    });
   };
 
   render() {
