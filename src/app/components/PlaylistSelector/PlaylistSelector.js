@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
-import Carousel from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React, { Component } from "react";
+import Carousel from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-
-class PlaylistSelector extends Component{
+class PlaylistSelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeSlide: 1
-    }
+    };
   }
 
-	render() {
+  render() {
     const settings = {
       infinite: true,
       speed: 200,
@@ -24,18 +23,45 @@ class PlaylistSelector extends Component{
       variableWidth: false
     };
     return (
-      <div style={{gridArea: 'carousel'}} >
+      <div style={{ gridArea: "carousel" }}>
         <Carousel {...settings}>
-          <div><h3>{this.props.playlists[0].name}</h3></div>
-          <div><h3>{this.props.playlists[1].name}</h3></div>
-          <div><h3>{this.props.playlists[2].name}</h3></div>
-          <div><h3>{this.props.playlists[3].name}</h3></div>
-          <div><h3>{this.props.playlists[4].name}</h3></div>
-          <div><h3>Spotify Library</h3></div>
+          <div>
+            <h3>{this.props.playlists[0].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[1].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[2].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[3].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[4].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[5].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[6].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[7].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[8].name}</h3>
+          </div>
+          <div>
+            <h3>{this.props.playlists[9].name}</h3>
+          </div>
+          <div>
+            <h3>Spotify Library</h3>
+          </div>
         </Carousel>
       </div>
-    )
+    );
   }
-};
+}
 
 export default PlaylistSelector;
