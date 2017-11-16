@@ -1,0 +1,31 @@
+.playlist-detail-row {
+  display: grid;
+  grid-template-areas: "playlist-art playlist-description";
+  grid-template-columns: 205px 2fr;
+  margin: 10px 0px;
+}
+.playlist-art {
+  height: 175px;
+  width: 175px;
+}
+#playlist-details-section-title {
+  grid-area: playlist-header;
+  font-size: 36px;
+  color: #eee;
+  text-align: center;
+  align-self: end;
+}
+#playlist-subheader {
+  align-self: center;
+}
+.playlist-description {
+  grid-area: playlist-description;
+  text-align: left;
+}
+.playlist-name {
+  color: #ccc;
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 10px;
+  vertical-align: bottom;
+}
