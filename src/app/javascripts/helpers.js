@@ -97,8 +97,6 @@ const calcAndSort = (data, dataDetails, state) => {
   let calculatedData = [];
   let trackIds = [];
 
-  console.log(data);
-  console.log(dataDetails);
   // enter entire dataset loop for each song
   for (let i = 0; i < data.length; i++) {
     let songObj = data[i].track;
@@ -115,12 +113,15 @@ const calcAndSort = (data, dataDetails, state) => {
     let trackValence = Math.round(trackDetails.valence * 100) || 0;
     let trackAcousticness = Math.round(trackDetails.acousticness * 100) || 0;
     let trackDance = Math.round(trackDetails.danceability * 100) || 0;
+    let trackVocalness =
+      Math.abs(Math.round(trackDetails.instrumentalness * 100 - 100)) || 0;
     let trackPopularity = Math.abs(Math.round(songObj.popularity));
 
     let differenceEnergy = 0;
     let differenceValence = 0;
     let differenceAcousticness = 0;
     let differenceDance = 0;
+    let differenceVocalness = 0;
     let differencePopularity = 0;
     if (state.filterBy.energy) {
       differenceEnergy = Math.abs(trackEnergy - state.energyValue);
@@ -136,6 +137,9 @@ const calcAndSort = (data, dataDetails, state) => {
     if (state.filterBy.dance) {
       differenceDance = Math.abs(trackDance - state.danceValue);
     }
+    if (state.filterBy.vocalness) {
+      differenceVocalness = Math.abs(trackVocalness - state.vocalnessValue);
+    }
     if (state.filterBy.popularity) {
       differencePopularity = Math.abs(trackPopularity - state.popularityValue);
     }
@@ -144,6 +148,7 @@ const calcAndSort = (data, dataDetails, state) => {
       differenceValence +
       differenceAcousticness +
       differenceDance +
+      differenceVocalness +
       differencePopularity;
     songObj["ResultDifference"] = totalDifference;
     if (songObj.preview_url !== null) {
@@ -151,10 +156,13 @@ const calcAndSort = (data, dataDetails, state) => {
     }
   }
 
+  console.log(calculatedData);
   // sort by the absolute value of the subtracted entered user amount for each value and resort by that value
   calculatedData.sort(function(a, b) {
     return a.ResultDifference - b.ResultDifference;
   });
+  console.log(calculatedData);
+
   return calculatedData;
 };
 

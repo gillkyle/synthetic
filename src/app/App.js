@@ -52,12 +52,14 @@ class App extends Component {
       valenceValue: 50,
       acousticValue: 50,
       danceValue: 50,
+      vocalnessValue: 50,
       popularityValue: 50,
       filterBy: {
         energy: true,
         valence: true,
         acoustic: true,
         dance: true,
+        vocalness: true,
         popularity: true,
         genre: true
       },
@@ -172,6 +174,9 @@ class App extends Component {
   handleDanceChange = value => {
     this.setState({ danceValue: value });
   };
+  handleVocalnessChange = value => {
+    this.setState({ vocalnessValue: value });
+  };
   handlePopularityChange = value => {
     this.setState({ popularityValue: value });
   };
@@ -203,6 +208,14 @@ class App extends Component {
   toggleDanceFilter = () => {
     this.setState({
       filterBy: { ...this.state.filterBy, dance: !this.state.filterBy.dance }
+    });
+  };
+  toggleVocalnessFilter = () => {
+    this.setState({
+      filterBy: {
+        ...this.state.filterBy,
+        vocalness: !this.state.filterBy.vocalness
+      }
     });
   };
   togglePopularityFilter = () => {
@@ -248,6 +261,8 @@ class App extends Component {
       options["target_acousticness"] = this.state.acousticValue / 100;
     if (this.state.filterBy.dance)
       options["target_danceability"] = this.state.danceValue / 100;
+    if (this.state.filterBy.vocalness)
+      options["target_instrumentalness"] = this.state.vocalnessValue / 100;
     if (this.state.filterBy.popularity)
       options["target_popularity"] = this.state.popularityValue;
     if (this.state.filterBy.genre && this.state.seed_genres !== "")
@@ -263,6 +278,8 @@ class App extends Component {
       formattedCalculations.push(`Acoustic: ${this.state.acousticValue}`);
     if (this.state.filterBy.dance)
       formattedCalculations.push(`Dance: ${this.state.danceValue}`);
+    if (this.state.filterBy.vocalness)
+      formattedCalculations.push(`Vocalness: ${this.state.vocalnessValue}`);
     if (this.state.filterBy.popularity)
       formattedCalculations.push(`Popularity: ${this.state.popularityValue}`);
     if (this.state.filterBy.genre && this.state.seed_genres !== "")
@@ -484,7 +501,6 @@ class App extends Component {
           })
           .then(response => {
             this.setState({ createdPlaylist: true });
-            console.log(response);
             let trackURIs = [];
             for (let i = 0; i < 25 && i < this.state.queue.length; i++) {
               trackURIs.push(this.state.queue[i].uri);
@@ -518,7 +534,11 @@ class App extends Component {
         time: 4000,
         type: "success",
         icon: (
-          <img alt="icon alert" style={{ height: 32, width: 32 }} src={check} />
+          <img
+            alt="icon alert"
+            style={{ height: 32, width: 32 }}
+            src={exclamation}
+          />
         )
       }
     );
@@ -648,6 +668,7 @@ class App extends Component {
       acousticValue,
       danceValue,
       popularityValue,
+      vocalnessValue,
       songRecommendation
     } = this.state;
     return (
@@ -693,6 +714,13 @@ class App extends Component {
           onChange={this.handlePopularityChange}
           toggleFilter={this.togglePopularityFilter}
           filterOn={this.state.filterBy.popularity}
+        />
+        <SliderSelector
+          label="VOCALNESS"
+          value={vocalnessValue}
+          onChange={this.handleVocalnessChange}
+          toggleFilter={this.toggleVocalnessFilter}
+          filterOn={this.state.filterBy.vocalness}
         />
         {this.state.params.access_token &&
         this.state.selectedPlaylist === 10 ? (
