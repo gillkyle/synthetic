@@ -15,7 +15,6 @@ import SongStatistics from "./components/SongStats/SongStatistics";
 import RadarSection from "./components/Radar/RadarSection";
 import HowItWorks from "./components/Instructions/HowItWorks";
 import Promotion from "./components/Instructions/Promotion";
-import PlaylistDetails from "./components/PlaylistDetails/PlaylistDetails";
 
 // css imports
 import "./styles/buttons.css";
@@ -803,7 +802,6 @@ class App extends Component {
         </div>
         <Promotion />
         <HowItWorks />
-        <PlaylistDetails />
         <div className="app-footer">
           <a
             href="https://github.com/gillkyle"

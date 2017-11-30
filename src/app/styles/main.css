@@ -76,9 +76,11 @@ h4 {
 }
 .instructions-section {
   display: grid;
-  grid-template-areas: "image text";
-  grid-template-columns: 1fr 2fr;
+  grid-template-areas: "section1" "section2" "section3";
+  grid-auto-rows: auto auto 1fr;
+  grid-gap: 60px;
   padding: 60px;
+  justify-content: center;
 }
 .genre-section {
   display: grid;
@@ -102,9 +104,8 @@ h4 {
 }
 .playlist-details-section {
   display: grid;
-  grid-template-areas: "playlist-header" "playlist-subheader" "playlists";
-  grid-template-rows: 60px 100px 1fr;
-  padding: 60px;
+  grid-template-areas: "playlists";
+  grid-auto-rows: 1fr;
 }
 
 @media only screen and (max-width: 768px) {

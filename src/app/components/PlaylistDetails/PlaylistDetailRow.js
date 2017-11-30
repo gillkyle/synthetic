@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import "../../styles/playlist-details.css";
+import Button from "../Button";
 
 class PlaylistDetailRow extends Component {
+	constructor(props, context) {
+    super(props, context);
+    this.state = {
+
+			}
+		};
   render() {
     return (
       <div className="playlist-detail-row">
@@ -12,10 +19,24 @@ class PlaylistDetailRow extends Component {
             alt="playlist art"
           />
         </div>
-        <div className="playlist-description">
+        <div className="playlist-info">
           <div className="playlist-name">{this.props.playlist.name}</div>
-          <div>{this.props.playlist.description || "description"}</div>
-          <div>Follow</div>
+          <div className="playlist-description">
+            {this.props.playlist.description || "description"}
+          </div>
+          <div>
+            <Button
+              className="followButton"
+              type="button"
+              value={this.state.
+                <span>
+                  <i className="fa fa-plus" />Follow
+                </span>
+              }
+            >
+              Follow
+            </Button>
+          </div>
         </div>
       </div>
     );

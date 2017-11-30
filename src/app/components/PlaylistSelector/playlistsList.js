@@ -28,6 +28,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Around 600 songs representing all songs in playlists featured in Synthetic's music selection. ",
     snapshot_id:
       "s+ROshtOXkjk43dNo4y/t69EFo6SGHbnHPn3MnG8cOMnJ96J9ffYYna2gsvWrE2H",
     tracks: {
@@ -67,6 +69,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Alternative indie style music with electronic sounds and vocals.",
     snapshot_id:
       "dxGb2p0Z8Urnuur9PEJ5Xnhc5WZnpijoCbSzgoL13e1ppKsDP93OXzRFZVo+SQvf",
     tracks: {
@@ -106,6 +110,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Upbeat, poppy synthesizers laid over vocals from that one guy you've probably never heard of.",
     snapshot_id:
       "CEzUxhwl/g9d2hU8VTVUEcMB7K2PYUerVVskF50mxmR5977imSwDKwJw/8k3wVSk",
     tracks: {
@@ -145,6 +151,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Music to study, think, or unwind to. Just fast enough to keep you moving, and slow enough to keep you from getting distracted.",
     snapshot_id:
       "03OfB5md6CkA1iyjajbWgTlmDCkKP8KTmCsLrNmXg0LTnf9NDi/8bOkQ3BlzOA0L",
     tracks: {
@@ -184,6 +192,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Poolside tunes with pan flutes and poppy synths and pianos for summer days at the beach.",
     snapshot_id:
       "e2ZjrWV4XOL4R1uU+zTeMxaIXhTSSbSZ7FwuaX6pNyB/0o3crD1IRlzNg1WUNDHT",
     tracks: {
@@ -223,6 +233,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Avant garde experimentations in sound design or musical style.",
     snapshot_id:
       "i8uae8T6pM0BUKuR7vxqu6JYT51lfu+L1/Ppyx1BHldfE8KBIUBw90O/6cXSs1Yj",
     tracks: {
@@ -262,6 +274,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Soft guitars, light vocals, or easy-going folk music for a mellower mood.",
     snapshot_id:
       "pCmg5tK287cmhA1SsfqRc64ZqwcBma5JVTD39y4EBxwrHON6Y2Rz9SCEsgj/X6OX",
     tracks: {
@@ -301,6 +315,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Songs that have at least one sound to totally blow up your speakers, settling in the low end (50-250 Hz).",
     snapshot_id:
       "SN4oatClysxh+e1hHtSykA3Z5nf/oZrDEb/9rTSu9AxwAZKD0gLP2c0rLVbciTWO",
     tracks: {
@@ -340,6 +356,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Dramatic soundtracks and pulse-pounding songs that sound wide and powerful.",
     snapshot_id:
       "J/k5/x3RhBi8glqmmIF9sLjhwgS+E6NFgPu0zF4QrNfQKdMPJ05rXygp7ad7+ygR",
     tracks: {
@@ -379,6 +397,8 @@ const playlists = [
       uri: "spotify:user:12791885"
     },
     public: true,
+    description:
+      "Crossover hip-hop with different producers that have glitchy beats and solid raps.",
     snapshot_id:
       "zT5CbqH2PYnivseZ61pJUIw+Pnp6j8mk1r0R3Q1n2tZ6SfIJzLhQ6grFosUE5T9a",
     tracks: {

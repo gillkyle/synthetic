@@ -7,20 +7,20 @@
   width: 225px;
   font-size: 20px !important;
   color: #eee !important;
-  background: linear-gradient(to left, #27b7ff, #70D5FF) !important;
-  transform: scale(1.0) !important;
-  transition: transform .15s ease !important;
+  background: linear-gradient(to left, #27b7ff, #70d5ff) !important;
+  transform: scale(1) !important;
+  transition: transform 0.15s ease !important;
   cursor: pointer;
 }
 .calculateButton:hover {
-  background: linear-gradient(to left, #39BDFF, #80D9FF) !important;
+  background: linear-gradient(to left, #39bdff, #80d9ff) !important;
   transform: scale(1.035) !important;
-  transition: transform .2s ease !important;
+  transition: transform 0.2s ease !important;
 }
 .calculateButton:active {
   color: #ccc !important;
-  transform: scale(.95) !important;
-  transition: transform .1s ease !important;
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
 }
 
 .loginButton {
@@ -30,23 +30,53 @@
   font-size: 14px !important;
   color: #eee !important;
   border: 1.5px solid #aaa !important;
-  background-color: rgba(0,0,0,0) !important;
-  transform: scale(1.0) !important;
-  transition: transform .15s ease !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  transform: scale(1) !important;
+  transition: transform 0.15s ease !important;
   cursor: pointer;
 }
 .loginButton:hover {
   transform: scale(1.035) !important;
-  transition: transform .2s ease !important;
+  transition: transform 0.2s ease !important;
   border: 2px solid #aaa !important;
 }
 .loginButton:active {
   color: #ccc !important;
-  transform: scale(.95) !important;
-  transition: transform .1s ease !important;
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
 }
 @media only screen and (max-width: 768px) {
   .loginButton {
+    border-radius: 38px !important;
+    height: 35px;
+    width: 100px;
+  }
+}
+
+.followButton {
+  border-radius: 38px !important;
+  height: 40px;
+  width: 125px;
+  font-size: 14px !important;
+  color: #eee !important;
+  border: 1.5px solid #aaa !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  transform: scale(1) !important;
+  transition: transform 0.15s ease !important;
+  cursor: pointer;
+}
+.followButton:hover {
+  transform: scale(1.035) !important;
+  transition: transform 0.2s ease !important;
+  border: 2px solid #aaa !important;
+}
+.followButton:active {
+  color: #ccc !important;
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
+}
+@media only screen and (max-width: 768px) {
+  .followButton {
     border-radius: 38px !important;
     height: 35px;
     width: 100px;

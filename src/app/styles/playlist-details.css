@@ -18,7 +18,7 @@
 #playlist-subheader {
   align-self: center;
 }
-.playlist-description {
+.playlist-info {
   grid-area: playlist-description;
   text-align: left;
 }
@@ -28,4 +28,15 @@
   line-height: 1;
   margin-bottom: 10px;
   vertical-align: bottom;
+}
+.playlist-description {
+  font-size: 18px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+.playlist-follow {
+  padding: 10px;
+  border: 1px solid #666;
+  height: 20px;
+  background-color: transparent !important;
 }

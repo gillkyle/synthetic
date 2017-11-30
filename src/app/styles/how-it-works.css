@@ -1,17 +1,29 @@
 .hiw-text {
-  grid-area: text;
+  max-width: 1200px;
+}
+.blue-gradient {
+  color: #70d5ff;
 }
 
 .title {
   color: #eee;
   font-size: 36px;
-  margin: 20px 10%;
-  text-align: left;
+  text-align: center;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title-subtitle {
+  font-size: 18px;
+  color: #aaa;
+  margin-bottom: 30px;
+  line-height: 2;
 }
 .title-subtext {
-  margin: 20px 10%;
   font-size: 16px;
-  text-align: left;
+  text-align: center;
+  padding: 15px;
 }
 .subtitle {
   color: #aaa;
@@ -23,20 +35,20 @@
 .subtitle-icon {
   grid-area: icon;
   font-size: 54px;
-  color: #70D5FF;
+  color: #70d5ff;
+  text-align: center;
+  padding: 15px;
 }
+
 .section-3-col {
   display: grid;
-  grid-template-areas:
-    "section1 section2 section3";
+  grid-template-areas: "section1 section2 section3";
   grid-template-columns: 1fr 1fr 1fr;
 }
 .section {
   display: grid;
   margin: 20px 0px 20px 0px;
-  grid-template-areas: 
-    "... icon ..."
-    "... subtitle ..."
+  grid-template-areas: "... icon ..." "... subtitle ..."
     "content content content";
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
@@ -54,10 +66,7 @@
 @media only screen and (max-width: 768px) {
   .section-3-col {
     display: grid;
-    grid-template-areas:
-      "section1" 
-      "section2" 
-      "section3";
+    grid-template-areas: "section1" "section2" "section3";
     grid-template-columns: 1fr;
   }
 }
@@ -71,7 +80,7 @@
 .hiw-image-icon {
   font-size: 160px;
   color: #fff;
-  background: linear-gradient(to top left, #27b7ff, #70D5FF);
+  background: linear-gradient(to top left, #27b7ff, #70d5ff);
   border-radius: 125px;
   height: 250px;
   width: 250px;
@@ -79,6 +88,6 @@
   align-items: center;
   display: flex;
 }
-.hiw-image-icon>svg {
+.hiw-image-icon > svg {
   margin: 0px 0px 8px 8px;
 }

@@ -9,16 +9,6 @@ class PlaylistDetails extends Component {
     });
     return (
       <div className="playlist-details-section">
-        <div id="playlist-details-section-title">
-          Featured Playlists and Selections
-        </div>
-        <div id="playlist-subheader">
-          All playlists are comprised of 40-100 songs from genres the playlists
-          are named after. Songs that vary more in musicality are what most of
-          the playlists are made of and have been handpicked. Some songs show up
-          across more than one playlist. Some artists show up multiple times on
-          a single playlist and across multiple playlists as well.{" "}
-        </div>
         <div style={{ gridArea: "playlists" }}>{playlistRows}</div>
       </div>
     );
