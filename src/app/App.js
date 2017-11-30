@@ -803,13 +803,14 @@ class App extends Component {
         <Promotion />
         <HowItWorks />
         <div className="app-footer">
-          <a
+          {/* <a
             href="https://github.com/gillkyle"
             target="_blank"
             rel="noopener noreferrer"
           >
             <i className="fa fa-github" />
-          </a>
+          </a> */}
+          This site is in no way affiliated with Spotify or its partners
         </div>
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </div>

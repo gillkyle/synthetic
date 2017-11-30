@@ -3,12 +3,13 @@ import "../../styles/playlist-details.css";
 import Button from "../Button";
 
 class PlaylistDetailRow extends Component {
-	constructor(props, context) {
+  constructor(props, context) {
     super(props, context);
     this.state = {
+      following: false
+    };
+  }
 
-			}
-		};
   render() {
     return (
       <div className="playlist-detail-row">
@@ -28,10 +29,12 @@ class PlaylistDetailRow extends Component {
             <Button
               className="followButton"
               type="button"
-              value={this.state.
-                <span>
-                  <i className="fa fa-plus" />Follow
-                </span>
+              value={
+                this.state.following ? (
+                  <span style={{ color: "#70D5FF" }}>Following</span>
+                ) : (
+                  <span>Follow</span>
+                )
               }
             >
               Follow
