@@ -763,6 +763,7 @@ class App extends Component {
                 acousticValue={this.state.acousticValue}
                 danceValue={this.state.danceValue}
                 popularityValue={this.state.popularityValue}
+                vocalnessValue={this.state.vocalnessValue}
                 track={songRecommendation}
                 trackDetails={
                   this.state.queueDetails.filter(
