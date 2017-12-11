@@ -64,7 +64,8 @@ class App extends Component {
       },
       songRecommendation: playlists[0].data.items[0].track,
       params: {},
-      loading: false,
+			loading: false,
+			initialLoad: false,
       songInLibrary: false,
       queue: calcQueue(0),
       queueDetails: playlists[0].details,
@@ -79,6 +80,8 @@ class App extends Component {
     this.prevSong = this.prevSong.bind(this);
     this.addSong = this.addSong.bind(this);
   }
+
+  componentWillMount() {}
 
   componentDidMount() {
     // GA tracking
@@ -108,7 +111,8 @@ class App extends Component {
             .getMe()
             .then(response => {
               this.setState({
-                me: response
+								me: response,
+								initialLoad: true
               });
             })
             .catch(function(error) {
@@ -492,11 +496,9 @@ class App extends Component {
         s
           .createPlaylist(this.state.me.id, {
             name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
-            description: `Create your own at synthetic.kylegill.com | Your generated playlist with music from the ${playlists[
-              this.state.selectedPlaylist
-            ].name} selection. Filters - ${JSON.stringify(
-              this.state.calculations
-            )}`
+            description: `Create your own at synthetic.kylegill.com | Your generated playlist with music from the ${
+              playlists[this.state.selectedPlaylist].name
+            } selection. Filters - ${JSON.stringify(this.state.calculations)}`
           })
           .then(response => {
             this.setState({ createdPlaylist: true });
@@ -802,7 +804,12 @@ class App extends Component {
           </div>
         </div>
         <Promotion />
-        <HowItWorks />
+        <HowItWorks
+          loggedIn={this.state.params.access_token ? true : false}
+          userId={this.state.me ? this.state.me.id : "unknown"}
+					accessToken={this.state.params.access_token}
+					initialLoad={this.state.initialLoad}
+        />
         <div className="app-footer">
           {/* <a
             href="https://github.com/gillkyle"

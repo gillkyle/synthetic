@@ -4,8 +4,18 @@ import playlistsList from "../PlaylistSelector/playlistsList";
 
 class PlaylistDetails extends Component {
   render() {
+    // playlistsList.splice(1);
     let playlistRows = playlistsList.map(playlist => {
-      return <PlaylistDetailRow key={playlist.id} playlist={playlist} />;
+      return (
+        <PlaylistDetailRow
+          key={playlist.id}
+          playlist={playlist}
+          loggedIn={this.props.loggedIn}
+          userId={this.props.userId}
+          accessToken={this.props.accessToken}
+          initialLoad={this.props.initialLoad}
+        />
+      );
     });
     return (
       <div className="playlist-details-section">

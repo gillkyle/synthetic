@@ -111,7 +111,7 @@ const playlists = [
     },
     public: true,
     description:
-      "Upbeat, poppy synthesizers laid over vocals from that one guy you've probably never heard of.",
+      "Upbeat, poppy synthesizers laid over vocals from that one band you've probably never heard of.",
     snapshot_id:
       "CEzUxhwl/g9d2hU8VTVUEcMB7K2PYUerVVskF50mxmR5977imSwDKwJw/8k3wVSk",
     tracks: {

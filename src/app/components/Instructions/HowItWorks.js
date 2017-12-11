@@ -105,10 +105,6 @@ class HowItWorks extends Component {
               filter by high energy and vocalness values. Choose work-out from
               the genre dropdown and preview the results.
             </BulletLine>
-            <BulletLine>
-              <BulletPoint>Popularity</BulletPoint> popularity of a track, based
-              off the total number of plays and how recent those plays are
-            </BulletLine>
           </div>
         </div>
         <div className="hiw-text" style={{ gridArea: "section3" }}>
@@ -140,7 +136,12 @@ class HowItWorks extends Component {
               after logging in.
             </BulletLine>
           </div>
-          <PlaylistDetails />
+          <PlaylistDetails
+            loggedIn={this.props.loggedIn}
+            userId={this.props.userId}
+            accessToken={this.props.accessToken}
+            initialLoad={this.props.initialLoad}
+          />
         </div>
         {/* <div className="hiw-image">
           <div className="hiw-image-icon">
