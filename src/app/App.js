@@ -545,7 +545,7 @@ class App extends Component {
     );
   };
   showFollowAlert = () => {
-    this.msg.show("Login with Spotify follow playlists from Synthetic", {
+    this.msg.show("Login with Spotify to follow playlists from Synthetic", {
       time: 4000,
       type: "success",
       icon: (
