@@ -68,7 +68,7 @@ class RadarSection extends Component {
             trackDetails.acousticness * 100,
             trackDetails.danceability * 100,
             track.popularity,
-            vocalnessValue
+            Math.abs(trackDetails.instrumentalness * 100 - 100)
           ]
         }
       ]
