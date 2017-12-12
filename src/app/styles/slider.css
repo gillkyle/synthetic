@@ -1,4 +1,4 @@
-.slider-grid { 
+.slider-grid {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -23,16 +23,17 @@
 .rangeslider-horizontal {
   width: 300px;
   margin: 0 auto;
-  height:20px;
+  height: 20px;
   border-radius: 20px;
 }
 @media only screen and (max-width: 768px) {
   .slider-grid {
     display: grid;
     grid-template-areas:
-      '... slider slider slider ...'
-      '... label label value ...';
+      "... slider slider slider ..."
+      "... label label value ...";
     grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
+    margin: 3px 0;
   }
   .slider-label {
     width: 50% !important;
@@ -47,6 +48,7 @@
     color: #eee;
     text-align: center;
     grid-area: value;
+    align-self: right;
   }
   .rangeslider-horizontal {
     width: 100%;
@@ -63,7 +65,7 @@
 .rangeslider__handle {
   width: 60px !important;
   height: 25px !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 1.5px 1.5px rgba(0,0,0,0.12) !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 1.5px 1.5px rgba(0, 0, 0, 0.12) !important;
 }
 .rangeslider__handle:focus {
   outline: none;
@@ -76,20 +78,18 @@
   min-width: 50px;
 }
 .scale-emphasis {
-  transform: scale(1.0);
-  transition: transform .2s ease;
+  transform: scale(1);
+  transition: transform 0.2s ease;
   cursor: pointer;
 }
 .scale-emphasis:hover {
   transform: scale(1.25);
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
-
-
 
 .slick-slide {
   color: transparent;
-  transition: color .3s linear;
+  transition: color 0.3s linear;
 }
 .slick-active {
   color: #ccc;

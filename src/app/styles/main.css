@@ -126,13 +126,11 @@ h4 {
     padding: 20px;
   }
   .instructions-section {
-    display: grid;
-    grid-template-areas: "text" "image";
-    grid-template-columns: 1fr;
     padding: 20px;
   }
   .genre-section {
-    grid-template-areas: "... selector selector selector ..."
+    grid-template-areas:
+      "... selector selector selector ..."
       "... label label details ...";
     grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
     grid-gap: 5px;

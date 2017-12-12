@@ -40,3 +40,18 @@
   height: 20px;
   background-color: transparent !important;
 }
+
+@media only screen and (max-width: 768px) {
+  .playlist-name {
+    color: #ccc;
+    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 10px;
+    vertical-align: bottom;
+  }
+  .playlist-description {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 10px;
+  }
+}
