@@ -8,14 +8,11 @@ class PlaylistDetailRow extends Component {
     super(props, context);
     this.state = {
       following: false,
-      processing: false
+      beenChanged: false
     };
   }
 
-  componentDidMount() {}
-
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps, nextState);
     // easier to read conditions for whether the row should update to show a change in the following button
     let shouldUpdate = true;
     if (nextProps.userId === null) {
@@ -33,9 +30,49 @@ class PlaylistDetailRow extends Component {
     return shouldUpdate;
   }
 
+  onClickFollow() {
+    // follow playlist
+    if (!this.state.following) {
+      const spotifyApi = new Spotify();
+      spotifyApi.setAccessToken(this.props.accessToken);
+      spotifyApi
+        .followPlaylist(this.props.playlist.owner.id, this.props.playlist.id)
+        .then(response => {
+          if (response[0] == true) {
+            this.setState({
+              following: true
+            });
+          }
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    } else {
+      // unfollow playlist
+      const spotifyApi = new Spotify();
+      spotifyApi.setAccessToken(this.props.accessToken);
+      spotifyApi
+        .unfollowPlaylist(this.props.playlist.owner.id, this.props.playlist.id)
+        .then(response => {
+          if (response[0] == true) {
+            this.setState({
+              following: false
+            });
+          }
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+    this.setState({
+      following: !this.state.following,
+      beenChanged: true
+    });
+  }
+
   render() {
     //console.log(this.props);
-    if (this.props.loggedIn && !this.state.processing) {
+    if (this.props.loggedIn && !this.state.beenChanged) {
       const spotifyApi = new Spotify();
       spotifyApi.setAccessToken(this.props.accessToken);
       spotifyApi
@@ -50,8 +87,6 @@ class PlaylistDetailRow extends Component {
               following: true
             });
           }
-          console.log("response");
-          console.log(response);
         })
         .catch(function(error) {
           console.error(error);
@@ -83,12 +118,7 @@ class PlaylistDetailRow extends Component {
                   <span>Follow</span>
                 )
               }
-              onClick={() => {
-                this.setState({
-                  following: !this.state.following,
-                  processing: true
-                });
-              }}
+              onClick={() => this.onClickFollow()}
             >
               Follow
             </Button>

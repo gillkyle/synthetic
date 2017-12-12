@@ -4,7 +4,6 @@ import playlistsList from "../PlaylistSelector/playlistsList";
 
 class PlaylistDetails extends Component {
   render() {
-    // playlistsList.splice(1);
     let playlistRows = playlistsList.map(playlist => {
       return (
         <PlaylistDetailRow
