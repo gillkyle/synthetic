@@ -32,7 +32,9 @@ class PlaylistDetailRow extends Component {
 
   onClickFollow() {
     // follow playlist
-    if (!this.state.following) {
+    if (!this.props.loggedIn) {
+      this.props.showFollowAlert();
+    } else if (!this.state.following) {
       const spotifyApi = new Spotify();
       spotifyApi.setAccessToken(this.props.accessToken);
       spotifyApi
@@ -47,7 +49,7 @@ class PlaylistDetailRow extends Component {
         .catch(function(error) {
           console.error(error);
         });
-    } else {
+    } else if (this.state.following) {
       // unfollow playlist
       const spotifyApi = new Spotify();
       spotifyApi.setAccessToken(this.props.accessToken);

@@ -141,6 +141,7 @@ class HowItWorks extends Component {
             userId={this.props.userId}
             accessToken={this.props.accessToken}
             initialLoad={this.props.initialLoad}
+            showFollowAlert={this.props.showFollowAlert}
           />
         </div>
         {/* <div className="hiw-image">

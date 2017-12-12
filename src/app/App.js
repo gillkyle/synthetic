@@ -64,8 +64,8 @@ class App extends Component {
       },
       songRecommendation: playlists[0].data.items[0].track,
       params: {},
-			loading: false,
-			initialLoad: false,
+      loading: false,
+      initialLoad: false,
       songInLibrary: false,
       queue: calcQueue(0),
       queueDetails: playlists[0].details,
@@ -111,8 +111,8 @@ class App extends Component {
             .getMe()
             .then(response => {
               this.setState({
-								me: response,
-								initialLoad: true
+                me: response,
+                initialLoad: true
               });
             })
             .catch(function(error) {
@@ -544,6 +544,19 @@ class App extends Component {
       }
     );
   };
+  showFollowAlert = () => {
+    this.msg.show("Login with Spotify follow playlists from Synthetic", {
+      time: 4000,
+      type: "success",
+      icon: (
+        <img
+          alt="icon alert"
+          style={{ height: 32, width: 32 }}
+          src={exclamation}
+        />
+      )
+    });
+  };
   showError = () => {
     this.msg.show("An error occured, you may need to sign out and/or log in", {
       time: 4000,
@@ -807,8 +820,9 @@ class App extends Component {
         <HowItWorks
           loggedIn={this.state.params.access_token ? true : false}
           userId={this.state.me ? this.state.me.id : "unknown"}
-					accessToken={this.state.params.access_token}
-					initialLoad={this.state.initialLoad}
+          accessToken={this.state.params.access_token}
+          initialLoad={this.state.initialLoad}
+          showFollowAlert={() => this.showFollowAlert()}
         />
         <div className="app-footer">
           {/* <a
