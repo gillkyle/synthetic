@@ -27,6 +27,14 @@ class HowItWorks extends Component {
           </div>
           <div className="title-subtext">
             <div className="title-subtitle">
+              Spotify analyzes every song in its library and uses that data to
+              give better recommendations to you. Synthetic gives you a finer
+              tuned control over just what you find based on song features you
+              like. Each song is scored from 0-600 (600 being the highest) and
+              the most closely related songs are returned in 30 second previews
+              so you can go through more songs faster.
+            </div>
+            <div className="title-subtitle">
               Adjust the levels of filters on different musical attributes from
               a specified musical selection. Calculated results are sorted and
               queued in the player based off of the difference between the input

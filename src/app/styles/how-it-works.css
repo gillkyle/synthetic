@@ -17,8 +17,8 @@
 .title-subtitle {
   font-size: 18px;
   color: #aaa;
-  margin-bottom: 30px;
-  line-height: 2;
+  margin-bottom: 15px;
+  line-height: 1.5;
 }
 .title-subtext {
   font-size: 16px;
@@ -48,7 +48,8 @@
 .section {
   display: grid;
   margin: 20px 0px 20px 0px;
-  grid-template-areas: "... icon ..." "... subtitle ..."
+  grid-template-areas:
+    "... icon ..." "... subtitle ..."
     "content content content";
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;

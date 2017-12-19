@@ -14,7 +14,7 @@ class Promotion extends Component {
             style={{ height: 100, width: 400 }}
           />
           <div style={{ color: "#aaa", fontSize: 18, margin: 5 }}>
-            Rapid, refined music discovery
+            Custom, data driven music discovery
           </div>
         </div>
         <div className="section-3-col">
@@ -91,7 +91,7 @@ class Promotion extends Component {
                 Avoid songs with explicit lyrics
               </div>
               <div className="content-step">
-                Sort instrumental and vocal tracks
+                Sort instrumental or vocal tracks
               </div>
             </div>
           </div>

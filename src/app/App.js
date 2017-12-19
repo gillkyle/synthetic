@@ -74,7 +74,7 @@ class App extends Component {
       seed_genres: "",
       selectedPlaylist: 0,
       calculations:
-        "Create your own at synthetic.kylegill.com | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
+        "Create your own at syntheticapp.tech | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
     };
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -496,7 +496,7 @@ class App extends Component {
         s
           .createPlaylist(this.state.me.id, {
             name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
-            description: `Create your own at synthetic.kylegill.com | Your generated playlist with music from the ${
+            description: `Create your own at syntheticapp.tech | Your generated playlist with music from the ${
               playlists[this.state.selectedPlaylist].name
             } selection. Filters - ${JSON.stringify(this.state.calculations)}`
           })
@@ -832,7 +832,19 @@ class App extends Component {
           >
             <i className="fa fa-github" />
           </a> */}
-          This site is in no way affiliated with Spotify or its partners
+          <div>
+            Find us on Product Hunt:{" "}
+            <a
+              href="https://github.com/gillkyle"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-product-hunt" />
+            </a>
+          </div>
+          <div>
+            This site is in no way affiliated with Spotify or its partners
+          </div>
         </div>
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </div>
