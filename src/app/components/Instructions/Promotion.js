@@ -14,7 +14,7 @@ class Promotion extends Component {
             style={{ height: 100, width: 400 }}
           />
           <div style={{ color: "#aaa", fontSize: 18, margin: 5 }}>
-            Custom, data driven music discovery
+            Spotify powered, data-driven music discovery
           </div>
         </div>
         <div className="section-3-col">

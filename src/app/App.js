@@ -825,21 +825,30 @@ class App extends Component {
           showFollowAlert={() => this.showFollowAlert()}
         />
         <div className="app-footer">
-          {/* <a
-            href="https://github.com/gillkyle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa fa-github" />
-          </a> */}
           <div>
-            Find us on Product Hunt:{" "}
+            Find me on Product Hunt:{" "}
+            <a
+              href="https://www.producthunt.com/posts/synthetic"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-product-hunt" />
+            </a>{" "}
+            GitHub:{" "}
             <a
               href="https://github.com/gillkyle"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i className="fa fa-product-hunt" />
+              <i className="fa fa-github" />
+            </a>{" "}
+            or Twitter:{" "}
+            <a
+              href="https://twitter.com/gill_kyle"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-twitter" />
             </a>
           </div>
           <div>
