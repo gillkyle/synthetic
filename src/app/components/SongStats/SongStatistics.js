@@ -10,8 +10,7 @@ import {
   StatValue,
   StatGraphHolder,
   StatGraph,
-  StatText,
-  TitleGraph
+  StatText
 } from "./StatElements";
 
 const Title = glamorous.div({

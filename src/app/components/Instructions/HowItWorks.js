@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import glamorous from "glamorous";
 import "../../styles/how-it-works.css";
-import TiCogOutline from "react-icons/lib/ti/cog-outline.js";
 import PlaylistDetails from "../PlaylistDetails/PlaylistDetails";
 
 const BulletPoint = glamorous.span({
