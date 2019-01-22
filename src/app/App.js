@@ -74,7 +74,7 @@ class App extends Component {
       seed_genres: "",
       selectedPlaylist: 0,
       calculations:
-        "Create your own at syntheticapp.tech | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
+        "Create your own at synthetic.netlify.com | Your generated playlist with music from the Track Sampler selection. Filters - Energy: 50, Valence: 50, Acoustic: 50, Dance: 50, Popularity: 50"
     };
     this.nextSong = this.nextSong.bind(this);
     this.prevSong = this.prevSong.bind(this);
@@ -295,8 +295,7 @@ class App extends Component {
         this.state.params.access_token &&
         this.state.filterBy.genre
       ) {
-        s
-          .getRecommendations(options)
+        s.getRecommendations(options)
           .then(response => {
             // override data with new recommendations
             data = response.tracks;
@@ -318,8 +317,7 @@ class App extends Component {
                   dataDetails,
                   this.state
                 );
-                s
-                  .containsMySavedTracks([calculatedData[0].id])
+                s.containsMySavedTracks([calculatedData[0].id])
                   .then(response => {
                     this.setState({ songInLibrary: response[0] });
                   })
@@ -347,8 +345,7 @@ class App extends Component {
       } else {
         calculatedData = calcAndSort(data, dataDetails, this.state);
         if (this.state.params.access_token) {
-          s
-            .containsMySavedTracks([calculatedData[0].id])
+          s.containsMySavedTracks([calculatedData[0].id])
             .then(response => {
               this.setState({ songInLibrary: response[0] });
             })
@@ -493,13 +490,12 @@ class App extends Component {
     if (this.state.params.access_token !== undefined) {
       if (!this.state.createdPlaylist) {
         // create blank playlist
-        s
-          .createPlaylist(this.state.me.id, {
-            name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
-            description: `Create your own at syntheticapp.tech | Your generated playlist with music from the ${
-              playlists[this.state.selectedPlaylist].name
-            } selection. Filters - ${JSON.stringify(this.state.calculations)}`
-          })
+        s.createPlaylist(this.state.me.id, {
+          name: `Synthetic - ${playlists[this.state.selectedPlaylist].name}`,
+          description: `Create your own at synthetic.netlify.com | Your generated playlist with music from the ${
+            playlists[this.state.selectedPlaylist].name
+          } selection. Filters - ${JSON.stringify(this.state.calculations)}`
+        })
           .then(response => {
             this.setState({ createdPlaylist: true });
             let trackURIs = [];
